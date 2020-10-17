@@ -10,6 +10,8 @@ import std.socket;
 import gtk.ListBox;
 import gtk.Label;
 
+import Channel;
+
 public final class Connection : Thread
 {
     private GUI gui;
@@ -26,6 +28,11 @@ public final class Connection : Thread
     /* TODO: So far usage is in signal handlers (mutex safved) and within te-tl lock for notifications */
     private string currentChannel; /* TODO: Used to track what notificaitons come throug */
     private Label currentChannelLabel; /* TODO: Using getChild would be nicer, but yeah, this is for the title */
+
+    /**
+    * All joined Channel-s in this Connection 
+    */
+    private Channel[] chans;
 
     this(GUI gui, Address address, string[] auth)
     {
@@ -246,7 +253,13 @@ public final class Connection : Thread
         Box textBox = new Box(GtkOrientation.VERTICAL, 1);
         textBox.add(currentChannelLabel);
         textArea = new ListBox();
-        textBox.add(textArea);
+        import gtk.ScrolledWindow;
+
+        ScrolledWindow scrollTextChats = new ScrolledWindow(textArea);
+        textBox.add(scrollTextChats);
+        import gtk.TextView;
+        textBox.add(new TextView());
+        
 
         // import gtk.TextView;
         // TextView f = new TextView();
@@ -257,7 +270,7 @@ public final class Connection : Thread
         box.add(textBox);
         box.packEnd(userBox,0,0,0);
 
-        textBox.setChildPacking(textArea, true, true, 0, GtkPackType.START);
+        textBox.setChildPacking(scrollTextChats, true, true, 0, GtkPackType.START);
         box.setChildPacking(textBox, true, true, 0, GtkPackType.START);
         
         
