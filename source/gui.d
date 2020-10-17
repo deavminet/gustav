@@ -97,9 +97,10 @@ public class GUI : Thread
         box.add(notebook);
         statusBar = new Statusbar();
         statusBar.add(new Label("Gustav: Bruh"));
+        box.setChildPacking(notebook, true, true, 0, GtkPackType.START);
         box.packEnd(statusBar, 0, 0, 0);
         //notebook.add(createServerTab());
-
+        
 
 
 
