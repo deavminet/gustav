@@ -8,6 +8,6 @@
 		"libdnet": "~>0.1.5"
 	},
 	"description": "GTK graphical DNET client",
-	"license": "proprietary",
+	"license": "GPL v3",
 	"name": "gustav"
 }
