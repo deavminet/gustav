@@ -99,8 +99,6 @@ public final class Connection : Thread
 		if(notificationType == 0)
 		{
 			/* TODO: Decode using tristanable */
-
-            
 			writeln("new message");
 		}
 		/* Channel notification (ntype=1) */
@@ -191,6 +189,10 @@ public final class Connection : Thread
             users.add(new Label(member));
             users.showAll();
         }
+
+        /* Clear the text area */
+        textArea.removeAll();
+        textArea.showAll();
     }
 
 
@@ -231,7 +233,7 @@ public final class Connection : Thread
         userBox.add(new Label("Users"));
         userBox.add(users);
         
-       
+        /* The text box */
         textArea = new ListBox();
 
 
@@ -239,7 +241,7 @@ public final class Connection : Thread
         box.add(textArea);
         box.packEnd(userBox,0,0,0);
 
-
+        box.setChildPacking(textArea, true, true, 0, GtkPackType.START);
         
         
         

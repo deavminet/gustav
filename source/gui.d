@@ -127,7 +127,7 @@ public class GUI : Thread
         /* Connect option */
         MenuItem connectItem = new MenuItem();
         connectItem.setLabel("Connect");
-        connectItem.addOnActivate(&exitButton);
+        connectItem.addOnActivate(&connectButton);
         gustavMenu.add(connectItem);
 
         /* Exit option */
@@ -163,6 +163,11 @@ public class GUI : Thread
        // mainWindow.showAll();
 
        // tl();
+    }
+
+    private void connectButton(MenuItem)
+    {
+       connections ~= new Connection(this, parseAddress("0.0.0.0", 7777), ["testGustav1", "bruh"]);
     }
 
     private void shutdownConnections()
