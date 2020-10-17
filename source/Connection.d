@@ -67,7 +67,7 @@ public final class Connection : Thread
             gui.mainWindow.showAll();
 
             process(notificationData);
-            gui.mainWindow.showAll();
+            //gui.mainWindow.showAll();
 
             tl();
 
@@ -111,12 +111,14 @@ public final class Connection : Thread
 			{
 				string username = cast(string)data[2..data.length];
                 textArea.add(new Label(("<-- "~username~" left the channel")));
+                textArea.showAll();
 			}
 			/* If the notification was join (stype=1) */
 			else if(subType == 1)
 			{
 				string username = cast(string)data[2..data.length];
                 textArea.add(new Label(("--> "~username~" joined the channel")));
+                textArea.showAll();
 			}
 			/* TODO: Unknown */
 			else
@@ -151,7 +153,7 @@ public final class Connection : Thread
         foreach(string channel; channelList)
         {
             channels.add(new Label(channel));
-            gui.mainWindow.showAll();
+            channels.showAll();
         }
     }
     
