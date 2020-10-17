@@ -157,7 +157,22 @@ public final class Connection : Thread
     
     private void selectChannel(ListBox s)
     {
-        client.join((cast(Label)(s.getSelectedRow().getChild())).getText());
+        /* Get the name of the channel selected */
+        string channelSelected = (cast(Label)(s.getSelectedRow().getChild())).getText();
+
+        /* Join the channel */
+        client.join(channelSelected);
+
+        /* Fetch a list of members */
+        string[] members = client.getMembers(channelSelected);
+
+        /* Display the members */
+        users.removeAll();
+        foreach(string member; members)
+        {
+            users.add(new Label(member));
+            users.showAll();
+        }
     }
 
 
