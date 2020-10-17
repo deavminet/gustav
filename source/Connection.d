@@ -248,6 +248,10 @@ public final class Connection : Thread
         textArea = new ListBox();
         textBox.add(textArea);
 
+        // import gtk.TextView;
+        // TextView f = new TextView();
+        // textBox.add(f);
+
 
         box.add(channelBox);
         box.add(textBox);
