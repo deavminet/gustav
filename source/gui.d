@@ -11,6 +11,7 @@ import gtk.Box;
 import gtk.Menu;
 import gtk.MenuItem;
 import std.stdio;
+import gtk.Statusbar;
 
 import Connection;
 import std.socket;
@@ -21,6 +22,8 @@ public class GUI : Thread
     public MainWindow mainWindow;
     private MenuBar menuBar;
     public Notebook notebook;
+
+    private Statusbar statusBar;
 
 
     private Connection[] connections;
@@ -53,8 +56,10 @@ public class GUI : Thread
         /* Test adding a connection */
         for(uint i = 0; i < 5; i++)
         {
-            connections ~= new Connection(this, parseAddress("0.0.0.0", 7777));
+            // connections ~= new Connection(this, parseAddress("0.0.0.0", 7777));
         }
+
+        connections ~= new Connection(this, parseAddress("0.0.0.0", 7777), ["testGustav1", "bruh"]);
         
         
     }
@@ -90,6 +95,9 @@ public class GUI : Thread
         box.add(menuBar);
         notebook = new Notebook();
         box.add(notebook);
+        statusBar = new Statusbar();
+        statusBar.add(new Label("Gustav: Bruh"));
+        box.packEnd(statusBar, 0, 0, 0);
         //notebook.add(createServerTab());
 
 
@@ -116,10 +124,19 @@ public class GUI : Thread
         Menu gustavMenu = new Menu();
         gustavMenuItem.setSubmenu(gustavMenu);
         
+        /* Connect option */
+        MenuItem connectItem = new MenuItem();
+        connectItem.setLabel("Connect");
+        connectItem.addOnActivate(&exitButton);
+        gustavMenu.add(connectItem);
+
+        /* Exit option */
         MenuItem exitItem = new MenuItem();
         exitItem.setLabel("Exit");
         exitItem.addOnActivate(&exitButton);
         gustavMenu.add(exitItem);
+
+        
 
         
 

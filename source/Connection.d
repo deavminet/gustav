@@ -20,16 +20,18 @@ public final class Connection : Thread
 
     private DClient client;
     private Address address;
+    private string[] auth;
 
     /* TODO: Check if we need to protect */
     /* TODO: So far usage is in signal handlers (mutex safved) and within te-tl lock for notifications */
     private string currentChannel;
 
-    this(GUI gui, Address address)
+    this(GUI gui, Address address, string[] auth)
     {
         super(&worker);
         this.gui = gui;
         this.address = address;
+        this.auth = auth;
         start();
     }
 
@@ -41,7 +43,7 @@ public final class Connection : Thread
         te();
         box = getChatPane();
         gui.notebook.add(box);
-        gui.notebook.setTabLabelText(box, "user@"~address.toString());
+        gui.notebook.setTabLabelText(box, auth[0]~"@"~address.toString());
         gui.notebook.showAll();
         tl();
 
@@ -50,7 +52,7 @@ public final class Connection : Thread
         * Connects and logs in
         */
         client = new DClient(address);
-        client.auth("bru", "kak"); /* TODO: DO this without auth (the list in the loop, crahses server) */
+        client.auth(auth[0], auth[1]); /* TODO: DO this without auth (the list in the loop, crahses server) */
 
         /* Display all channels */
         channelList();
@@ -229,17 +231,18 @@ public final class Connection : Thread
         userBox.add(new Label("Users"));
         userBox.add(users);
         
-        
-
        
         textArea = new ListBox();
 
 
         box.add(channelBox);
         box.add(textArea);
-        box.add(userBox);
-        
+        box.packEnd(userBox,0,0,0);
 
+
+        
+        
+        
 
         return box;
     }
