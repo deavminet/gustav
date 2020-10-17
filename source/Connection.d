@@ -35,25 +35,24 @@ public final class Connection : Thread
 
     private void worker()
     {
+        /**
+        * Setup the tab for this connection
+        */
         te();
-
         box = getChatPane();
         gui.notebook.add(box);
-
         gui.notebook.setTabLabelText(box, "user@"~address.toString());
-
         gui.notebook.showAll();
-
-        
-
         tl();
-        writeln("connection gtk unlock");
 
+
+        /**
+        * Connects and logs in
+        */
         client = new DClient(address);
         client.auth("bru", "kak"); /* TODO: DO this without auth (the list in the loop, crahses server) */
-        writeln("br");
 
-
+        /* Display all channels */
         channelList();
 
         /**
