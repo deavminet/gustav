@@ -117,8 +117,14 @@ public final class Connection : Thread
 			else if(subType == 1)
 			{
 				string username = cast(string)data[2..data.length];
+
+                /* Show joined message */
                 textArea.add(new Label(("--> "~username~" joined the channel")));
                 textArea.showAll();
+
+                /* Add the joined user to the members list */
+                users.add(new Label(username));
+                users.showAll();
 			}
 			/* TODO: Unknown */
 			else
