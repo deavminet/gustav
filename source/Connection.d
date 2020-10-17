@@ -21,6 +21,10 @@ public final class Connection : Thread
     private DClient client;
     private Address address;
 
+    /* TODO: Check if we need to protect */
+    /* TODO: So far usage is in signal handlers (mutex safved) and within te-tl lock for notifications */
+    private string currentChannel;
+
     this(GUI gui, Address address)
     {
         super(&worker);
@@ -35,6 +39,8 @@ public final class Connection : Thread
 
         box = getChatPane();
         gui.notebook.add(box);
+
+        gui.notebook.setTabLabelText(box, "user@"~address.toString());
 
         gui.mainWindow.showAll();
 
@@ -64,7 +70,7 @@ public final class Connection : Thread
             te();
             import std.conv;
             textArea.add(new Label(to!(string)(notificationData)));
-            gui.mainWindow.showAll();
+            textArea.showAll();
 
             process(notificationData);
             //gui.mainWindow.showAll();
@@ -171,6 +177,9 @@ public final class Connection : Thread
         /* Join the channel */
         client.join(channelSelected);
 
+        /* Set this as the currently selected channel */
+        currentChannel = channelSelected;
+
         /* Fetch a list of members */
         string[] members = client.getMembers(channelSelected);
 
@@ -236,10 +245,15 @@ public final class Connection : Thread
         return box;
     }
 
+    private int getPageNum()
+    {
+        return gui.notebook.pageNum(box);
+    }
+
     public void shutdown()
     {
         /* This is called from gui.d */
-        int pageNum = gui.notebook.pageNum(box);
+        int pageNum = getPageNum();
 
         if(pageNum == -1)
         {
