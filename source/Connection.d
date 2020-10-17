@@ -42,7 +42,7 @@ public final class Connection : Thread
 
         gui.notebook.setTabLabelText(box, "user@"~address.toString());
 
-        gui.mainWindow.showAll();
+        gui.notebook.showAll();
 
         
 
