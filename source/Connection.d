@@ -24,7 +24,8 @@ public final class Connection : Thread
 
     /* TODO: Check if we need to protect */
     /* TODO: So far usage is in signal handlers (mutex safved) and within te-tl lock for notifications */
-    private string currentChannel;
+    private string currentChannel; /* TODO: Used to track what notificaitons come throug */
+    private Label currentChannelLabel; /* TODO: Using getChild would be nicer, but yeah, this is for the title */
 
     this(GUI gui, Address address, string[] auth)
     {
@@ -37,12 +38,17 @@ public final class Connection : Thread
 
     private void worker()
     {
+        /* Create a new Label */
+        currentChannelLabel = new Label("CHANNEL NAME GOES HERE");
+
         /**
         * Setup the tab for this connection
         */
         te();
         box = getChatPane();
         gui.notebook.add(box);
+        //gui.notebook    setChildPacking(box, true, true, 0, GtkPackType.START);
+       // gui.mainWindow.
         gui.notebook.setTabLabelText(box, auth[0]~"@"~address.toString());
         gui.notebook.showAll();
         tl();
@@ -178,6 +184,9 @@ public final class Connection : Thread
 
         /* Set this as the currently selected channel */
         currentChannel = channelSelected;
+        currentChannelLabel.setText(currentChannel);
+        // currentChannelLabel.show();
+        // box.show();
 
         /* Fetch a list of members */
         string[] members = client.getMembers(channelSelected);
@@ -235,7 +244,7 @@ public final class Connection : Thread
         
         /* The text box */
         Box textBox = new Box(GtkOrientation.VERTICAL, 1);
-        textBox.add(new Label("CHANNEL NAME GOES HERE"));
+        textBox.add(currentChannelLabel);
         textArea = new ListBox();
         textBox.add(textArea);
 
