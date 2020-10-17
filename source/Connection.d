@@ -234,15 +234,18 @@ public final class Connection : Thread
         userBox.add(users);
         
         /* The text box */
+        Box textBox = new Box(GtkOrientation.VERTICAL, 1);
+        textBox.add(new Label("CHANNEL NAME GOES HERE"));
         textArea = new ListBox();
+        textBox.add(textArea);
 
 
         box.add(channelBox);
-        box.add(textArea);
+        box.add(textBox);
         box.packEnd(userBox,0,0,0);
 
-        box.setChildPacking(textArea, true, true, 0, GtkPackType.START);
-        
+        textBox.setChildPacking(textArea, true, true, 0, GtkPackType.START);
+        box.setChildPacking(textBox, true, true, 0, GtkPackType.START);
         
         
 
