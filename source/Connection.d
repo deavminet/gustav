@@ -262,7 +262,7 @@ public final class Connection : Thread
         else
         {
             gui.notebook.removePage(pageNum);
-            gui.mainWindow.showAll();
+            gui.notebook.showAll();
         }
     }
 }
