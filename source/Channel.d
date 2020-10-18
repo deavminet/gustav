@@ -108,7 +108,16 @@ public final class Channel
 
     private void sendMessageBtn(Button)
     {
-        client.sendMessage(0, channelName, textInput.getBuffer().getText());
+        /* Retrieve the message */
+        string message = textInput.getBuffer().getText();
+
+        /* TODO: Add the message to our log (as it won't be delivered to us) */
+
+        /* Send the message */
+        client.sendMessage(0, channelName, message);
+
+        /* Clear the text box */
+        textInput.getBuffer().setText("");
     }
 
     public Box getBox()
