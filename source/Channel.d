@@ -154,18 +154,51 @@ public final class Channel
     import gtk.Tooltip;
     import gtk.Widget;
 
+
+    private static string statusToGtkIcon(string status)
+    {
+        /* The GTK icon */
+        string gtkIcon = "image-missing";
+
+        if(cmp(status, "available") == 0)
+        {
+            gtkIcon = "user-available";
+        }
+        else if(cmp(status, "away") == 0)
+        {
+            gtkIcon = "user-away";
+        }
+        else if(cmp(status, "idle") == 0)
+        {
+            gtkIcon = "user-idle";
+        }
+        /* TODO: This doesn't make sense */
+        else if(cmp(status, "offline") == 0)
+        {
+            gtkIcon = "user-offline";
+        }
+        
+    }
+
     private bool kak(int,int,bool, Tooltip d, Widget poes)
     {
         import std.stdio;
         writeln("ttoltip activatd");
 
+        
+
         /* The username hovered over */
         string userHover = (cast(Label)poes).getText();
 
         /* Fetch the status message */
-        string statusMessage = client.getMotd();
+        string[] statusMessage = split(client.getStatus(), ",");
 
-        d.setText(userHover~"\n"~statusMessage);
+        /* First one is prescence */
+        string prescence = statusMessage[0];
+
+        d.setIconFromIconName(statusToGtkIcon(prescence), GtkIconSize.DIALOG);
+
+        d.setText(userHover~"\n"~prescence);
 
         // /* The notification box */
         // Box notificationBox = new Box(GtkOrientation.VERTICAL, 1);
