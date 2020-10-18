@@ -139,9 +139,51 @@ public final class Channel
 
         foreach(string member; memberList)
         {
-            users.add(new Label(member));
+            Label bruh = new Label(member);
+            bruh.setHasTooltip(true);
+            // import gtk.Window;
+            // Window k = new Window(GtkWindowType.POPUP);
+            
+            // bruh.setTooltipWindow(k);
+            bruh.addOnQueryTooltip(&kak);
+            users.add(bruh);
             usersString~=member;
         }
+    }
+
+    import gtk.Tooltip;
+    import gtk.Widget;
+
+    private bool kak(int,int,bool, Tooltip d, Widget poes)
+    {
+        import std.stdio;
+        writeln("ttoltip activatd");
+
+        /* The username hovered over */
+        string userHover = (cast(Label)poes).getText();
+
+        /* Fetch the status message */
+        string statusMessage = client.getMotd();
+
+        d.setText(userHover~"\n"~statusMessage);
+
+        // /* The notification box */
+        // Box notificationBox = new Box(GtkOrientation.VERTICAL, 1);
+
+        // Label title = new Label((cast(Label)poes).getText());
+        // Label status = new Label("status goes here");
+
+        // notificationBox.add(title);
+        // notificationBox.add(status);
+        
+        // import gtk.Style;
+        // // title.setStyle(new Style());
+
+        // d.setCustom(notificationBox);
+
+        
+        
+        return 1;
     }
 
     public void channelJoin(string username)
