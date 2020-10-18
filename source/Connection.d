@@ -376,6 +376,7 @@ public final class Connection : Thread
         // textBox.add(f);
         
         notebookSwitcher = new Notebook();
+        notebookSwitcher.setScrollable(true);
         //notebookSwitcher.add(newnew Label("test"));
 
         box.add(channelBox);
