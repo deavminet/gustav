@@ -110,6 +110,8 @@ public final class Connection : Thread
             process(notificationData);
             //gui.mainWindow.showAll();
 
+            notebookSwitcher.showAll();
+
             tl();
 
             //Thread.sleep(dur!("seconds")(2));
@@ -150,6 +152,17 @@ public final class Connection : Thread
 			{
                 /* LeaveInfo: <channel>,<username> */
 				string[] leaveInfo = split(cast(string)data[2..data.length],",");
+                writeln("LeaveInfo: ",leaveInfo);
+
+                string channel = leaveInfo[0];
+                string username = leaveInfo[1];
+
+                /* Find the channel */
+                Channel matchedChannel = findChannel(channel);
+
+                /* Generate the text to be added */
+                matchedChannel.addMessage("<-- "~username~" left the channel");
+
                 // textArea.add(new Label(("<-- "~username~" left the channel")));
                 // textArea.showAll();
 			}
@@ -158,6 +171,17 @@ public final class Connection : Thread
 			{
                 /* JoinInfo: <channel>,<username> */
 				string[] joinInfo = split(cast(string)data[2..data.length],",");
+                writeln("JoinInfo: ",joinInfo);
+
+                string channel = joinInfo[0];
+                string username = joinInfo[1];
+
+                /* Find the channel */
+                Channel matchedChannel = findChannel(channel);
+
+                /* Generate the text to be added */
+                matchedChannel.addMessage("--> "~username~" joined the channel");
+
 
                 /* Show joined message */
                 // textArea.add(new Label(("--> "~username~" joined the channel")));

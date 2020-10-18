@@ -107,4 +107,10 @@ public final class Channel
             users.add(new Label(member));
         }
     }
+
+
+    public void addMessage(string s)
+    {
+        textArea.add(new Label(s));
+    }
 }
