@@ -10,6 +10,7 @@
 import gtk.Box;
 import gtk.ListBox;
 import gtk.Label;
+import gtk.TextView;
 
 public final class Channel
 {
@@ -29,10 +30,10 @@ public final class Channel
     * Users's box
     *    - Label users
     *    - ListBox users
-
     */
-     private ListBox users;
+    private ListBox users;
     private ListBox textArea;
+    private TextView textInput;
 
     this(string channelName)
     {
@@ -62,8 +63,9 @@ public final class Channel
 
         ScrolledWindow scrollTextChats = new ScrolledWindow(textArea);
         textBox.add(scrollTextChats);
-        import gtk.TextView;
-        textBox.add(new TextView());
+        
+        textInput = new TextView();
+        textBox.add(textInput);
         
 
         // import gtk.TextView;
@@ -86,4 +88,8 @@ public final class Channel
         return box;
     }
 
+    public string getName()
+    {
+        return channelName;
+    }
 }

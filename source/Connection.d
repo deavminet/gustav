@@ -11,6 +11,7 @@ import gtk.ListBox;
 import gtk.Label;
 
 import Channel;
+import std.string;
 
 public final class Connection : Thread
 {
@@ -181,10 +182,31 @@ public final class Connection : Thread
         }
     }
     
+    private bool hasJoinedBefore(string channelName)
+    {
+        bool result;
+
+        foreach(Channel channel; chans)
+        {
+            if(cmp(channel.getName(), channelName))
+            {
+                result = true;
+                break;
+            }
+        }
+
+
+        return result;
+
+    }
+
     private void selectChannel(ListBox s)
     {
         /* Get the name of the channel selected */
         string channelSelected = (cast(Label)(s.getSelectedRow().getChild())).getText();
+
+        /* Check if we have joined this channel already */
+        hasJoinedBefore(channelSelected);
 
         /* Join the channel */
         client.join(channelSelected);
