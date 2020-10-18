@@ -178,6 +178,7 @@ public final class Channel
             gtkIcon = "user-offline";
         }
         
+        return gtkIcon;
     }
 
     private bool kak(int,int,bool, Tooltip d, Widget poes)
@@ -191,7 +192,7 @@ public final class Channel
         string userHover = (cast(Label)poes).getText();
 
         /* Fetch the status message */
-        string[] statusMessage = split(client.getStatus(), ",");
+        string[] statusMessage = split(client.getMemberInfo(), ",");
 
         /* First one is prescence */
         string prescence = statusMessage[0];
