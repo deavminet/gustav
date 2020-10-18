@@ -151,7 +151,10 @@ public class GUI : Thread
         toolbar.add(setBusy);
 
 
+        setAvail.addOnClicked(&setStatus);
+        setAway.addOnClicked(&setStatus);
         setBusy.addOnClicked(&setStatus);
+        
 
         
         //toolbar.add(new ToolButton("user-available,""Available"));
