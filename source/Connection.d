@@ -15,6 +15,8 @@ import std.string;
 
 import core.sync.mutex;
 
+import gtk.Notebook;
+
 public final class Connection : Thread
 {
     private GUI gui;
@@ -35,6 +37,7 @@ public final class Connection : Thread
     /**
     * All joined Channel-s in this Connection 
     */
+    private Notebook notebookSwitcher;
     private Channel[] chans; /*TODO: Technically locking by GTK would make this not needed */
     private Mutex chansLock;
     private Channel focusedChan;
@@ -100,9 +103,9 @@ public final class Connection : Thread
             writeln(notificationData);
 
             te();
-            import std.conv;
-            textArea.add(new Label(to!(string)(notificationData)));
-            textArea.showAll();
+            // import std.conv;
+            // textArea.add(new Label(to!(string)(notificationData)));
+            // textArea.showAll();
 
             process(notificationData);
             //gui.mainWindow.showAll();
@@ -334,14 +337,17 @@ public final class Connection : Thread
         // import gtk.TextView;
         // TextView f = new TextView();
         // textBox.add(f);
-
+        
+        notebookSwitcher = new Notebook();
+        notebookSwitcher.add(new Label("test"));
 
         box.add(channelBox);
+        box.add(notebookSwitcher);
         // box.add(textBox);
-        // box.packEnd(userBox,0,0,0);
+        //box.packEnd(notebookSwitcher,0,0,0);
 
         // textBox.setChildPacking(scrollTextChats, true, true, 0, GtkPackType.START);
-       // box.setChildPacking(textBox, true, true, 0, GtkPackType.START);
+        box.setChildPacking(notebookSwitcher, true, true, 0, GtkPackType.START);
         
         
 
