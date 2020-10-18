@@ -258,7 +258,14 @@ public final class Connection : Thread
 
             /* Set as the `foundChannel` */
             foundChannel = newChannel;
+
+            /* Get the Widgets container for this channel and add a tab for it */
+            notebookSwitcher.add(newChannel.getBox());
+
+            writeln("hdsjghjsd");
         }
+
+        notebookSwitcher.showAll();
 
         /* TODO: Now add the widget */
 
@@ -339,7 +346,7 @@ public final class Connection : Thread
         // textBox.add(f);
         
         notebookSwitcher = new Notebook();
-        notebookSwitcher.add(new Label("test"));
+        //notebookSwitcher.add(newnew Label("test"));
 
         box.add(channelBox);
         box.add(notebookSwitcher);
