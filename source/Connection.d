@@ -157,8 +157,8 @@ public final class Connection : Thread
                 /* Find the channel */
                 Channel matchedChannel = findChannel(channel);
 
-                /* Generate the text to be added */
-                matchedChannel.addMessage("<-- "~username~" left the channel");
+                /* Channel leave */
+                matchedChannel.channelLeave(username);
 			}
 			/* If the notification was join (stype=1) */
 			else if(subType == 1)
@@ -174,8 +174,8 @@ public final class Connection : Thread
                 /* Find the channel */
                 Channel matchedChannel = findChannel(channel);
 
-                /* Generate the text to be added */
-                matchedChannel.addMessage("--> "~username~" joined the channel");
+                /* Channel join */
+                matchedChannel.channelJoin(username);
 			}
 			/* TODO: Unknown */
 			else

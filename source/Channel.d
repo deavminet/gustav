@@ -13,6 +13,7 @@ import gtk.Label;
 import gtk.TextView;
 import libdnet.dclient;
 import gtk.Label;
+import std.string;
 
 public final class Channel
 {
@@ -38,6 +39,9 @@ public final class Channel
     private ListBox users;
     private ListBox textArea;
     private TextView textInput;
+
+    /* TODO: No mutexes should be needed (same precaution) as the GTK lock provides safety */
+    private string[] usersString;
 
     this(DClient client, string channelName)
     {
@@ -105,12 +109,59 @@ public final class Channel
         foreach(string member; memberList)
         {
             users.add(new Label(member));
+            usersString~=member;
         }
     }
 
+    public void channelJoin(string username)
+    {
+        /* Add join message to message log */
+        textArea.add(new Label("--> "~username~" joined the channel"));
+
+        /* Add user to user list */
+        users.add(new Label(username));
+
+        usersString~=username;
+    }
+
+    public void channelLeave(string username)
+    {
+        /* Add leave message to message log */
+        textArea.add(new Label("<-- "~username~" left the channel"));
+
+        /* TODO: Better way with just removing one dude */
+        
+        /* Remove the user form users list */
+        string[] newUsers;
+
+        foreach(string currentUser; usersString)
+        {
+            if(cmp(currentUser, username))
+            {
+                newUsers ~= currentUser;
+            }
+        }
+
+        usersString = newUsers;
+
+        /* Clear list */
+        users.removeAll();
+
+        foreach(string currentUser; usersString)
+        {
+            users.add(new Label(currentUser));
+        }
+
+        /* Remove user from user list */
+        /* TODO: Do this better */
+        // foreach(Label label; users.get)
+        // users.add(new Label(username));
+    }
+
+    
 
     public void addMessage(string s)
     {
-        textArea.add(new Label(s));
+        
     }
 }
