@@ -11,9 +11,13 @@ import gtk.Box;
 import gtk.ListBox;
 import gtk.Label;
 import gtk.TextView;
+import libdnet.dclient;
+import gtk.Label;
 
 public final class Channel
 {
+    private DClient client;
+
     /**
     * Channel details
     */
@@ -35,8 +39,9 @@ public final class Channel
     private ListBox textArea;
     private TextView textInput;
 
-    this(string channelName)
+    this(DClient client, string channelName)
     {
+        this.client = client;
         this.channelName = channelName;
         
         initializeBox();
@@ -91,5 +96,15 @@ public final class Channel
     public string getName()
     {
         return channelName;
+    }
+
+    public void populateUsersList()
+    {
+        string[] memberList = client.getMembers(channelName);
+
+        foreach(string member; memberList)
+        {
+            users.add(new Label(member));
+        }
     }
 }

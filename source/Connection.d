@@ -254,7 +254,7 @@ public final class Connection : Thread
             client.join(channelSelected);
 
             /* Create the Channel object */
-            Channel newChannel = new Channel(channelSelected);
+            Channel newChannel = new Channel(client, channelSelected);
 
             /* Add the channel */
             addChannel(newChannel);
@@ -264,10 +264,14 @@ public final class Connection : Thread
 
             /* Get the Widgets container for this channel and add a tab for it */
             notebookSwitcher.add(newChannel.getBox());
+            notebookSwitcher.setTabLabelText(newChannel.getBox(), newChannel.getName());
 
             writeln("hdsjghjsd");
 
             writeln("first time: "~channelSelected);
+
+            /* Get the user's list */
+            newChannel.populateUsersList();
         }
 
         /* Switch to the channel's pane */
