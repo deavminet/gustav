@@ -5,7 +5,7 @@
 	"copyright": "Copyright © 2020, Tristan B. Kildaire",
 	"dependencies": {
 		"gtk-d": "~>3.9.0",
-		"libdnet": "~>0.1.7"
+		"libdnet": "~>0.1.8"
 	},
 	"description": "GTK graphical DNET client",
 	"license": "GPL v3",
