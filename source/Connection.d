@@ -210,7 +210,7 @@ public final class Connection : Thread
 
         foreach(Channel channel; chans)
         {
-            if(cmp(channel.getName(), channelName))
+            if(cmp(channel.getName(), channelName) == 0)
             {
                 result = channel;
                 break;
@@ -243,6 +243,7 @@ public final class Connection : Thread
         if(foundChannel)
         {
             /* TODO: Switch to */
+            writeln("nope time: "~channelSelected);
         }
         /* If we haven't joined this channel before */
         else
@@ -263,9 +264,12 @@ public final class Connection : Thread
             notebookSwitcher.add(newChannel.getBox());
 
             writeln("hdsjghjsd");
+
+            writeln("first time: "~channelSelected);
         }
 
-        notebookSwitcher.showAll();
+        box.showAll();
+        // notebookSwitcher.showAll();
 
         /* TODO: Now add the widget */
 
