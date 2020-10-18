@@ -140,10 +140,6 @@ public final class Connection : Thread
 		/* Channel notification (ntype=1) */
 		else if(notificationType == 1)
 		{
-			/* TODO: Decode using tristanable */
-			/* TODO: Get the username of the user that left */
-			//writeln("user left/join message");
-
 			/* Get the sub-type */
 			ubyte subType = data[1];
 
@@ -154,6 +150,7 @@ public final class Connection : Thread
 				string[] leaveInfo = split(cast(string)data[2..data.length],",");
                 writeln("LeaveInfo: ",leaveInfo);
 
+                /* Decode the LeaveInfo */
                 string channel = leaveInfo[0];
                 string username = leaveInfo[1];
 
@@ -162,9 +159,6 @@ public final class Connection : Thread
 
                 /* Generate the text to be added */
                 matchedChannel.addMessage("<-- "~username~" left the channel");
-
-                // textArea.add(new Label(("<-- "~username~" left the channel")));
-                // textArea.showAll();
 			}
 			/* If the notification was join (stype=1) */
 			else if(subType == 1)
@@ -173,6 +167,7 @@ public final class Connection : Thread
 				string[] joinInfo = split(cast(string)data[2..data.length],",");
                 writeln("JoinInfo: ",joinInfo);
 
+                /* Decode the JoinInfo */
                 string channel = joinInfo[0];
                 string username = joinInfo[1];
 
@@ -181,15 +176,6 @@ public final class Connection : Thread
 
                 /* Generate the text to be added */
                 matchedChannel.addMessage("--> "~username~" joined the channel");
-
-
-                /* Show joined message */
-                // textArea.add(new Label(("--> "~username~" joined the channel")));
-                // textArea.showAll();
-
-                // /* Add the joined user to the members list */
-                // users.add(new Label(username));
-                // users.showAll();
 			}
 			/* TODO: Unknown */
 			else
