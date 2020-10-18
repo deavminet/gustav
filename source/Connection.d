@@ -148,14 +148,16 @@ public final class Connection : Thread
 			/* If the notification was leave (stype=0) */
 			if(subType == 0)
 			{
-				string username = cast(string)data[2..data.length];
+                /* LeaveInfo: <channel>,<username> */
+				string[] leaveInfo = split(cast(string)data[2..data.length],",");
                 // textArea.add(new Label(("<-- "~username~" left the channel")));
                 // textArea.showAll();
 			}
 			/* If the notification was join (stype=1) */
 			else if(subType == 1)
 			{
-				string username = cast(string)data[2..data.length];
+                /* JoinInfo: <channel>,<username> */
+				string[] joinInfo = split(cast(string)data[2..data.length],",");
 
                 /* Show joined message */
                 // textArea.add(new Label(("--> "~username~" joined the channel")));
