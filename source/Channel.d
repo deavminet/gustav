@@ -133,19 +133,30 @@ public final class Channel
         return channelName;
     }
 
+    /**
+    * Returns a Label with the tooltip event such
+    * that it will run that handler on hover
+    */
+    private Label getUserLabel(string username)
+    {
+        Label bruh = new Label(username);
+        bruh.setHasTooltip(true);
+        // import gtk.Window;
+        // Window k = new Window(GtkWindowType.POPUP);
+            
+        // bruh.setTooltipWindow(k);
+        bruh.addOnQueryTooltip(&kak);
+
+        return bruh;
+    }
+
     public void populateUsersList()
     {
         string[] memberList = client.getMembers(channelName);
 
         foreach(string member; memberList)
         {
-            Label bruh = new Label(member);
-            bruh.setHasTooltip(true);
-            // import gtk.Window;
-            // Window k = new Window(GtkWindowType.POPUP);
-            
-            // bruh.setTooltipWindow(k);
-            bruh.addOnQueryTooltip(&kak);
+            Label bruh  = getUserLabel(member);
             users.add(bruh);
             usersString~=member;
         }
@@ -193,6 +204,7 @@ public final class Channel
 
         /* Fetch the status message */
         string[] statusMessage = split(client.getMemberInfo(userHover), ",");
+        writeln(statusMessage);
 
         /* First one is prescence */
         string prescence = statusMessage[0];
@@ -226,7 +238,7 @@ public final class Channel
         textArea.add(new Label("--> "~username~" joined the channel"));
 
         /* Add user to user list */
-        users.add(new Label(username));
+        users.add(getUserLabel(username));
 
         usersString~=username;
     }
@@ -257,7 +269,7 @@ public final class Channel
 
         foreach(string currentUser; usersString)
         {
-            users.add(new Label(currentUser));
+            users.add(getUserLabel(currentUser));
         }
 
         /* Remove user from user list */
