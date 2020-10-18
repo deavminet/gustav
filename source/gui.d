@@ -100,6 +100,7 @@ public class GUI : Thread
         box.add(toolbar);
 
         notebook = new Notebook();
+        notebook.setScrollable(true);
         box.add(notebook);
         statusBar = new Statusbar();
         statusBar.add(new Label("Gustav: Bruh"));
