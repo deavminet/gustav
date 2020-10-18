@@ -179,9 +179,9 @@ public final class Channel
         {
             gtkIcon = "user-away";
         }
-        else if(cmp(status, "idle") == 0)
+        else if(cmp(status, "busy") == 0)
         {
-            gtkIcon = "user-idle";
+            gtkIcon = "user-busy";
         }
         /* TODO: This doesn't make sense */
         else if(cmp(status, "offline") == 0)
