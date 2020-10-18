@@ -13,6 +13,8 @@ import gtk.Label;
 import Channel;
 import std.string;
 
+import core.sync.mutex;
+
 public final class Connection : Thread
 {
     private GUI gui;
@@ -33,7 +35,9 @@ public final class Connection : Thread
     /**
     * All joined Channel-s in this Connection 
     */
-    private Channel[] chans;
+    private Channel[] chans; /*TODO: Technically locking by GTK would make this not needed */
+    private Mutex chansLock;
+    private Channel focusedChan;
 
     this(GUI gui, Address address, string[] auth)
     {
@@ -41,7 +45,20 @@ public final class Connection : Thread
         this.gui = gui;
         this.address = address;
         this.auth = auth;
+
+        /* Initialize locks */
+        initializeLocks();
+
+        /* Start the notification atcher */
         start();
+    }
+
+    /**
+    * Initializes all locks (other than GDK)
+    */
+    private void initializeLocks()
+    {
+        chansLock =  new Mutex();
     }
 
     private void worker()
@@ -129,8 +146,8 @@ public final class Connection : Thread
 			if(subType == 0)
 			{
 				string username = cast(string)data[2..data.length];
-                textArea.add(new Label(("<-- "~username~" left the channel")));
-                textArea.showAll();
+                // textArea.add(new Label(("<-- "~username~" left the channel")));
+                // textArea.showAll();
 			}
 			/* If the notification was join (stype=1) */
 			else if(subType == 1)
@@ -138,12 +155,12 @@ public final class Connection : Thread
 				string username = cast(string)data[2..data.length];
 
                 /* Show joined message */
-                textArea.add(new Label(("--> "~username~" joined the channel")));
-                textArea.showAll();
+                // textArea.add(new Label(("--> "~username~" joined the channel")));
+                // textArea.showAll();
 
-                /* Add the joined user to the members list */
-                users.add(new Label(username));
-                users.showAll();
+                // /* Add the joined user to the members list */
+                // users.add(new Label(username));
+                // users.showAll();
 			}
 			/* TODO: Unknown */
 			else
@@ -182,22 +199,33 @@ public final class Connection : Thread
         }
     }
     
-    private bool hasJoinedBefore(string channelName)
+    private Channel findChannel(string channelName)
     {
-        bool result;
+        Channel result;
+
+        chansLock.lock();
 
         foreach(Channel channel; chans)
         {
             if(cmp(channel.getName(), channelName))
             {
-                result = true;
+                result = channel;
                 break;
             }
         }
 
+        chansLock.unlock();
 
         return result;
+    }
 
+    private void addChannel(Channel newChannel)
+    {
+        chansLock.lock();
+
+        chans ~= newChannel;
+
+        chansLock.unlock();
     }
 
     private void selectChannel(ListBox s)
@@ -206,31 +234,51 @@ public final class Connection : Thread
         string channelSelected = (cast(Label)(s.getSelectedRow().getChild())).getText();
 
         /* Check if we have joined this channel already */
-        hasJoinedBefore(channelSelected);
+        Channel foundChannel = findChannel(channelSelected);
 
-        /* Join the channel */
-        client.join(channelSelected);
-
-        /* Set this as the currently selected channel */
-        currentChannel = channelSelected;
-        currentChannelLabel.setText(currentChannel);
-        // currentChannelLabel.show();
-        // box.show();
-
-        /* Fetch a list of members */
-        string[] members = client.getMembers(channelSelected);
-
-        /* Display the members */
-        users.removeAll();
-        foreach(string member; members)
+        /* If we have joined this channel before */
+        if(foundChannel)
         {
-            users.add(new Label(member));
-            users.showAll();
+            /* TODO: Switch to */
+        }
+        /* If we haven't joined this channel before */
+        else
+        {
+            /* Join the channel */
+            client.join(channelSelected);
+
+            /* Create the Channel object */
+            Channel newChannel = new Channel(channelSelected);
+
+            /* Add the channel */
+            addChannel(newChannel);
+
+            /* Set as the `foundChannel` */
+            foundChannel = newChannel;
         }
 
-        /* Clear the text area */
-        textArea.removeAll();
-        textArea.showAll();
+        /* TODO: Now add the widget */
+
+        // /* Set this as the currently selected channel */
+        // currentChannel = channelSelected;
+        // currentChannelLabel.setText(currentChannel);
+        // // currentChannelLabel.show();
+        // // box.show();
+
+        // /* Fetch a list of members */
+        // string[] members = client.getMembers(channelSelected);
+
+        // /* Display the members */
+        // users.removeAll();
+        // foreach(string member; members)
+        // {
+        //     users.add(new Label(member));
+        //     users.showAll();
+        // }
+
+        // /* Clear the text area */
+        // textArea.removeAll();
+        // textArea.showAll();
     }
 
 
@@ -262,25 +310,25 @@ public final class Connection : Thread
         channelBox.add(new Label("Channels"));
         channelBox.add(channels);
 
-        /* The user's box */
-        Box userBox = new Box(GtkOrientation.VERTICAL, 1);
+        // /* The user's box */
+        // Box userBox = new Box(GtkOrientation.VERTICAL, 1);
 
-        /* The user's list */
-        users = new ListBox();
+        // /* The user's list */
+        // users = new ListBox();
 
-        userBox.add(new Label("Users"));
-        userBox.add(users);
+        // userBox.add(new Label("Users"));
+        // userBox.add(users);
         
-        /* The text box */
-        Box textBox = new Box(GtkOrientation.VERTICAL, 1);
-        textBox.add(currentChannelLabel);
-        textArea = new ListBox();
-        import gtk.ScrolledWindow;
+        // /* The text box */
+        // Box textBox = new Box(GtkOrientation.VERTICAL, 1);
+        // textBox.add(currentChannelLabel);
+        // textArea = new ListBox();
+        // import gtk.ScrolledWindow;
 
-        ScrolledWindow scrollTextChats = new ScrolledWindow(textArea);
-        textBox.add(scrollTextChats);
-        import gtk.TextView;
-        textBox.add(new TextView());
+        // ScrolledWindow scrollTextChats = new ScrolledWindow(textArea);
+        // textBox.add(scrollTextChats);
+        // import gtk.TextView;
+        // textBox.add(new TextView());
         
 
         // import gtk.TextView;
@@ -289,11 +337,11 @@ public final class Connection : Thread
 
 
         box.add(channelBox);
-        box.add(textBox);
-        box.packEnd(userBox,0,0,0);
+        // box.add(textBox);
+        // box.packEnd(userBox,0,0,0);
 
-        textBox.setChildPacking(scrollTextChats, true, true, 0, GtkPackType.START);
-        box.setChildPacking(textBox, true, true, 0, GtkPackType.START);
+        // textBox.setChildPacking(scrollTextChats, true, true, 0, GtkPackType.START);
+       // box.setChildPacking(textBox, true, true, 0, GtkPackType.START);
         
         
 
