@@ -244,6 +244,8 @@ public final class Connection : Thread
         {
             /* TODO: Switch to */
             writeln("nope time: "~channelSelected);
+
+            
         }
         /* If we haven't joined this channel before */
         else
@@ -267,6 +269,9 @@ public final class Connection : Thread
 
             writeln("first time: "~channelSelected);
         }
+
+        /* Switch to the channel's pane */
+        notebookSwitcher.setCurrentPage(foundChannel.getBox());
 
         box.showAll();
         // notebookSwitcher.showAll();
