@@ -192,7 +192,7 @@ public final class Channel
         string userHover = (cast(Label)poes).getText();
 
         /* Fetch the status message */
-        string[] statusMessage = split(client.getMemberInfo(), ",");
+        string[] statusMessage = split(client.getMemberInfo(userHover), ",");
 
         /* First one is prescence */
         string prescence = statusMessage[0];
