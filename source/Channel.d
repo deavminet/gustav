@@ -14,6 +14,7 @@ import gtk.TextView;
 import libdnet.dclient;
 import gtk.Label;
 import std.string;
+import gtk.Button;
 
 public final class Channel
 {
@@ -62,6 +63,11 @@ public final class Channel
         users = new ListBox();
 
         userBox.add(new Label("Users"));
+
+        // import gtk.Expander;
+        // Expander g = new Expander("Bruh");
+        // g.setExpanded(true)
+        // g.add(users);
         userBox.add(users);
         
         /* The text box */
@@ -74,7 +80,15 @@ public final class Channel
         textBox.add(scrollTextChats);
         
         textInput = new TextView();
-        textBox.add(textInput);
+        Box textInputBox = new Box(GtkOrientation.HORIZONTAL, 1);
+        textInputBox.packStart(textInput,1,1,0);
+        import gtk.Button;
+
+        /* The send button */
+        Button sendButton = new Button("Send");
+        sendButton.addOnClicked(&sendMessageBtn);
+        textInputBox.add(sendButton);
+        textBox.add(textInputBox);
         
 
         // import gtk.TextView;
@@ -90,6 +104,11 @@ public final class Channel
         textBox.setChildPacking(scrollTextChats, true, true, 0, GtkPackType.START);
         box.setChildPacking(textBox, true, true, 0, GtkPackType.START);
 
+    }
+
+    private void sendMessageBtn(Button)
+    {
+        client.sendMessage(0, channelName, textInput.getBuffer().getText());
     }
 
     public Box getBox()
@@ -123,6 +142,7 @@ public final class Channel
 
         usersString~=username;
     }
+
 
     public void channelLeave(string username)
     {
