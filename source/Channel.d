@@ -112,12 +112,15 @@ public final class Channel
         string message = textInput.getBuffer().getText();
 
         /* TODO: Add the message to our log (as it won't be delivered to us) */
+        addMessage(message);
 
         /* Send the message */
         client.sendMessage(0, channelName, message);
 
         /* Clear the text box */
         textInput.getBuffer().setText("");
+
+        box.showAll();
     }
 
     public Box getBox()
@@ -191,6 +194,6 @@ public final class Channel
 
     public void addMessage(string s)
     {
-        
+        textArea.add(new Label(s));
     }
 }
