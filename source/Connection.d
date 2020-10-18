@@ -196,6 +196,11 @@ public final class Connection : Thread
         tl();
     }
 
+    public DClient getClient()
+    {
+        return client;
+    }
+
     /**
     * Lists all channels and displays them
     *

@@ -12,6 +12,7 @@ import gtk.Menu;
 import gtk.MenuItem;
 import std.stdio;
 import gtk.Statusbar;
+import gtk.Toolbar;
 
 import Connection;
 import std.socket;
@@ -21,6 +22,7 @@ public class GUI : Thread
     /* Main window (GUI homepage) */
     public MainWindow mainWindow;
     private MenuBar menuBar;
+    private Toolbar toolbar;
     public Notebook notebook;
 
     private Statusbar statusBar;
@@ -93,6 +95,10 @@ public class GUI : Thread
         */
         menuBar = initializeMenuBar();
         box.add(menuBar);
+
+        toolbar = getToolbar();
+        box.add(toolbar);
+
         notebook = new Notebook();
         box.add(notebook);
         statusBar = new Statusbar();
@@ -113,6 +119,69 @@ public class GUI : Thread
         tl();
 
         writeln("unlock gui setup");
+    }
+
+    private Toolbar getToolbar()
+    {
+        Toolbar toolbar = new Toolbar();
+
+        /* Status selector dropdown */
+        import gtk.ComboBox;
+        import gtk.ToolButton;
+
+        // Menu menu = new Menu();
+        // menu.add(new MenuItem(""));
+        ComboBox statusBox = new ComboBox();
+        statusBox.setTitle("Status");
+
+
+        ToolButton setAvail = new ToolButton("");
+        setAvail.setLabel("available");
+        setAvail.setIconName("user-available");
+        toolbar.add(setAvail);
+
+        ToolButton setAway = new ToolButton("");
+        setAway.setLabel("away");
+        setAway.setIconName("user-away");
+        toolbar.add(setAway);
+
+        ToolButton setBusy = new ToolButton("");
+        setBusy.setLabel("busy");
+        setBusy.setIconName("user-busy");
+        toolbar.add(setBusy);
+
+
+        setBusy.addOnClicked(&setStatus);
+
+        
+        //toolbar.add(new ToolButton("user-available,""Available"));
+        // toolbar.add(new ToolButton("Away"));
+        // toolbar.add(new ToolButton("Busy"));
+        // toolbar.add(new Label("Away"));
+        // toolbar.add(new Label("Busy"));
+        // import gtk.ToolItem;
+        
+        // ToolItem toolItem = new ToolItem();
+        // toolItem.add(new Label("Available"));
+
+
+        // statusBox.add()
+
+        //toolbar.add(statusBox);
+
+      
+
+        return toolbar;
+    }
+
+    import gtk.ToolButton;
+    private void setStatus(ToolButton x)
+    {
+        /* Get the current connection */
+        Connection currentConnection = connections[notebook.getCurrentPage()];
+
+        /* Set the status */
+        currentConnection.getClient().setStatus(x.getLabel());
     }
 
     private MenuBar initializeMenuBar()
