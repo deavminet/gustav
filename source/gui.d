@@ -293,8 +293,6 @@ public class GUI : Thread
         win.showAll();
     }
 
-    import gtk.ListBoxRow;
-
     private void selectChannel(ListBox s)
     {
         /* Get the current connection */
