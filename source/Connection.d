@@ -296,6 +296,7 @@ public final class Connection : Thread
 
             /* Get the Widgets container for this channel and add a tab for it */
             notebookSwitcher.add(newChannel.getBox());
+            notebookSwitcher.setTabReorderable(newChannel.getBox(), true);
             notebookSwitcher.setTabLabelText(newChannel.getBox(), newChannel.getName());
 
             writeln("hdsjghjsd");
