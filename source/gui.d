@@ -168,6 +168,7 @@ public class GUI : Thread
 
 
         ToolButton channelListButton = new ToolButton("folder");
+        channelListButton.addOnClicked(&about);
         channelListButton.setTooltipText("List channels");
         toolbar.add(channelListButton);
 
@@ -220,6 +221,43 @@ public class GUI : Thread
 
         return toolbar;
     }
+
+    private void about(ToolButton)
+    {
+        import gtk.AboutDialog;
+        AboutDialog about = new AboutDialog();
+
+        about.setVersion("21893");
+
+        /* TODO: License */
+        /* TODO: Icon */
+        /* TODO: Buttons or close */
+        /* TODO: Set version based on compiler flag */
+
+        about.setLogoIconName("user-available");
+
+        /* Set all the information */
+        about.setLicense("LICENSE GOES HERE");
+        about.setComments("A clean GTK+ graphical DNET client");
+        about.setWebsite("http://deavmi.assigned.network/docs/dnet/site");
+        about.setDocumenters(["ss","fdsfsd"]);
+        about.setAuthors(["Tristan B. Kildaire (Deavmi) - deavmi@disroot.org"]);
+
+        /* Show the about dialog */
+        about.showAll();
+    }
+
+
+    /**
+    * List channels
+    *
+    * Brings up a window listing channels of the current server
+    */
+    private void listChannels()
+    {
+        import gtk.Window;
+    }
+
 
     import gtk.ToolButton;
     private void setStatus(ToolButton x)

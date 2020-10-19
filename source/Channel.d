@@ -252,7 +252,6 @@ public final class Channel
         usersString~=username;
     }
 
-
     public void channelLeave(string username)
     {
         /* The label to add */
