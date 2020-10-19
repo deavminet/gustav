@@ -13,6 +13,7 @@ import gtk.MenuItem;
 import std.stdio;
 import gtk.Statusbar;
 import gtk.Toolbar;
+import gtk.ToolButton;
 
 import Connection;
 import std.socket;
@@ -169,6 +170,7 @@ public class GUI : Thread
 
         ToolButton channelListButton = new ToolButton("folder");
         channelListButton.setTooltipText("List channels");
+        channelListButton.addOnClicked(&listChannels);
         toolbar.add(channelListButton);
 
         // import gtk.ComboBox;
@@ -253,13 +255,35 @@ public class GUI : Thread
     *
     * Brings up a window listing channels of the current server
     */
-    private void listChannels()
+    private void listChannels(ToolButton)
     {
         import gtk.Window;
+
+        /* Create the window */
+        Window win = new Window(GtkWindowType.TOPLEVEL);
+
+        /* Create the list of channels */
+        ListBox channelsList = new ListBox();
+        win.add(channelsList);
+
+        /* Get the current connection */
+        Connection currentConnection = connections[notebook.getCurrentPage()];
+
+        /* Fetch the channels */
+        string[] channels = currentConnection.getClient().list();
+
+        /* Add each channel */
+        foreach(string channel; channels)
+        {
+            channelsList.add(new Label(channel));
+            channelsList.showAll();
+        }
+        // win.add()
+
+        win.show();
     }
 
 
-    import gtk.ToolButton;
     private void setStatus(ToolButton x)
     {
         /* Get the current connection */
