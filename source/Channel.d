@@ -211,7 +211,8 @@ public final class Channel
 
         d.setIconFromIconName(statusToGtkIcon(prescence), GtkIconSize.DIALOG);
 
-        d.setText(userHover~"\n"~prescence);
+        // d.setText();
+        d.setMarkup("<b>"~userHover~"</b>\n"~prescence);
 
         // /* The notification box */
         // Box notificationBox = new Box(GtkOrientation.VERTICAL, 1);
