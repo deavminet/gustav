@@ -20,7 +20,7 @@ import gtk.Notebook;
 public final class Connection : Thread
 {
     private GUI gui;
-    public Box box;
+    private Box box;
     private ListBox channels;
     private ListBox users;
     private ListBox textArea;
@@ -38,7 +38,7 @@ public final class Connection : Thread
     /**
     * All joined Channel-s in this Connection 
     */
-    public Notebook notebookSwitcher;
+    private Notebook notebookSwitcher;
     private Channel[] chans; /*TODO: Technically locking by GTK would make this not needed */
     private Mutex chansLock;
     private Channel focusedChan;
@@ -218,7 +218,7 @@ public final class Connection : Thread
         else
         {
             /* Join the channel */
-            getClient().join(channelName);
+            client.join(channelName);
 
             /* Create the Channel object */
             Channel newChannel = new Channel(client, channelName);
