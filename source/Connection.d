@@ -254,7 +254,7 @@ public final class Connection : Thread
         return result;
     }
 
-    private void addChannel(Channel newChannel)
+    public void addChannel(Channel newChannel)
     {
         chansLock.lock();
 
