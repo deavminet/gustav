@@ -234,7 +234,7 @@ public final class Connection : Thread
         }
     }
     
-    private Channel findChannel(string channelName)
+    public Channel findChannel(string channelName)
     {
         Channel result;
 
