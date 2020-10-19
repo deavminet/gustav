@@ -302,7 +302,7 @@ public class GUI : Thread
         MenuItem aboutItem = new MenuItem();
         aboutItem.setLabel("About");
         aboutItem.addOnActivate(&about);
-        helpMenuItem.add(aboutItem);
+        helpMenu.add(aboutItem);
 
         
 
