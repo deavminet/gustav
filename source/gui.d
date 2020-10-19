@@ -17,6 +17,7 @@ import gtk.ToolButton;
 import gtk.ScrolledWindow;
 
 import Connection;
+import Channel;
 import std.socket;
 
 import std.conv;
@@ -287,16 +288,89 @@ public class GUI : Thread
         }
 
         /* TODO: Add handler for clicking label that lets you join the channel */
-        channelsList.addOnRowSelected(&selectChannelNG);
+        channelsList.addOnSelectedRowsChanged(&selectChannelNG);
 
         win.showAll();
     }
 
     import gtk.ListBoxRow;
 
-    private void selectChannelNG(ListBoxRow row, ListBox)
+    private void selectChannelNG(ListBox s)
     {
-        writeln(row);
+        /* Get the current connection */
+        Connection currentConnection = connections[notebook.getCurrentPage()];
+
+        /* Get the name of the channel selected */
+        string channelSelected = (cast(Label)(s.getSelectedRow().getChild())).getText();
+
+        /* Check if we have joined this channel already */
+        Channel foundChannel = currentConnection.findChannel(channelSelected);
+
+        /* If we have joined this channel before */
+        if(foundChannel)
+        {
+            /* TODO: Switch to */
+            writeln("nope time: "~channelSelected);
+
+            
+        }
+        /* If we haven't joined this channel before */
+        else
+        {
+            /* Join the channel */
+            currentConnection.getClient().join(channelSelected);
+
+            /* Create the Channel object */
+            Channel newChannel = new Channel(currentConnection.getClient(), channelSelected);
+
+            /* Add the channel */
+            currentConnection.addChannel(newChannel);
+
+            /* Set as the `foundChannel` */
+            foundChannel = newChannel;
+
+            /* Get the Widgets container for this channel and add a tab for it */
+            currentConnection.notebookSwitcher.add(newChannel.getBox());
+            currentConnection.notebookSwitcher.setTabReorderable(newChannel.getBox(), true);
+            currentConnection.notebookSwitcher.setTabLabelText(newChannel.getBox(), newChannel.getName());
+
+            writeln("hdsjghjsd");
+
+            writeln("first time: "~channelSelected);
+
+            /* Get the user's list */
+            newChannel.populateUsersList();
+        }
+
+        /* Switch to the channel's pane */
+        currentConnection.notebookSwitcher.setCurrentPage(foundChannel.getBox());
+
+        currentConnection.box.showAll();
+        // notebookSwitcher.showAll();
+
+        /* TODO: Now add the widget */
+
+        // /* Set this as the currently selected channel */
+        // currentChannel = channelSelected;
+        // currentChannelLabel.setText(currentChannel);
+        // // currentChannelLabel.show();
+        // // box.show();
+
+        // /* Fetch a list of members */
+        // string[] members = client.getMembers(channelSelected);
+
+        // /* Display the members */
+        // users.removeAll();
+        // foreach(string member; members)
+        // {
+        //     users.add(new Label(member));
+        //     users.showAll();
+        // }
+
+        // /* Clear the text area */
+        // textArea.removeAll();
+        // textArea.showAll();
+        
     }
 
 
