@@ -343,34 +343,10 @@ public class GUI : Thread
         }
 
         /* Switch to the channel's pane */
-        currentConnection.notebookSwitcher.setCurrentPage(foundChannel.getBox());
+        //currentConnection.notebookSwitcher.setCurrentPage(foundChannel.getBox());
 
+        /* Render recursively all children of the container and then the container itself */
         currentConnection.box.showAll();
-        // notebookSwitcher.showAll();
-
-        /* TODO: Now add the widget */
-
-        // /* Set this as the currently selected channel */
-        // currentChannel = channelSelected;
-        // currentChannelLabel.setText(currentChannel);
-        // // currentChannelLabel.show();
-        // // box.show();
-
-        // /* Fetch a list of members */
-        // string[] members = client.getMembers(channelSelected);
-
-        // /* Display the members */
-        // users.removeAll();
-        // foreach(string member; members)
-        // {
-        //     users.add(new Label(member));
-        //     users.showAll();
-        // }
-
-        // /* Clear the text area */
-        // textArea.removeAll();
-        // textArea.showAll();
-        
     }
 
 

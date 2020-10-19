@@ -102,7 +102,7 @@ public final class Connection : Thread
         client.auth(auth[0], auth[1]); /* TODO: DO this without auth (the list in the loop, crahses server) */
 
         /* Display all channels */
-        channelList();
+        //channelList();
 
         /**
         * Notification loop
@@ -254,16 +254,28 @@ public final class Connection : Thread
         return result;
     }
 
+    /**
+    * Adds the given channel to the tarcking list
+    *
+    * This adds the Channel object to the list of
+    * channels joined
+    *
+    * TODO: Migrate the gui.d channel join selectChannel
+    * here
+    * NOTE: You must manually join it though
+    */
     public void addChannel(Channel newChannel)
     {
+        /* Add the channel to the `chans` tracking list */
         chansLock.lock();
-
         chans ~= newChannel;
-
         chansLock.unlock();
+
+        /* Add the channel to the channels list (sidebar) */
+        channels.add(new Label(newChannel.getName()));
     }
 
-    private void selectChannel(ListBox s)
+    private void viewChannel(ListBox s)
     {
         /* Get the name of the channel selected */
         string channelSelected = (cast(Label)(s.getSelectedRow().getChild())).getText();
@@ -271,70 +283,10 @@ public final class Connection : Thread
         /* Check if we have joined this channel already */
         Channel foundChannel = findChannel(channelSelected);
 
-        /* If we have joined this channel before */
-        if(foundChannel)
-        {
-            /* TODO: Switch to */
-            writeln("nope time: "~channelSelected);
-
-            
-        }
-        /* If we haven't joined this channel before */
-        else
-        {
-            /* Join the channel */
-            client.join(channelSelected);
-
-            /* Create the Channel object */
-            Channel newChannel = new Channel(client, channelSelected);
-
-            /* Add the channel */
-            addChannel(newChannel);
-
-            /* Set as the `foundChannel` */
-            foundChannel = newChannel;
-
-            /* Get the Widgets container for this channel and add a tab for it */
-            notebookSwitcher.add(newChannel.getBox());
-            notebookSwitcher.setTabReorderable(newChannel.getBox(), true);
-            notebookSwitcher.setTabLabelText(newChannel.getBox(), newChannel.getName());
-
-            writeln("hdsjghjsd");
-
-            writeln("first time: "~channelSelected);
-
-            /* Get the user's list */
-            newChannel.populateUsersList();
-        }
-
         /* Switch to the channel's pane */
         notebookSwitcher.setCurrentPage(foundChannel.getBox());
 
         box.showAll();
-        // notebookSwitcher.showAll();
-
-        /* TODO: Now add the widget */
-
-        // /* Set this as the currently selected channel */
-        // currentChannel = channelSelected;
-        // currentChannelLabel.setText(currentChannel);
-        // // currentChannelLabel.show();
-        // // box.show();
-
-        // /* Fetch a list of members */
-        // string[] members = client.getMembers(channelSelected);
-
-        // /* Display the members */
-        // users.removeAll();
-        // foreach(string member; members)
-        // {
-        //     users.add(new Label(member));
-        //     users.showAll();
-        // }
-
-        // /* Clear the text area */
-        // textArea.removeAll();
-        // textArea.showAll();
     }
 
 
@@ -361,7 +313,7 @@ public final class Connection : Thread
 
         /* The channel's list */
         channels = new ListBox();
-        channels.addOnSelectedRowsChanged(&selectChannel);
+        channels.addOnSelectedRowsChanged(&viewChannel);
 
         channelBox.add(new Label("Channels"));
         channelBox.add(channels);
