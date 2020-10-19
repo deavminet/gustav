@@ -239,6 +239,7 @@ public final class Channel
     public void channelJoin(string username)
     {
         /* The label to add */
+        /* TODO: Bababooey these `-->` being parsed as HTML for Pango */
         Label joinLabel = new Label("--> <i>"~username~" joined the channel</i>");
         joinLabel.setHalign(GtkAlign.START);
         joinLabel.setUseMarkup(true);
@@ -255,6 +256,7 @@ public final class Channel
     public void channelLeave(string username)
     {
         /* The label to add */
+        /* TODO: Bababooey these `-->` being parsed as HTML for Pango */
         Label leaveLabel = new Label("<-- <i>"~username~" left the channel</i>");
         leaveLabel.setHalign(GtkAlign.START);
         leaveLabel.setUseMarkup(true);

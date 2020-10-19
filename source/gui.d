@@ -144,22 +144,26 @@ public class GUI : Thread
         statusBox.setTitle("Status");
 
 
+        /* Set available button */
         ToolButton setAvail = new ToolButton("");
         setAvail.setLabel("available");
         setAvail.setIconName("user-available");
         toolbar.add(setAvail);
 
+        /* Set away button */
         ToolButton setAway = new ToolButton("");
         setAway.setLabel("away");
         setAway.setIconName("user-away");
         toolbar.add(setAway);
 
+        /* Set busy button */
         ToolButton setBusy = new ToolButton("");
         setBusy.setLabel("busy");
         setBusy.setIconName("user-busy");
         toolbar.add(setBusy);
 
 
+        /* Assign actions */
         setAvail.addOnClicked(&setStatus);
         setAway.addOnClicked(&setStatus);
         setBusy.addOnClicked(&setStatus);
@@ -169,6 +173,7 @@ public class GUI : Thread
 
 
 
+        /* List channels button */
         ToolButton channelListButton = new ToolButton("");
         channelListButton.setIconName("emblem-documents");
         channelListButton.setTooltipText("List channels");
@@ -281,7 +286,17 @@ public class GUI : Thread
             channelsList.showAll();
         }
 
-        win.show();
+        /* TODO: Add handler for clicking label that lets you join the channel */
+        channelsList.addOnRowSelected(&selectChannelNG);
+
+        win.showAll();
+    }
+
+    import gtk.ListBoxRow;
+
+    private void selectChannelNG(ListBoxRow row, ListBox)
+    {
+        writeln(row);
     }
 
 
