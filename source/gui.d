@@ -168,7 +168,6 @@ public class GUI : Thread
 
 
         ToolButton channelListButton = new ToolButton("folder");
-        channelListButton.addOnClicked(&about);
         channelListButton.setTooltipText("List channels");
         toolbar.add(channelListButton);
 
@@ -222,7 +221,7 @@ public class GUI : Thread
         return toolbar;
     }
 
-    private void about(ToolButton)
+    private void about(MenuItem)
     {
         import gtk.AboutDialog;
         AboutDialog about = new AboutDialog();
@@ -292,12 +291,26 @@ public class GUI : Thread
         exitItem.addOnActivate(&exitButton);
         gustavMenu.add(exitItem);
 
+
+        /* Help menu */
+        MenuItem helpMenuItem = new MenuItem();
+        helpMenuItem.setLabel("Help");
+        Menu helpMenu = new Menu();
+        helpMenuItem.setSubmenu(helpMenu);
+
+        /* About option */
+        MenuItem aboutItem = new MenuItem();
+        aboutItem.setLabel("About");
+        aboutItem.addOnActivate(&about);
+        helpMenuItem.add(aboutItem);
+
         
 
         
 
         /* Add all menues */
         menuBar.add(gustavMenuItem);
+        menuBar.add(helpMenuItem);
 
         return menuBar;
     }
