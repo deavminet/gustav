@@ -87,6 +87,7 @@ public final class Connection : Thread
         te();
         box = getChatPane();
         gui.notebook.add(box);
+        gui.notebook.setTabReorderable(box, true);
         //gui.notebook    setChildPacking(box, true, true, 0, GtkPackType.START);
        // gui.mainWindow.
         gui.notebook.setTabLabelText(box, auth[0]~"@"~address.toString());
@@ -118,6 +119,7 @@ public final class Connection : Thread
             // import std.conv;
             // textArea.add(new Label(to!(string)(notificationData)));
             // textArea.showAll();
+            
 
             process(notificationData);
             //gui.mainWindow.showAll();

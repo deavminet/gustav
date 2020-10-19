@@ -104,8 +104,12 @@ public class GUI : Thread
         notebook = new Notebook();
         notebook.setScrollable(true);
         box.add(notebook);
+        
         statusBar = new Statusbar();
         statusBar.add(new Label("Gustav: Bruh"));
+        
+
+
         box.setChildPacking(notebook, true, true, 0, GtkPackType.START);
         box.packEnd(statusBar, 0, 0, 0);
         //notebook.add(createServerTab());
@@ -157,7 +161,44 @@ public class GUI : Thread
         setAvail.addOnClicked(&setStatus);
         setAway.addOnClicked(&setStatus);
         setBusy.addOnClicked(&setStatus);
+
+        import gtk.SeparatorToolItem;
+        toolbar.add(new SeparatorToolItem());
+
+
+
+        ToolButton channelListButton = new ToolButton("folder");
+        channelListButton.setTooltipText("List channels");
+        toolbar.add(channelListButton);
+
+        // import gtk.ComboBox;
+
+        // ComboBox d = new ComboBox();
+        // import gtk.Button;
+        // import gtk.Entry;
+
+
+        // import gtk.Switch;
+        // import gtk.ToolItem;
+        // ToolItem g = new ToolItem();
+        // g.add(new Switch());
+        // toolbar.add(g);
         
+        // d.add(new Entry(new Label("1")));
+        // d.add(new Entry(new Label("2")));
+        // d.add(new Entry(new Label("3")));
+
+        // Entry jj;
+        // d.add(new Entry("available"));
+        // d.add(new Entry("away"));
+        // d.add(new Entry("busy"));
+        // import gtk.
+        
+        
+        // import gtk.ToolItem;
+        // ToolItem h =new ToolItem();
+        // h.add(d);
+        // toolbar.add(h);
 
         
         //toolbar.add(new ToolButton("user-available,""Available"));
