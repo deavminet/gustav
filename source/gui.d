@@ -235,6 +235,7 @@ public class GUI : Thread
         /* TODO: Set version based on compiler flag */
 
         about.setLogoIconName("user-available");
+        about.setArtists(["i wonder if I could commision an artwork from her"]);
 
         /* Set all the information */
         about.setLicense("LICENSE GOES HERE");
