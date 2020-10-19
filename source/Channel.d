@@ -252,8 +252,9 @@ public final class Channel
     public void channelLeave(string username)
     {
         /* The label to add */
-        Label leaveLabel = new Label("<-- "~username~" left the channel");
+        Label leaveLabel = new Label("<-- <i>"~username~" left the channel</i>");
         leaveLabel.setHalign(GtkAlign.START);
+        leaveLabel.setUseMarkup(true);
 
         /* Add leave message to message log */
         textArea.add(leaveLabel);
