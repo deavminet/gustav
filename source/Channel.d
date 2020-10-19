@@ -235,8 +235,9 @@ public final class Channel
     public void channelJoin(string username)
     {
         /* The label to add */
-        Label joinLabel = new Label("--> "~username~" joined the channel");
+        Label joinLabel = new Label("--> <i>"~username~" joined the channel</i>");
         joinLabel.setHalign(GtkAlign.START);
+        joinLabel.setUseMarkup(true);
 
         /* Add join message to message log */
         textArea.add(joinLabel);
