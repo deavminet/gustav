@@ -17,6 +17,8 @@ import gtk.Toolbar;
 import Connection;
 import std.socket;
 
+import std.conv;
+
 public class GUI : Thread
 {
     /* Main window (GUI homepage) */
@@ -61,7 +63,7 @@ public class GUI : Thread
             // connections ~= new Connection(this, parseAddress("0.0.0.0", 7777));
         }
 
-        connections ~= new Connection(this, parseAddress("0.0.0.0", 7777), ["testGustav1", "bruh"]);
+        connections ~= new Connection(this, parseAddress("0.0.0.0", 7777), ["testGustav"~to!(string)(connections.length), "bruh"]);
         
         
     }
@@ -241,7 +243,7 @@ public class GUI : Thread
 
     private void connectButton(MenuItem)
     {
-       connections ~= new Connection(this, parseAddress("0.0.0.0", 7777), ["testGustav1", "bruh"]);
+       connections ~= new Connection(this, parseAddress("0.0.0.0", 7777), ["testGustav"~to!(string)(connections.length), "bruh"]);
     }
 
     private void shutdownConnections()
