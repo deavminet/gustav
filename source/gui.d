@@ -14,6 +14,7 @@ import std.stdio;
 import gtk.Statusbar;
 import gtk.Toolbar;
 import gtk.ToolButton;
+import gtk.ScrolledWindow;
 
 import Connection;
 import std.socket;
@@ -168,7 +169,8 @@ public class GUI : Thread
 
 
 
-        ToolButton channelListButton = new ToolButton("folder");
+        ToolButton channelListButton = new ToolButton("");
+        channelListButton.setIconName("emblem-documents");
         channelListButton.setTooltipText("List channels");
         channelListButton.addOnClicked(&listChannels);
         toolbar.add(channelListButton);
@@ -264,7 +266,7 @@ public class GUI : Thread
 
         /* Create the list of channels */
         ListBox channelsList = new ListBox();
-        win.add(channelsList);
+        win.add(new ScrolledWindow(channelsList));
 
         /* Get the current connection */
         Connection currentConnection = connections[notebook.getCurrentPage()];
@@ -278,7 +280,6 @@ public class GUI : Thread
             channelsList.add(new Label(channel));
             channelsList.showAll();
         }
-        // win.add()
 
         win.show();
     }
