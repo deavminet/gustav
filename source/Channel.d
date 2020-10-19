@@ -234,8 +234,12 @@ public final class Channel
 
     public void channelJoin(string username)
     {
+        /* The label to add */
+        Label joinLabel = new Label("--> "~username~" joined the channel");
+        joinLabel.setHalign(GtkAlign.START);
+
         /* Add join message to message log */
-        textArea.add(new Label("--> "~username~" joined the channel"));
+        textArea.add(joinLabel);
 
         /* Add user to user list */
         users.add(getUserLabel(username));
@@ -246,8 +250,12 @@ public final class Channel
 
     public void channelLeave(string username)
     {
+        /* The label to add */
+        Label leaveLabel = new Label("<-- "~username~" left the channel");
+        leaveLabel.setHalign(GtkAlign.START);
+
         /* Add leave message to message log */
-        textArea.add(new Label("<-- "~username~" left the channel"));
+        textArea.add(leaveLabel);
 
         /* TODO: Better way with just removing one dude */
         
@@ -276,6 +284,8 @@ public final class Channel
         /* TODO: Do this better */
         // foreach(Label label; users.get)
         // users.add(new Label(username));
+        // users.showAll();
+        // box.showAll();+
     }
 
     

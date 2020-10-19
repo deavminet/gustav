@@ -111,6 +111,7 @@ public final class Connection : Thread
             //gui.mainWindow.showAll();
 
             notebookSwitcher.showAll();
+            
 
             tl();
 
