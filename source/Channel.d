@@ -208,11 +208,14 @@ public final class Channel
 
         /* First one is prescence */
         string prescence = statusMessage[0];
+        
+        /* Netx is status message */
+        string status = statusMessage[1];
 
         d.setIconFromIconName(statusToGtkIcon(prescence), GtkIconSize.DIALOG);
 
         // d.setText();
-        d.setMarkup("<b>"~userHover~"</b>\n"~prescence);
+        d.setMarkup("<b>"~userHover~"</b>\n"~prescence~"\n<i>"~status~"</i>");
 
         // /* The notification box */
         // Box notificationBox = new Box(GtkOrientation.VERTICAL, 1);

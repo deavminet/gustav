@@ -187,7 +187,7 @@ public class GUI : Thread
         Connection currentConnection = connections[notebook.getCurrentPage()];
 
         /* Set the status */
-        currentConnection.getClient().setStatus(x.getLabel());
+        currentConnection.getClient().setStatus(x.getLabel()~",Hey there");
     }
 
     private MenuBar initializeMenuBar()

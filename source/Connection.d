@@ -28,6 +28,7 @@ public final class Connection : Thread
     private DClient client;
     private Address address;
     private string[] auth;
+    private string statusText;
 
     /* TODO: Check if we need to protect */
     /* TODO: So far usage is in signal handlers (mutex safved) and within te-tl lock for notifications */
@@ -42,6 +43,15 @@ public final class Connection : Thread
     private Mutex chansLock;
     private Channel focusedChan;
 
+
+    // public void setPrescence(string pres)
+    // {
+    //     /* The new status */
+    //     string newStatus = 
+    //     statusText = "";
+    //     statusText = 
+    // }
+
     this(GUI gui, Address address, string[] auth)
     {
         super(&worker);
@@ -51,6 +61,8 @@ public final class Connection : Thread
 
         /* Initialize locks */
         initializeLocks();
+
+        statusText = "Hey there, I'm using Dnet!";
 
         /* Start the notification atcher */
         start();
