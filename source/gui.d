@@ -305,8 +305,6 @@ public class GUI : Thread
 
         /* Join the channel on this connection */
         currentConnection.joinChannel(channelSelected);
-
-        
     }
 
 

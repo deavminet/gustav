@@ -242,9 +242,6 @@ public final class Connection : Thread
             newChannel.populateUsersList();
         }
 
-        /* Switch to the channel's pane */
-        //currentConnection.notebookSwitcher.setCurrentPage(foundChannel.getBox());
-
         /* Render recursively all children of the container and then the container itself */
         box.showAll();
     }
