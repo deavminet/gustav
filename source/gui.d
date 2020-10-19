@@ -288,14 +288,14 @@ public class GUI : Thread
         }
 
         /* TODO: Add handler for clicking label that lets you join the channel */
-        channelsList.addOnSelectedRowsChanged(&selectChannelNG);
+        channelsList.addOnSelectedRowsChanged(&selectChannel);
 
         win.showAll();
     }
 
     import gtk.ListBoxRow;
 
-    private void selectChannelNG(ListBox s)
+    private void selectChannel(ListBox s)
     {
         /* Get the current connection */
         Connection currentConnection = connections[notebook.getCurrentPage()];
@@ -303,50 +303,10 @@ public class GUI : Thread
         /* Get the name of the channel selected */
         string channelSelected = (cast(Label)(s.getSelectedRow().getChild())).getText();
 
-        /* Check if we have joined this channel already */
-        Channel foundChannel = currentConnection.findChannel(channelSelected);
+        /* Join the channel on this connection */
+        currentConnection.joinChannel(channelSelected);
 
-        /* If we have joined this channel before */
-        if(foundChannel)
-        {
-            /* TODO: Switch to */
-            writeln("nope time: "~channelSelected);
-
-            
-        }
-        /* If we haven't joined this channel before */
-        else
-        {
-            /* Join the channel */
-            currentConnection.getClient().join(channelSelected);
-
-            /* Create the Channel object */
-            Channel newChannel = new Channel(currentConnection.getClient(), channelSelected);
-
-            /* Add the channel */
-            currentConnection.addChannel(newChannel);
-
-            /* Set as the `foundChannel` */
-            foundChannel = newChannel;
-
-            /* Get the Widgets container for this channel and add a tab for it */
-            currentConnection.notebookSwitcher.add(newChannel.getBox());
-            currentConnection.notebookSwitcher.setTabReorderable(newChannel.getBox(), true);
-            currentConnection.notebookSwitcher.setTabLabelText(newChannel.getBox(), newChannel.getName());
-
-            writeln("hdsjghjsd");
-
-            writeln("first time: "~channelSelected);
-
-            /* Get the user's list */
-            newChannel.populateUsersList();
-        }
-
-        /* Switch to the channel's pane */
-        //currentConnection.notebookSwitcher.setCurrentPage(foundChannel.getBox());
-
-        /* Render recursively all children of the container and then the container itself */
-        currentConnection.box.showAll();
+        
     }
 
 

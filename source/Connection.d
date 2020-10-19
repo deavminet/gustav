@@ -201,7 +201,53 @@ public final class Connection : Thread
 	}
 
 
+    public void joinChannel(string channelName)
+    {
+        /* Check if we have joined this channel already */
+        Channel foundChannel = findChannel(channelName);
 
+        /* If we have joined this channel before */
+        if(foundChannel)
+        {
+            /* TODO: Switch to */
+            writeln("nope time: "~channelName);
+
+            
+        }
+        /* If we haven't joined this channel before */
+        else
+        {
+            /* Join the channel */
+            getClient().join(channelName);
+
+            /* Create the Channel object */
+            Channel newChannel = new Channel(client, channelName);
+
+            /* Add the channel */
+            addChannel(newChannel);
+
+            /* Set as the `foundChannel` */
+            foundChannel = newChannel;
+
+            /* Get the Widgets container for this channel and add a tab for it */
+            notebookSwitcher.add(newChannel.getBox());
+            notebookSwitcher.setTabReorderable(newChannel.getBox(), true);
+            notebookSwitcher.setTabLabelText(newChannel.getBox(), newChannel.getName());
+
+            writeln("hdsjghjsd");
+
+            writeln("first time: "~channelName);
+
+            /* Get the user's list */
+            newChannel.populateUsersList();
+        }
+
+        /* Switch to the channel's pane */
+        //currentConnection.notebookSwitcher.setCurrentPage(foundChannel.getBox());
+
+        /* Render recursively all children of the container and then the container itself */
+        box.showAll();
+    }
 
 
     private void channelList()
@@ -275,6 +321,12 @@ public final class Connection : Thread
         channels.add(new Label(newChannel.getName()));
     }
 
+    /**
+    * Called when you select a channel in the sidebar
+    *
+    * This moves you to the correct notebook tab for
+    * that channel
+    */
     private void viewChannel(ListBox s)
     {
         /* Get the name of the channel selected */
