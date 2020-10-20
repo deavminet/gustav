@@ -150,53 +150,12 @@ public final class Channel
         userLabel.setHasTooltip(true);
         
         /* Set the handler to run on hover */
-        userLabel.addOnQueryTooltip(&kak);
+        userLabel.addOnQueryTooltip(&userLabelHoverHandler);
 
         return userLabel;
     }
 
-    public void populateUsersList()
-    {
-        string[] memberList = client.getMembers(channelName);
-
-        foreach(string member; memberList)
-        {
-            Label bruh  = getUserLabel(member);
-            users.add(bruh);
-            usersString~=member;
-        }
-    }
-
-   
-
-
-    private static string statusToGtkIcon(string status)
-    {
-        /* The GTK icon */
-        string gtkIcon = "image-missing";
-
-        if(cmp(status, "available") == 0)
-        {
-            gtkIcon = "user-available";
-        }
-        else if(cmp(status, "away") == 0)
-        {
-            gtkIcon = "user-away";
-        }
-        else if(cmp(status, "busy") == 0)
-        {
-            gtkIcon = "user-busy";
-        }
-        /* TODO: This doesn't make sense */
-        else if(cmp(status, "offline") == 0)
-        {
-            gtkIcon = "user-offline";
-        }
-        
-        return gtkIcon;
-    }
-
-    private bool kak(int,int,bool, Tooltip d, Widget poes)
+    private bool userLabelHoverHandler(int,int,bool, Tooltip d, Widget poes)
     {
         import std.stdio;
         writeln("ttoltip activatd");
@@ -238,6 +197,47 @@ public final class Channel
         
         
         return 1;
+    }
+
+    public void populateUsersList()
+    {
+        string[] memberList = client.getMembers(channelName);
+
+        foreach(string member; memberList)
+        {
+            Label bruh  = getUserLabel(member);
+            users.add(bruh);
+            usersString~=member;
+        }
+    }
+
+   
+
+
+    private static string statusToGtkIcon(string status)
+    {
+        /* The GTK icon */
+        string gtkIcon = "image-missing";
+
+        if(cmp(status, "available") == 0)
+        {
+            gtkIcon = "user-available";
+        }
+        else if(cmp(status, "away") == 0)
+        {
+            gtkIcon = "user-away";
+        }
+        else if(cmp(status, "busy") == 0)
+        {
+            gtkIcon = "user-busy";
+        }
+        /* TODO: This doesn't make sense */
+        else if(cmp(status, "offline") == 0)
+        {
+            gtkIcon = "user-offline";
+        }
+        
+        return gtkIcon;
     }
 
     public void channelJoin(string username)
