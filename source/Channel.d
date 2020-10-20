@@ -170,10 +170,10 @@ public final class Channel
         string[] statusMessage = split(client.getMemberInfo(userHover), ",");
 
         /* First one is prescence */
-        string prescence = statusMessage[0];
+        string prescence = client.getProperty(userHover, "pres");//statusMessage[0];
         
         /* Netx is status message */
-        string status = statusMessage[1];
+        string status = client.getProperty(userHover, "status");//statusMessage[1];
 
         /* Set the icon */
         tooltip.setIconFromIconName(statusToGtkIcon(prescence), GtkIconSize.DIALOG);

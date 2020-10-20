@@ -241,6 +241,8 @@ public class GUI : Thread
 
         /* TODO: Add handler for clicking label that lets you join the channel */
         channelsList.addOnSelectedRowsChanged(&selectChannel);
+        //channelsList.add
+
 
         win.showAll();
     }
@@ -282,7 +284,9 @@ public class GUI : Thread
         Connection currentConnection = connections[notebook.getCurrentPage()];
 
         /* Set the status */
-        currentConnection.getClient().setStatus(x.getLabel()~",Hey there");
+        currentConnection.getClient().setStatus(x.getLabel()~",Hey there"); /* TODO: Remove */
+        currentConnection.getClient().setProperty("pres", x.getLabel());
+        currentConnection.getClient().setProperty("status", x.getLabel()~"is plikking");
     }
 
     private MenuBar initializeMenuBar()
