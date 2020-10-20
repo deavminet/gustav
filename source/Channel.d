@@ -116,7 +116,7 @@ public final class Channel
         string message = textInput.getBuffer().getText();
 
         /* TODO: Add the message to our log (as it won't be delivered to us) */
-        addMessage(message);
+        sendMessage(message);
 
         /* Send the message */
         client.sendMessage(0, channelName, message);
@@ -304,7 +304,24 @@ public final class Channel
 
     public void sendMessage(string message)
     {
+        /* TOOD: Pass in connection perhaps */
+        string username = "Yourself";
 
+        /* Create the MessageBox */
+        Box messageBox = new Box(GtkOrientation.VERTICAL, 1);
+
+        /* Create and add the username */
+        Label usernameLabel = new Label("");
+        usernameLabel.setMarkup("<b>"~username~"</b>");
+        usernameLabel.setHalign(GtkAlign.END);
+        messageBox.add(usernameLabel);
+
+        /* Create and add the message */
+        Label messageLabel = new Label(message);
+        messageLabel.setHalign(GtkAlign.END);
+        messageBox.add(messageLabel);
+
+        textArea.add(messageBox);
     }
 
     public void receiveMessage(string username, string message)
@@ -322,6 +339,11 @@ public final class Channel
         Label messageLabel = new Label(message);
         messageLabel.setHalign(GtkAlign.START);
         messageBox.add(messageLabel);
+
+        import gtk.Image;
+        Image d = new Image("/home/deavmi/Downloads/5207740.jpg");
+        messageBox.add(d);
+
 
         textArea.add(messageBox);
     }
