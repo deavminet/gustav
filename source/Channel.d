@@ -15,6 +15,10 @@ import libdnet.dclient;
 import gtk.Label;
 import std.string;
 import gtk.Button;
+import gtk.Tooltip;
+import gtk.Widget;
+import gtk.ScrolledWindow;
+import gtk.Button;
 
 public final class Channel
 {
@@ -74,7 +78,7 @@ public final class Channel
         Box textBox = new Box(GtkOrientation.VERTICAL, 1);
         textBox.add(new Label(channelName));
         textArea = new ListBox();
-        import gtk.ScrolledWindow;
+        
 
         ScrolledWindow scrollTextChats = new ScrolledWindow(textArea);
         textBox.add(scrollTextChats);
@@ -82,7 +86,7 @@ public final class Channel
         textInput = new TextView();
         Box textInputBox = new Box(GtkOrientation.HORIZONTAL, 1);
         textInputBox.packStart(textInput,1,1,0);
-        import gtk.Button;
+        
 
         /* The send button */
         Button sendButton = new Button("Send");
@@ -139,15 +143,16 @@ public final class Channel
     */
     private Label getUserLabel(string username)
     {
-        Label bruh = new Label(username);
-        bruh.setHasTooltip(true);
-        // import gtk.Window;
-        // Window k = new Window(GtkWindowType.POPUP);
-            
-        // bruh.setTooltipWindow(k);
-        bruh.addOnQueryTooltip(&kak);
+        /* Create a label */
+        Label userLabel = new Label(username);
 
-        return bruh;
+        /* Enable the tooltip */
+        userLabel.setHasTooltip(true);
+        
+        /* Set the handler to run on hover */
+        userLabel.addOnQueryTooltip(&kak);
+
+        return userLabel;
     }
 
     public void populateUsersList()
@@ -162,8 +167,7 @@ public final class Channel
         }
     }
 
-    import gtk.Tooltip;
-    import gtk.Widget;
+   
 
 
     private static string statusToGtkIcon(string status)
