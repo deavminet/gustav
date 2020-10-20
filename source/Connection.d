@@ -104,9 +104,6 @@ public final class Connection : Thread
         /* Set your prescense */
         client.setProperty("pres","available");
 
-        /* Display all channels */
-        //channelList();
-
         /**
         * Notification loop
         *
@@ -155,6 +152,26 @@ public final class Connection : Thread
 			/* TODO: Decode using tristanable */
 			writeln("new message");
             writeln(data);
+
+            /* Decode is a test for assuming channel message received */
+            data = data[1..data.length];
+    
+            /* Decode the [usernameLength, username] */
+		    ubyte usernameLength = data[1];
+            writeln(usernameLength);
+            string username = cast(string)data[2..2+usernameLength];
+            writeln(username);
+
+            /* Decode the [channelLength, channel] */
+		    ubyte channelLength = data[2+usernameLength];
+            writeln(channelLength);
+            string channel = cast(string)data[2+usernameLength+1..2+usernameLength+1+channelLength];
+            writeln(channel);
+        
+
+            findChannel(channel).receiveMessage(username, cast(string)data[2+usernameLength+1+channelLength..data.length]);
+
+            writeln("hdsfhdk");
 		}
 		/* Channel notification (ntype=1) */
 		else if(notificationType == 1)

@@ -302,7 +302,29 @@ public final class Channel
         // box.showAll();+
     }
 
-    
+    public void sendMessage(string message)
+    {
+
+    }
+
+    public void receiveMessage(string username, string message)
+    {
+        /* Create the MessageBox */
+        Box messageBox = new Box(GtkOrientation.VERTICAL, 1);
+
+        /* Create and add the username */
+        Label usernameLabel = new Label("");
+        usernameLabel.setMarkup("<b>"~username~"</b>");
+        usernameLabel.setHalign(GtkAlign.START);
+        messageBox.add(usernameLabel);
+
+        /* Create and add the message */
+        Label messageLabel = new Label(message);
+        messageLabel.setHalign(GtkAlign.START);
+        messageBox.add(messageLabel);
+
+        textArea.add(messageBox);
+    }
 
     public void addMessage(string s)
     {
