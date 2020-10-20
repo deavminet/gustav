@@ -180,7 +180,31 @@ public class GUI : Thread
         channelListButton.addOnClicked(&listChannels);
         toolbar.add(channelListButton);
 
+
+
+
+        import gtk.SearchEntry;
+        import gtk.Entry;
+        Entry d = new Entry();
+        d.addOnActivate(&setStatusMessage);
+        import gtk.ToolItem;
+        ToolItem k = new ToolItem();
+        k.add(d);
+        toolbar.add(k);
+
+
         return toolbar;
+    }
+
+    import gtk.Entry;
+    private void setStatusMessage(Entry f)
+    {
+        /* Get the current connection */
+        Connection currentConnection = connections[notebook.getCurrentPage()];
+
+        currentConnection.getClient().setProperty("status", f.getBuffer().getText());
+
+        //f.setInputHints(GtkInputHints.)
     }
 
     private void about(MenuItem)
@@ -286,7 +310,7 @@ public class GUI : Thread
         /* Set the status */
         currentConnection.getClient().setStatus(x.getLabel()~",Hey there"); /* TODO: Remove */
         currentConnection.getClient().setProperty("pres", x.getLabel());
-        currentConnection.getClient().setProperty("status", x.getLabel()~"is plikking");
+        //currentConnection.getClient().setProperty("status", "is plikking");
     }
 
     private MenuBar initializeMenuBar()
