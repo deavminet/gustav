@@ -15,6 +15,7 @@ import gtk.Statusbar;
 import gtk.Toolbar;
 import gtk.ToolButton;
 import gtk.ScrolledWindow;
+import gtk.SeparatorToolItem;
 
 import Connection;
 import Channel;
@@ -169,10 +170,8 @@ public class GUI : Thread
         setAway.addOnClicked(&setStatus);
         setBusy.addOnClicked(&setStatus);
 
-        import gtk.SeparatorToolItem;
+        /* Add a seperator */
         toolbar.add(new SeparatorToolItem());
-
-
 
         /* List channels button */
         ToolButton channelListButton = new ToolButton("");
@@ -180,53 +179,6 @@ public class GUI : Thread
         channelListButton.setTooltipText("List channels");
         channelListButton.addOnClicked(&listChannels);
         toolbar.add(channelListButton);
-
-        // import gtk.ComboBox;
-
-        // ComboBox d = new ComboBox();
-        // import gtk.Button;
-        // import gtk.Entry;
-
-
-        // import gtk.Switch;
-        // import gtk.ToolItem;
-        // ToolItem g = new ToolItem();
-        // g.add(new Switch());
-        // toolbar.add(g);
-        
-        // d.add(new Entry(new Label("1")));
-        // d.add(new Entry(new Label("2")));
-        // d.add(new Entry(new Label("3")));
-
-        // Entry jj;
-        // d.add(new Entry("available"));
-        // d.add(new Entry("away"));
-        // d.add(new Entry("busy"));
-        // import gtk.
-        
-        
-        // import gtk.ToolItem;
-        // ToolItem h =new ToolItem();
-        // h.add(d);
-        // toolbar.add(h);
-
-        
-        //toolbar.add(new ToolButton("user-available,""Available"));
-        // toolbar.add(new ToolButton("Away"));
-        // toolbar.add(new ToolButton("Busy"));
-        // toolbar.add(new Label("Away"));
-        // toolbar.add(new Label("Busy"));
-        // import gtk.ToolItem;
-        
-        // ToolItem toolItem = new ToolItem();
-        // toolItem.add(new Label("Available"));
-
-
-        // statusBox.add()
-
-        //toolbar.add(statusBox);
-
-      
 
         return toolbar;
     }
@@ -293,6 +245,24 @@ public class GUI : Thread
         win.showAll();
     }
 
+    /**
+    * Opens a new window for connecting to a server
+    */
+    private void connect(MenuItem)
+    {
+        import gtk.Window;
+
+        /* Create the window */
+        Window win = new Window(GtkWindowType.TOPLEVEL);
+
+        
+        //import gtk.Text
+
+        
+
+        win.showAll();
+    }
+
     private void selectChannel(ListBox s)
     {
         /* Get the current connection */
@@ -330,6 +300,14 @@ public class GUI : Thread
         connectItem.setLabel("Connect");
         connectItem.addOnActivate(&connectButton);
         gustavMenu.add(connectItem);
+
+        /* Connect v2 option */
+        MenuItem connectItem2 = new MenuItem();
+        connectItem2.setLabel("Connect");
+        connectItem2.addOnActivate(&connect);
+        gustavMenu.add(connectItem2);
+
+        
 
         /* Exit option */
         MenuItem exitItem = new MenuItem();
