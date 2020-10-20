@@ -164,7 +164,7 @@ public final class Channel
     private bool userLabelHoverHandler(int, int, bool, Tooltip tooltip, Widget userLabel)
     {
         /* The username hovered over */
-        string userHover = (cast(Label)poes).getText();
+        string userHover = (cast(Label)userLabel).getText();
 
         /* Fetch the status message */
         string[] statusMessage = split(client.getMemberInfo(userHover), ",");
