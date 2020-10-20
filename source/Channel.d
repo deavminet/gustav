@@ -155,7 +155,13 @@ public final class Channel
         return userLabel;
     }
 
-    private bool userLabelHoverHandler(int,int,bool, Tooltip tooltip, Widget poes)
+    /**
+    * Event handler to be run when you hover over a user's
+    * username in the Users sidebar list which will show
+    * the status as text (and in an icon format), the user's
+    * username and also their status message
+    */
+    private bool userLabelHoverHandler(int, int, bool, Tooltip tooltip, Widget userLabel)
     {
         /* The username hovered over */
         string userHover = (cast(Label)poes).getText();
