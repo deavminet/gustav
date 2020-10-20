@@ -187,6 +187,9 @@ public class GUI : Thread
         import gtk.Entry;
         Entry d = new Entry();
         d.addOnActivate(&setStatusMessage);
+        d.setPlaceholderText("I'm currently...");
+        // d.addOnLea
+        // d.addOnEnte
         import gtk.ToolItem;
         ToolItem k = new ToolItem();
         k.add(d);
@@ -197,14 +200,36 @@ public class GUI : Thread
     }
 
     import gtk.Entry;
+    import std.string;
     private void setStatusMessage(Entry f)
     {
         /* Get the current connection */
         Connection currentConnection = connections[notebook.getCurrentPage()];
 
-        currentConnection.getClient().setProperty("status", f.getBuffer().getText());
+        /* Get the input text (removing leading and trailing whitespace) */
+        string statusTextInput = f.getBuffer().getText();
+        statusTextInput = strip(statusTextInput);
+
+        /* Set the text box to the stripped version */
+        //f.getBuffer().setText(statusTextInput, cast(int)statusTextInput.length);
+
+        /* If the status text is empty */
+        if(cmp(statusTextInput, "") == 0)
+        {
+            /* Delete the status property */
+            currentConnection.getClient().deleteProperty("status");
+        }
+        /* If the status text is non empty */
+        else
+        {
+            /* Set the status */
+            currentConnection.getClient().setProperty("status", statusTextInput);
+        }
 
         //f.setInputHints(GtkInputHints.)
+
+        /* Defocus the currently focused widget which would always be me if you are hitting enter */
+        mainWindow.setFocus(null);
     }
 
     private void about(MenuItem)
