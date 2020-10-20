@@ -292,6 +292,10 @@ public final class Connection : Thread
             }
         }
 
+        import std.stdio;
+        writeln("\""~channelName~"\"");
+
+
         chansLock.unlock();
 
         return result;
@@ -315,7 +319,11 @@ public final class Connection : Thread
         chansLock.unlock();
 
         /* Add the channel to the channels list (sidebar) */
-        channels.add(new Label(newChannel.getName()));
+        writeln("Adding channel "~newChannel.getName());
+        Label babaBooey = new Label(newChannel.getName()); /* TODO: Fuck Pango, fix here but yeah _ */
+        babaBooey.setUseMarkup(false);
+        babaBooey.setText(newChannel.getName());
+        channels.add(babaBooey);
     }
 
     /**
@@ -331,6 +339,7 @@ public final class Connection : Thread
 
         /* Check if we have joined this channel already */
         Channel foundChannel = findChannel(channelSelected);
+        writeln(foundChannel is null);
 
         /* Switch to the channel's pane */
         notebookSwitcher.setCurrentPage(foundChannel.getBox());

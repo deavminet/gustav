@@ -305,7 +305,7 @@ public class GUI : Thread
 
         /* Add this then a button */
         containerMain.add(channelBox);
-        containerMain.add(joinButton);
+        containerMain.packEnd(joinButton,1,0,0);
 
         
         
@@ -345,6 +345,7 @@ public class GUI : Thread
         {
             // channelsList.add(new Label(channel));
             channelsList.add(channelItemList(currentConnection, channel));
+            writeln("bruh: "~channel);
             channelsList.showAll();
         }
 

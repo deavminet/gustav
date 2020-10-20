@@ -129,6 +129,9 @@ public final class Channel
 
     public Box getBox()
     {
+        import std.stdio;
+        writeln("boz");
+        writeln("yolo: "~channelName);
         return box;
     }
 
