@@ -151,6 +151,7 @@ public final class Connection : Thread
 		{
 			/* TODO: Decode using tristanable */
 			writeln("new message");
+            writeln(data);
 		}
 		/* Channel notification (ntype=1) */
 		else if(notificationType == 1)
