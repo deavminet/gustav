@@ -155,19 +155,13 @@ public final class Channel
         return userLabel;
     }
 
-    private bool userLabelHoverHandler(int,int,bool, Tooltip d, Widget poes)
+    private bool userLabelHoverHandler(int,int,bool, Tooltip tooltip, Widget poes)
     {
-        import std.stdio;
-        writeln("ttoltip activatd");
-
-        
-
         /* The username hovered over */
         string userHover = (cast(Label)poes).getText();
 
         /* Fetch the status message */
         string[] statusMessage = split(client.getMemberInfo(userHover), ",");
-        writeln(statusMessage);
 
         /* First one is prescence */
         string prescence = statusMessage[0];
@@ -175,27 +169,13 @@ public final class Channel
         /* Netx is status message */
         string status = statusMessage[1];
 
-        d.setIconFromIconName(statusToGtkIcon(prescence), GtkIconSize.DIALOG);
+        /* Set the icon */
+        tooltip.setIconFromIconName(statusToGtkIcon(prescence), GtkIconSize.DIALOG);
 
-        // d.setText();
-        d.setMarkup("<b>"~userHover~"</b>\n"~prescence~"\n<i>"~status~"</i>");
+        /* Set the text */
+        tooltip.setMarkup("<b>"~userHover~"</b>\n"~prescence~"\n<i>"~status~"</i>");
 
-        // /* The notification box */
-        // Box notificationBox = new Box(GtkOrientation.VERTICAL, 1);
-
-        // Label title = new Label((cast(Label)poes).getText());
-        // Label status = new Label("status goes here");
-
-        // notificationBox.add(title);
-        // notificationBox.add(status);
-        
-        // import gtk.Style;
-        // // title.setStyle(new Style());
-
-        // d.setCustom(notificationBox);
-
-        
-        
+        /* TODO: Point of return value? */        
         return 1;
     }
 
