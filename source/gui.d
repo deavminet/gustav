@@ -258,6 +258,65 @@ public class GUI : Thread
         about.showAll();
     }
 
+    import gtk.Button;
+
+    /**
+    * Returns a Box which contains channel list item
+    */
+
+    private class JoinButton : Button
+    {
+        private string channelName;
+        this(string channelName)
+        {
+            this.channelName = channelName;
+        }
+        public string getChannelName()
+        {
+            return channelName;
+        }
+    }
+    private Box channelItemList(Connection currentConnection, string channelName)
+    {
+        /* Create the main container */
+        Box containerMain = new Box(GtkOrientation.HORIZONTAL, 1);
+
+
+
+        /* Add the channel label */
+        Label channelLabel = new Label("");
+        channelLabel.setMarkup("<b>"~channelName~"</b>");
+
+        /* Add the member count */
+        ulong memberCount = currentConnection.getClient().getMemberCount(channelName);
+        Label memberCountLabel = new Label("");
+        memberCountLabel.setText(to!(string)(memberCount)~" members");
+
+        /* Create the channel box */
+        Box channelBox = new Box(GtkOrientation.VERTICAL, 1);
+        channelBox.add(channelLabel);
+        channelBox.add(memberCountLabel);
+
+        /* Join button */
+        JoinButton joinButton = new JoinButton(channelName);
+        joinButton.setLabel("Join");
+        
+
+
+        /* Add this then a button */
+        containerMain.add(channelBox);
+        containerMain.add(joinButton);
+
+        
+        
+        joinButton.addOnClicked(&selectChannel);
+
+        
+
+
+        return containerMain;
+    }
+
 
     /**
     * List channels
@@ -284,12 +343,13 @@ public class GUI : Thread
         /* Add each channel */
         foreach(string channel; channels)
         {
-            channelsList.add(new Label(channel));
+            // channelsList.add(new Label(channel));
+            channelsList.add(channelItemList(currentConnection, channel));
             channelsList.showAll();
         }
 
         /* TODO: Add handler for clicking label that lets you join the channel */
-        channelsList.addOnSelectedRowsChanged(&selectChannel);
+        // channelsList.addOnSelectedRowsChanged(&selectChannel);
         //channelsList.add
 
 
@@ -314,13 +374,13 @@ public class GUI : Thread
         win.showAll();
     }
 
-    private void selectChannel(ListBox s)
+    private void selectChannel(Button s)
     {
         /* Get the current connection */
         Connection currentConnection = connections[notebook.getCurrentPage()];
 
         /* Get the name of the channel selected */
-        string channelSelected = (cast(Label)(s.getSelectedRow().getChild())).getText();
+        string channelSelected = (cast(JoinButton)s).getChannelName(); //(cast(Label)(s.getSelectedRow().getChild())).getText();
 
         /* Join the channel on this connection */
         currentConnection.joinChannel(channelSelected);
