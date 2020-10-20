@@ -285,11 +285,13 @@ public class GUI : Thread
 
         /* Add the channel label */
         Label channelLabel = new Label("");
+        channelLabel.setHalign(GtkAlign.START);
         channelLabel.setMarkup("<b>"~channelName~"</b>");
 
         /* Add the member count */
         ulong memberCount = currentConnection.getClient().getMemberCount(channelName);
         Label memberCountLabel = new Label("");
+        memberCountLabel.setHalign(GtkAlign.START);
         memberCountLabel.setText(to!(string)(memberCount)~" members");
 
         /* Create the channel box */
@@ -305,7 +307,7 @@ public class GUI : Thread
 
         /* Add this then a button */
         containerMain.add(channelBox);
-        containerMain.packEnd(joinButton,1,0,0);
+        containerMain.packEnd(joinButton,0,0,0);
 
         
         
