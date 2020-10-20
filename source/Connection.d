@@ -101,6 +101,9 @@ public final class Connection : Thread
         client = new DClient(address);
         client.auth(auth[0], auth[1]); /* TODO: DO this without auth (the list in the loop, crahses server) */
 
+        /* Set your prescense */
+        client.setProperty("pres","available");
+
         /* Display all channels */
         //channelList();
 

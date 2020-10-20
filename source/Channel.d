@@ -169,20 +169,34 @@ public final class Channel
         /* The username hovered over */
         string userHover = (cast(Label)userLabel).getText();
 
-        /* Fetch the status message */
-        string[] statusMessage = split(client.getMemberInfo(userHover), ",");
+        /* The final tooltip */
+        string toolTipText = "<b>"~userHover~"</b>";
 
-        /* First one is prescence */
-        string prescence = client.getProperty(userHover, "pres");//statusMessage[0];
-        
-        /* Netx is status message */
-        string status = client.getProperty(userHover, "status");//statusMessage[1];
+        /* Check if there is a `precensce` message */
+        if(client.isProperty(userHover, "pres"))
+        {
+            /* Fetch the precensce */
+            string prescence = client.getProperty(userHover, "pres");
 
-        /* Set the icon */
-        tooltip.setIconFromIconName(statusToGtkIcon(prescence), GtkIconSize.DIALOG);
+            /* Set the icon */
+            tooltip.setIconFromIconName(statusToGtkIcon(prescence), GtkIconSize.DIALOG);
 
-        /* Set the text */
-        tooltip.setMarkup("<b>"~userHover~"</b>\n"~prescence~"\n<i>"~status~"</i>");
+            /* Append the precesnee to the tooltip text */
+            toolTipText ~= "\n"~prescence;
+        }
+
+        /* Check if there is a `status` message */
+        if(client.isProperty(userHover, "status"))
+        {
+            /* Next is status message */
+            string status = client.getProperty(userHover, "status");
+
+            /* Append the status to the tooltip text */
+            toolTipText ~= "\n<i>"~status~"</i>";
+        }
+
+        /* Set the tooltip text */
+        tooltip.setMarkup(toolTipText);
 
         /* TODO: Point of return value? */        
         return 1;
