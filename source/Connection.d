@@ -104,6 +104,13 @@ public final class Connection : Thread
         /* Set your prescense */
         client.setProperty("pres","available");
 
+
+
+        // te();
+        // import ProfileWIndow;
+        // ProfileWindow profile = new ProfileWindow(this, auth[0]);
+        // tl();
+
         /**
         * Notification loop
         *
