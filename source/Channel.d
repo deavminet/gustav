@@ -19,6 +19,7 @@ import gtk.Tooltip;
 import gtk.Widget;
 import gtk.ScrolledWindow;
 import gtk.Button;
+import gtk.Entry;
 
 public final class Channel
 {
@@ -43,7 +44,7 @@ public final class Channel
     */
     private ListBox users;
     private ListBox textArea;
-    private TextView textInput;
+    private Entry textInput;
 
     /* TODO: No mutexes should be needed (same precaution) as the GTK lock provides safety */
     private string[] usersString;
@@ -83,7 +84,10 @@ public final class Channel
         ScrolledWindow scrollTextChats = new ScrolledWindow(textArea);
         textBox.add(scrollTextChats);
         
-        textInput = new TextView();
+        import gtk.Entry;
+        textInput = new Entry();
+        textInput.addOnActivate(&sendMessageEnter);
+
         Box textInputBox = new Box(GtkOrientation.HORIZONTAL, 1);
         textInputBox.packStart(textInput,1,1,0);
         
@@ -110,6 +114,23 @@ public final class Channel
 
     }
 
+    private void sendMessageEnter(Entry)
+    {
+        /* Retrieve the message */
+        string message = textInput.getBuffer().getText();
+
+        /* TODO: Add the message to our log (as it won't be delivered to us) */
+        sendMessage(message);
+
+        /* Send the message */
+        client.sendMessage(0, channelName, message);
+
+        /* Clear the text box */
+        textInput.getBuffer().setText("",0);
+
+        box.showAll();
+    }
+
     private void sendMessageBtn(Button)
     {
         /* Retrieve the message */
@@ -122,7 +143,7 @@ public final class Channel
         client.sendMessage(0, channelName, message);
 
         /* Clear the text box */
-        textInput.getBuffer().setText("");
+        textInput.getBuffer().setText("",0);
 
         box.showAll();
     }
