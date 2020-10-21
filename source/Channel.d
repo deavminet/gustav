@@ -129,9 +129,6 @@ public final class Channel
 
     public Box getBox()
     {
-        import std.stdio;
-        writeln("boz");
-        writeln("yolo: "~channelName);
         return box;
     }
 
@@ -321,6 +318,7 @@ public final class Channel
         messageLabel.setHalign(GtkAlign.END);
         messageBox.add(messageLabel);
 
+        /* Add the message to the log */
         textArea.add(messageBox);
     }
 
@@ -340,16 +338,11 @@ public final class Channel
         messageLabel.setHalign(GtkAlign.START);
         messageBox.add(messageLabel);
 
-        import gtk.Image;
-        Image d = new Image("/home/deavmi/Downloads/5207740.jpg");
-        messageBox.add(d);
+        // import gtk.Image;
+        // Image d = new Image("/home/deavmi/Downloads/5207740.jpg");
+        // messageBox.add(d);
 
-
+        /* Add the message to the log */
         textArea.add(messageBox);
-    }
-
-    public void addMessage(string s)
-    {
-        textArea.add(new Label(s));
     }
 }
