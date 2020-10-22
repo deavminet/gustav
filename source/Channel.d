@@ -77,7 +77,11 @@ public final class Channel
         
         /* The text box */
         Box textBox = new Box(GtkOrientation.VERTICAL, 1);
-        textBox.add(new Label(channelName));
+
+        /* Channel title */
+        Label channelTitleLabel = new Label(channelName);
+        channelTitleLabel.setMarkup("<span size=\"large\"><b>"~channelName~"</b></span>");
+        textBox.add(channelTitleLabel);
         textArea = new ListBox();
         
 
@@ -282,9 +286,10 @@ public final class Channel
     {
         /* The label to add */
         /* TODO: Bababooey these `-->` being parsed as HTML for Pango */
-        Label leaveLabel = new Label("<-- <i>"~username~" left the channel</i>");
+        Label leaveLabel = new Label("\\<-- <i>"~username~" left the channel</i>");
         leaveLabel.setHalign(GtkAlign.START);
         leaveLabel.setUseMarkup(true);
+        // /leaveLabel.
 
         /* Add leave message to message log */
         textArea.add(leaveLabel);
