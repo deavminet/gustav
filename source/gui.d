@@ -105,11 +105,29 @@ public class GUI : Thread
         tagline.setMarkup("<span size=\"30000\">GTK+ graphical DNET client</span>");
         welcomeBox.add(tagline);
 
-        Label server = new Label("<a href=\"\">fok</a>");
-        server.setMarkup("<a href=\"\">Find some servers</a>");
-        welcomeBox.add(server);
+        Label findServersLabel = new Label("<a href=\"\">fok</a>");
+        findServersLabel.setMarkup("<a href=\"\">Find some servers</a>");
+        welcomeBox.add(findServersLabel);
+
+        Label configureConnectionsLabel = new Label("<a href=\"\">Configure connections</a>");
+        configureConnectionsLabel.setMarkup("<a href=\"\">Configure connections</a>");
+        welcomeBox.add(configureConnectionsLabel);
+
+        Label connectGenesisLabel = new Label("<a href=\"\">Connect to the genesis server</a>");
+        connectGenesisLabel.setMarkup("<span size=\"12000\"> <a href=\"\">Connect to the genesis server</a></span>");
+        connectGenesisLabel.addOnActivateLink(&welcomeGenesisLabelClick);
+        welcomeBox.add(connectGenesisLabel);
+
+        
 
         return welcomeBox;
+    }
+
+    private bool welcomeGenesisLabelClick(string, Label)
+    {
+        connectServer("0.0.0.0", 7777);
+
+        return 1;
     }
 
     /**
