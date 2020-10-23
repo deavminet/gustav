@@ -31,9 +31,17 @@ public class GUI : Thread
     public MainWindow mainWindow;
     private MenuBar menuBar;
     private Toolbar toolbar;
+
+    private Box box;
+    private Box welcomeBox;
+
     public Notebook notebook;
 
+
+
     private Statusbar statusBar;
+
+
 
 
     private Connection[] connections;
@@ -50,7 +58,7 @@ public class GUI : Thread
     {
         initializeGUI();
         te();
-
+        
         tl();
         writeln("brg");
         while(true)
@@ -62,16 +70,16 @@ public class GUI : Thread
     private void initializeGUI()
     {
         initializeMainWindow();
+    }
 
-        /* Test adding a connection */
-        for(uint i = 0; i < 5; i++)
-        {
-            // connections ~= new Connection(this, parseAddress("0.0.0.0", 7777));
-        }
 
-        //connections ~= new Connection(this, parseAddress("0.0.0.0", 7777), ["testGustav"~to!(string)(connections.length), "bruh"]);
-        
-        
+    private Box getWelcomeBox()
+    {
+        Box welcomeBox = new Box(GtkOrientation.VERTICAL, 1);
+
+        welcomeBox.add(new Label("Welcome box label"));
+
+        return welcomeBox;
     }
 
     /**
@@ -94,7 +102,7 @@ public class GUI : Thread
         * |component 1|
         * |component 2|
         */
-        Box box = new Box(GtkOrientation.VERTICAL, 1);
+        box = new Box(GtkOrientation.VERTICAL, 1);
 
         /**
         * Add needed components
@@ -107,9 +115,10 @@ public class GUI : Thread
         toolbar = getToolbar();
         box.add(toolbar);
 
-        notebook = new Notebook();
-        notebook.setScrollable(true);
-        box.add(notebook);
+        welcomeBox =getWelcomeBox();
+        box.add(welcomeBox);
+        
+        
         
         statusBar = new Statusbar();
         statusBar.add(new Label("Gustav: Bruh"));
@@ -120,7 +129,7 @@ public class GUI : Thread
         
 
 
-        box.setChildPacking(notebook, true, true, 0, GtkPackType.START);
+        
         box.packEnd(statusBar, 0, 0, 0);
         //notebook.add(createServerTab());
         
@@ -490,6 +499,20 @@ public class GUI : Thread
 
     private void connectButton(MenuItem)
     {
+        /* TODO: Remove the placeholder */
+        if(!notebook)
+        {
+            notebook = new Notebook();
+            notebook.setScrollable(true);
+            box.add(notebook);
+            box.setChildPacking(notebook, true, true, 0, GtkPackType.START);
+            box.remove(welcomeBox);
+            box.showAll();
+        }
+       
+        
+
+        /* Create the new Connection */
        connections ~= new Connection(this, parseAddress("0.0.0.0", 7777), ["testGustav"~to!(string)(connections.length), "bruh"]);
     }
 
