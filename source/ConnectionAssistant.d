@@ -87,13 +87,21 @@ public final class ConnectionAssistant : Assistant
         connectionAssistant.setPageType(summaryBox, GtkAssistantPageType.SUMMARY);
         
 
+        connectionAssistant.addOnClose(&assistentComplete);
+        connectionAssistant.addOnCancel(&assistenctCancel);
+
         connectionAssistant.showAll();
 
 
-        connectionAssistant.addOnClose(&assistentComplete);
+        
     }
 
-    private void assistentComplete(Assistant e)
+    private void assistenctCancel(Assistant e)
+    {
+        /* TODO: Implement me */
+    }
+
+    private void assistentComplete(Assistant)
     {
         /* Get the server details */
         string serverAddress = serverAddress.getBuffer().getText();
