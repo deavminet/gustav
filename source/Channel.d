@@ -182,6 +182,15 @@ public final class Channel
         return userLabel;
     }
 
+
+    // private bool userLabelPopup(Widget)
+    // {
+    //     import std.stdio;
+    //     writeln("NOWNOWNOWNOWNOW");
+
+    //     return true;
+    // }
+
     /**
     * Event handler to be run when you hover over a user's
     * username in the Users sidebar list which will show

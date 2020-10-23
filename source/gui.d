@@ -16,6 +16,8 @@ import gtk.Toolbar;
 import gtk.ToolButton;
 import gtk.ScrolledWindow;
 import gtk.SeparatorToolItem;
+import gtk.ToolItem;
+import gtk.SearchEntry;
 
 import Connection;
 import Channel;
@@ -134,16 +136,11 @@ public class GUI : Thread
 
     private Toolbar getToolbar()
     {
+        /* Create a new Toolbar */
         Toolbar toolbar = new Toolbar();
 
         /* Status selector dropdown */
-        import gtk.ComboBox;
-        import gtk.ToolButton;
-
-        // Menu menu = new Menu();
-        // menu.add(new MenuItem(""));
-        ComboBox statusBox = new ComboBox();
-        statusBox.setTitle("Status");
+        /* TODO */
 
 
         /* Set available button */
@@ -170,8 +167,19 @@ public class GUI : Thread
         setAway.addOnClicked(&setStatus);
         setBusy.addOnClicked(&setStatus);
 
+
+        /* The status box */
+        Entry statusBox = new Entry();
+        statusBox.addOnActivate(&setStatusMessage);
+        statusBox.setPlaceholderText("I'm currently...");
+        ToolItem statusBoxItem = new ToolItem();
+        statusBoxItem.add(statusBox);
+        toolbar.add(statusBoxItem);
+
+
         /* Add a seperator */
         toolbar.add(new SeparatorToolItem());
+
 
         /* List channels button */
         ToolButton channelListButton = new ToolButton("");
@@ -181,19 +189,21 @@ public class GUI : Thread
         toolbar.add(channelListButton);
 
 
+        
 
 
-        import gtk.SearchEntry;
-        import gtk.Entry;
-        Entry d = new Entry();
-        d.addOnActivate(&setStatusMessage);
-        d.setPlaceholderText("I'm currently...");
-        // d.addOnLea
-        // d.addOnEnte
-        import gtk.ToolItem;
-        ToolItem k = new ToolItem();
-        k.add(d);
-        toolbar.add(k);
+        SearchEntry dd = new SearchEntry();
+        ToolItem j = new ToolItem();
+        j.add(dd);
+        toolbar.add(j);
+        
+
+
+
+
+        
+        
+       
 
 
         return toolbar;
