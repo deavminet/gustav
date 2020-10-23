@@ -496,11 +496,7 @@ public class GUI : Thread
             Connection currentConnection = connections[notebook.getCurrentPage()];
 
             /* Set the status */
-            currentConnection.getClient().setProperty("pres", x.getLabel());
-            //currentConnection.getClient().setProperty("status", "is plikking");
-
-
-            
+            currentConnection.getClient().setProperty("pres", x.getLabel()); 
         }
         /* If there are no connections */
         else
