@@ -113,6 +113,10 @@ public class GUI : Thread
         
         statusBar = new Statusbar();
         statusBar.add(new Label("Gustav: Bruh"));
+        // import gtk.IconView;
+        // IconView j = new IconView();
+        // j.set
+        // statusBar.add(d);
         
 
 
