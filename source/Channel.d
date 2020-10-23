@@ -270,10 +270,12 @@ public final class Channel
     public void channelJoin(string username)
     {
         /* The label to add */
-        /* TODO: Bababooey these `-->` being parsed as HTML for Pango */
-        Label joinLabel = new Label("--> <i>"~username~" joined the channel</i>");
+        Label joinLabel = new Label("--> "~username~" joined the channel");
         joinLabel.setHalign(GtkAlign.START);
-        joinLabel.setUseMarkup(true);
+        PgAttributeList joinLabelAttrs = new PgAttributeList();
+        PgAttribute joinLabelAttr = PgAttribute.styleNew(PangoStyle.ITALIC);
+        joinLabelAttrs.insert(joinLabelAttr);
+        joinLabel.setAttributes(joinLabelAttrs);
 
         /* Add join message to message log */
         textArea.add(joinLabel);
