@@ -58,6 +58,8 @@ public class GUI : Thread
     private void worker()
     {
         initializeGUI();
+
+
         te();
         
         tl();
@@ -387,6 +389,8 @@ public class GUI : Thread
 
         
 
+
+        containerMain.setTooltipMarkup("<b>"~channelName~"</b>\n"~to!(string)(memberCount)~" members");
 
         return containerMain;
     }
