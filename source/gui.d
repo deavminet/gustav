@@ -113,6 +113,7 @@ public class GUI : Thread
 
         Label configureConnectionsLabel = new Label("<a href=\"\">Configure connections</a>");
         configureConnectionsLabel.setMarkup("<a href=\"\">Configure connections</a>");
+        configureConnectionsLabel.addOnActivateLink(&conifgureConnectionsAssistant);
         welcomeBox.add(configureConnectionsLabel);
 
         Label connectGenesisLabel = new Label("<a href=\"\">Connect to the genesis server</a>");
@@ -466,16 +467,51 @@ public class GUI : Thread
         currentConnection.joinChannel(channelSelected);
     }
 
+    private bool conifgureConnectionsAssistant(string, Label)
+    {
+        setupConnection();
+        return 0;
+    }
+
+
+    private void setupConnection()
+    {
+        import gtk.Assistant;
+        Assistant connectionAssistant = new Assistant();
+
+        Label hello = new Label("");
+        hello.setMarkup("<span size=\"15000\">Welcome to the connection setup</span>");
+        connectionAssistant.insertPage(hello, 0);
+
+        connectionAssistant.showAll();
+    }
+
 
     private void setStatus(ToolButton x)
     {
-        /* Get the current connection */
-        Connection currentConnection = connections[notebook.getCurrentPage()];
+        /* If there are any available connections */
+        if(connections.length)
+        {
+            /* Get the current connection */
+            Connection currentConnection = connections[notebook.getCurrentPage()];
 
-        /* Set the status */
-        currentConnection.getClient().setStatus(x.getLabel()~",Hey there"); /* TODO: Remove */
-        currentConnection.getClient().setProperty("pres", x.getLabel());
-        //currentConnection.getClient().setProperty("status", "is plikking");
+            /* Set the status */
+            currentConnection.getClient().setStatus(x.getLabel()~",Hey there"); /* TODO: Remove */
+            currentConnection.getClient().setProperty("pres", x.getLabel());
+            //currentConnection.getClient().setProperty("status", "is plikking");
+
+
+            
+        }
+        /* If there are no connections */
+        else
+        {
+            import gtk.MessageDialog;
+            MessageDialog errorDialog = new MessageDialog(mainWindow, GtkDialogFlags.MODAL, GtkMessageType.ERROR, GtkButtonsType.CLOSE, false, "Cannot list channels\n\nYou are not connected to a server");
+            errorDialog.setIconName("user-available");
+            // errorDialog.set
+            errorDialog.run();
+        }
     }
 
     private MenuBar initializeMenuBar()
@@ -582,7 +618,12 @@ public class GUI : Thread
         }
        
         /* Create the new Connection */
-        connections ~= new Connection(this, parseAddress(address, port), ["testGustav"~to!(string)(connections.length), "bruh"]);
+        Connection newConnection = new Connection(this, parseAddress(address, port), ["testGustav"~to!(string)(connections.length), "bruh"]);
+        connections ~= newConnection;
+
+        // import UserDirectory;
+        // UserDirectory d = new UserDirectory(newConnection);
+
     }
 
     private void shutdownConnections()
