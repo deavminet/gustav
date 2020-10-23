@@ -532,6 +532,9 @@ public class GUI : Thread
     /**
     * Connects to the provided server,
     * add the tab as well
+    *
+    * NOTE: To be called only by a GTK signal
+    * handler
     */
     private void connectServer(string address, ushort port)
     {
