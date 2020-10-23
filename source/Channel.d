@@ -347,6 +347,7 @@ public final class Channel
         /* Create and add the message */
         Label messageLabel = new Label(message);
         messageLabel.setHalign(GtkAlign.END);
+        messageLabel.setSelectable(true);
         messageBox.add(messageLabel);
 
         /* Add the message to the log */
@@ -367,6 +368,7 @@ public final class Channel
         /* Create and add the message */
         Label messageLabel = new Label(message);
         messageLabel.setHalign(GtkAlign.START);
+        messageLabel.setSelectable(true);
         messageBox.add(messageLabel);
 
         // import gtk.Image;
