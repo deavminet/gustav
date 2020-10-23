@@ -21,6 +21,9 @@ import gtk.ScrolledWindow;
 import gtk.Button;
 import gtk.Entry;
 
+import pango.PgAttributeList;
+import pango.PgAttribute;
+
 public final class Channel
 {
     private DClient client;
@@ -82,16 +85,15 @@ public final class Channel
         Label channelTitleLabel = new Label(channelName);
         channelTitleLabel.setMarkup("<span size=\"large\"><b>"~channelName~"</b></span>");
         textBox.add(channelTitleLabel);
-        textArea = new ListBox();
-        
 
+        /* The messages box */
+        textArea = new ListBox();
         ScrolledWindow scrollTextChats = new ScrolledWindow(textArea);
         textBox.add(scrollTextChats);
         
-        import gtk.Entry;
+        /* The text input */
         textInput = new Entry();
         textInput.addOnActivate(&sendMessageEnter);
-
         Box textInputBox = new Box(GtkOrientation.HORIZONTAL, 1);
         textInputBox.packStart(textInput,1,1,0);
         
@@ -285,11 +287,12 @@ public final class Channel
     public void channelLeave(string username)
     {
         /* The label to add */
-        /* TODO: Bababooey these `-->` being parsed as HTML for Pango */
-        Label leaveLabel = new Label("\\<-- <i>"~username~" left the channel</i>");
+        Label leaveLabel = new Label("<-- "~username~" left the channel");
         leaveLabel.setHalign(GtkAlign.START);
-        leaveLabel.setUseMarkup(true);
-        // /leaveLabel.
+        PgAttributeList leaveLabelAttrs = new PgAttributeList();
+        PgAttribute leaveLabelAttr = PgAttribute.styleNew(PangoStyle.ITALIC);
+        leaveLabelAttrs.insert(leaveLabelAttr);
+        leaveLabel.setAttributes(leaveLabelAttrs);
 
         /* Add leave message to message log */
         textArea.add(leaveLabel);
