@@ -69,7 +69,7 @@ public class GUI : Thread
             // connections ~= new Connection(this, parseAddress("0.0.0.0", 7777));
         }
 
-        connections ~= new Connection(this, parseAddress("0.0.0.0", 7777), ["testGustav"~to!(string)(connections.length), "bruh"]);
+        //connections ~= new Connection(this, parseAddress("0.0.0.0", 7777), ["testGustav"~to!(string)(connections.length), "bruh"]);
         
         
     }
