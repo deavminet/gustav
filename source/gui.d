@@ -97,13 +97,17 @@ public class GUI : Thread
 
         /* Create the welcome text */
         Label title = new Label("<span size=\"100\">Gustav</span>");
-        title.setMarkup("<span size=\"50000\">Gustav</span>");
+        title.setMarkup("<span font_desc=\"Open Sans Extrabold\" size=\"50000\">Gustav</span>");
         welcomeBox.add(title);
 
         /* Create the welcome tagline */
         Label tagline = new Label("<span size=\"100\">Gustav</span>");
         tagline.setMarkup("<span size=\"30000\">GTK+ graphical DNET client</span>");
         welcomeBox.add(tagline);
+
+        Label server = new Label("<a href=\"\">fok</a>");
+        server.setMarkup("<a href=\"\">Find some servers</a>");
+        welcomeBox.add(server);
 
         return welcomeBox;
     }
