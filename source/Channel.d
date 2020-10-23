@@ -183,6 +183,21 @@ public final class Channel
     }
 
 
+    private Box getUserListItem(string username)
+    {
+        /* This is an item for a username in this Channel's user list */
+        Box box = new Box(GtkOrientation.HORIZONTAL, 1);
+
+
+        import gtk.IconView;
+        IconView icon = new IconView();
+        import gtk.StatusIcon;
+        StatusIcon d = new StatusIcon("user-available");
+
+        return box;
+    }
+
+
     // private bool userLabelPopup(Widget)
     // {
     //     import std.stdio;
