@@ -482,6 +482,42 @@ public class GUI : Thread
         Label hello = new Label("");
         hello.setMarkup("<span size=\"15000\">Welcome to the connection setup</span>");
         connectionAssistant.insertPage(hello, 0);
+        connectionAssistant.setPageTitle(hello, "Welcome");
+
+        /* Configure a server */
+        Box serverBox = new Box(GtkOrientation.VERTICAL, 1);
+        Label serverBoxTitle = new Label("");
+        serverBoxTitle.setMarkup("<span size=\"15000\">Server details</span>");
+        serverBox.packStart(serverBoxTitle,0,0,30);
+        Entry serverAddress = new Entry();
+        serverBox.add(serverAddress);
+        serverAddress.setPlaceholderText("DNET server address");
+        Entry serverPort = new Entry();
+        serverBox.add(serverPort);
+        serverPort.setPlaceholderText("DNET server port");
+        
+        
+        connectionAssistant.insertPage(serverBox, 1);
+        connectionAssistant.setPageTitle(serverBox, "Network");
+
+        /* Configure your profile details */
+        Box profileBox = new Box(GtkOrientation.VERTICAL, 1);
+        Label profileBoxTitle = new Label("");
+        profileBoxTitle.setMarkup("<span size=\"15000\">Account details</span>");
+        profileBox.packStart(profileBoxTitle,0,0,30);
+        Entry username = new Entry();
+        profileBox.add(username);
+        username.setPlaceholderText("username");
+        Entry password = new Entry();
+        profileBox.add(password);
+        password.setPlaceholderText("password");
+
+        connectionAssistant.insertPage(profileBox, 2);
+        connectionAssistant.setPageTitle(profileBox, "Account");
+
+        connectionAssistant.setPageComplete(hello, true);
+        connectionAssistant.setPageComplete(serverBox, true);
+        
 
         connectionAssistant.showAll();
     }
