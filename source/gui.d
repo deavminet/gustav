@@ -128,7 +128,7 @@ public class GUI : Thread
 
     private bool welcomeGenesisLabelClick(string, Label)
     {
-        connectServer("0.0.0.0", 7777);
+        connectServer("0.0.0.0", 7777, ["testGustav"~to!(string)(connections.length), "bruh"]);
 
         return 1;
     }
@@ -469,59 +469,10 @@ public class GUI : Thread
 
     private bool conifgureConnectionsAssistant(string, Label)
     {
-        setupConnection();
+        import ConnectionAssistant;
+        ConnectionAssistant ass = new ConnectionAssistant(this);
         return 0;
     }
-
-
-    private void setupConnection()
-    {
-        import gtk.Assistant;
-        Assistant connectionAssistant = new Assistant();
-
-        Label hello = new Label("");
-        hello.setMarkup("<span size=\"15000\">Welcome to the connection setup</span>");
-        connectionAssistant.insertPage(hello, 0);
-        connectionAssistant.setPageTitle(hello, "Welcome");
-
-        /* Configure a server */
-        Box serverBox = new Box(GtkOrientation.VERTICAL, 1);
-        Label serverBoxTitle = new Label("");
-        serverBoxTitle.setMarkup("<span size=\"15000\">Server details</span>");
-        serverBox.packStart(serverBoxTitle,0,0,30);
-        Entry serverAddress = new Entry();
-        serverBox.add(serverAddress);
-        serverAddress.setPlaceholderText("DNET server address");
-        Entry serverPort = new Entry();
-        serverBox.add(serverPort);
-        serverPort.setPlaceholderText("DNET server port");
-        
-        
-        connectionAssistant.insertPage(serverBox, 1);
-        connectionAssistant.setPageTitle(serverBox, "Network");
-
-        /* Configure your profile details */
-        Box profileBox = new Box(GtkOrientation.VERTICAL, 1);
-        Label profileBoxTitle = new Label("");
-        profileBoxTitle.setMarkup("<span size=\"15000\">Account details</span>");
-        profileBox.packStart(profileBoxTitle,0,0,30);
-        Entry username = new Entry();
-        profileBox.add(username);
-        username.setPlaceholderText("username");
-        Entry password = new Entry();
-        profileBox.add(password);
-        password.setPlaceholderText("password");
-
-        connectionAssistant.insertPage(profileBox, 2);
-        connectionAssistant.setPageTitle(profileBox, "Account");
-
-        connectionAssistant.setPageComplete(hello, true);
-        connectionAssistant.setPageComplete(serverBox, true);
-        
-
-        connectionAssistant.showAll();
-    }
-
 
     private void setStatus(ToolButton x)
     {
@@ -620,7 +571,7 @@ public class GUI : Thread
 
     private void connectButton(MenuItem)
     {
-        connectServer("0.0.0.0", 7777);
+        connectServer("0.0.0.0", 7777, ["testGustav"~to!(string)(connections.length), "bruh"]);
     }
 
     /**
@@ -630,7 +581,7 @@ public class GUI : Thread
     * NOTE: To be called only by a GTK signal
     * handler
     */
-    private void connectServer(string address, ushort port)
+    public void connectServer(string address, ushort port, string[] authDetails)
     {
         /**
         * If this is our first connection then
@@ -649,7 +600,7 @@ public class GUI : Thread
         }
        
         /* Create the new Connection */
-        Connection newConnection = new Connection(this, parseAddress(address, port), ["testGustav"~to!(string)(connections.length), "bruh"]);
+        Connection newConnection = new Connection(this, parseAddress(address, port), authDetails);
         connections ~= newConnection;
 
         // import UserDirectory;
