@@ -389,8 +389,9 @@ public class GUI : Thread
 
         
 
-
-        containerMain.setTooltipMarkup("<b>"~channelName~"</b>\n"~to!(string)(memberCount)~" members");
+        /* TODO: COnsider adding member list */
+        /* TODO: Seperate queue for dynamic updates to this list */
+        containerMain.setTooltipMarkup("<b>"~channelName~"</b>\n"~to!(string)(memberCount)~" members\n\n"~to!(string)(currentConnection.getClient().getMembers(channelName)));
 
         return containerMain;
     }
