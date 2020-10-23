@@ -496,7 +496,6 @@ public class GUI : Thread
             Connection currentConnection = connections[notebook.getCurrentPage()];
 
             /* Set the status */
-            currentConnection.getClient().setStatus(x.getLabel()~",Hey there"); /* TODO: Remove */
             currentConnection.getClient().setProperty("pres", x.getLabel());
             //currentConnection.getClient().setProperty("status", "is plikking");
 
