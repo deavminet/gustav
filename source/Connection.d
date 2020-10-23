@@ -17,6 +17,8 @@ import core.sync.mutex;
 
 import gtk.Notebook;
 
+import std.conv;
+
 public final class Connection : Thread
 {
     private GUI gui;
@@ -131,6 +133,15 @@ public final class Connection : Thread
             process(notificationData);
             //gui.mainWindow.showAll();
 
+            // import gtk.InfoBar;
+            // InfoBar notificationBar = new InfoBar();
+            // notificationBar.add(new Label("Poes"));
+            // notificationBar.setMessageType(GtkMessageType.INFO);
+            // notificationBar
+            
+            // box.add(notificationBar);
+            // notificationBar.showAll();
+ 
             notebookSwitcher.showAll();
             
 
