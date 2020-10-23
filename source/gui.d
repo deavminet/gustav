@@ -526,7 +526,21 @@ public class GUI : Thread
 
     private void connectButton(MenuItem)
     {
-        /* TODO: Remove the placeholder */
+        connectServer("0.0.0.0", 7777);
+    }
+
+    /**
+    * Connects to the provided server,
+    * add the tab as well
+    */
+    private void connectServer(string address, ushort port)
+    {
+        /**
+        * If this is our first connection then
+        * create a new Notebook which will
+        * hold the connection/session tabs
+        * and remove the welcome page
+        */
         if(!notebook)
         {
             notebook = new Notebook();
@@ -537,10 +551,8 @@ public class GUI : Thread
             box.showAll();
         }
        
-        
-
         /* Create the new Connection */
-       connections ~= new Connection(this, parseAddress("0.0.0.0", 7777), ["testGustav"~to!(string)(connections.length), "bruh"]);
+        connections ~= new Connection(this, parseAddress(address, port), ["testGustav"~to!(string)(connections.length), "bruh"]);
     }
 
     private void shutdownConnections()
