@@ -18,6 +18,7 @@ import gtk.ScrolledWindow;
 import gtk.SeparatorToolItem;
 import gtk.ToolItem;
 import gtk.SearchEntry;
+import gtk.Image;
 
 import Connection;
 import Channel;
@@ -73,11 +74,36 @@ public class GUI : Thread
     }
 
 
+    /**
+    * The welcome box is shown before
+    * you have added any connections
+    * (it takes place of the Notebook)
+    * and shows information about the
+    * application
+    *
+    * Once you make your first conneciton
+    * it is removed and its space is taken
+    * up by the Notebook
+    */
     private Box getWelcomeBox()
     {
+        /* Create a vertically stacking Box */
         Box welcomeBox = new Box(GtkOrientation.VERTICAL, 1);
 
-        welcomeBox.add(new Label("Welcome box label"));
+        /* Add the logo */
+        Image logo = new Image("user-available", GtkIconSize.DIALOG);
+        logo.setPixelSize(250);
+        welcomeBox.add(logo);
+
+        /* Create the welcome text */
+        Label title = new Label("<span size=\"100\">Gustav</span>");
+        title.setMarkup("<span size=\"50000\">Gustav</span>");
+        welcomeBox.add(title);
+
+        /* Create the welcome tagline */
+        Label tagline = new Label("<span size=\"100\">Gustav</span>");
+        tagline.setMarkup("<span size=\"30000\">GTK+ graphical DNET client</span>");
+        welcomeBox.add(tagline);
 
         return welcomeBox;
     }
@@ -115,7 +141,8 @@ public class GUI : Thread
         toolbar = getToolbar();
         box.add(toolbar);
 
-        welcomeBox =getWelcomeBox();
+        /* Create the welcome box and set it */
+        welcomeBox = getWelcomeBox();
         box.add(welcomeBox);
         
         
