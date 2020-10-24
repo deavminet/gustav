@@ -91,14 +91,12 @@ public final class ConnectionAssistant : Assistant
         connectionAssistant.addOnCancel(&assistenctCancel);
 
         connectionAssistant.showAll();
-
-
-        
     }
 
     private void assistenctCancel(Assistant e)
     {
-        /* TODO: Implement me */
+         /* TODO: Get this to work */
+         /* TODO: The `.close()` doesn't seem to work */
     }
 
     private void assistentComplete(Assistant)
