@@ -13,16 +13,17 @@ import gtk.Box;
 import gtk.Entry;
 import gui;
 import std.conv;
+import std.string : cmp, strip;
 
 public final class ConnectionAssistant : Assistant
 {
     /* Associated GUI instance */
     private GUI gui;
 
-    Entry serverAddress;
-    Entry serverPort;
-    Entry username;
-    Entry password;
+    private Entry serverAddress;
+    private Entry serverPort;
+    private Entry username;
+    private Entry password;
 
     /* Summary box */
     Box summaryBox;
@@ -134,12 +135,15 @@ public final class ConnectionAssistant : Assistant
     private void assistentComplete(Assistant)
     {
         /* Get the server details */
-        string serverAddress = serverAddress.getBuffer().getText();
-        string serverPort = serverPort.getBuffer().getText();
+        string serverAddress = strip(serverAddress.getBuffer().getText());
+        string serverPort = strip(serverPort.getBuffer().getText());
 
         /* Get the account details */
-        string accountUsername = username.getBuffer().getText();
+        string accountUsername = strip(username.getBuffer().getText());
         string accountPassword = password.getBuffer().getText();
+
+        /* TODO: Check for emptiness */
+
         
         /* Create a new Connection */
         gui.connectServer(serverAddress, to!(ushort)(serverPort), [accountUsername, accountPassword]);
