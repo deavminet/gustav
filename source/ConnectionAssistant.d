@@ -143,9 +143,14 @@ public final class ConnectionAssistant : Assistant
         string accountPassword = password.getBuffer().getText();
 
         /* TODO: Check for emptiness */
-
-        
-        /* Create a new Connection */
-        gui.connectServer(serverAddress, to!(ushort)(serverPort), [accountUsername, accountPassword]);
+        if(cmp(serverAddress, "") == 0 || cmp(serverPort, "") == 0 || cmp(accountUsername, "") == 0 || cmp(accountPassword, "") == 0)
+        {
+            /* TODO: Handle error here */
+        }
+        else
+        {
+            /* Create a new Connection */
+            gui.connectServer(serverAddress, to!(ushort)(serverPort), [accountUsername, accountPassword]);
+        }
     }
 }
