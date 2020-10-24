@@ -111,6 +111,7 @@ public final class ConnectionAssistant : Assistant
         string accountUsername = username.getBuffer().getText();
         string accountPassword = password.getBuffer().getText();
         
+        /* Create a new Connection */
         gui.connectServer(serverAddress, to!(ushort)(serverPort), [accountUsername, accountPassword]);
     }
 }
