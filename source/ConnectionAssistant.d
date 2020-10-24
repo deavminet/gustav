@@ -24,6 +24,9 @@ public final class ConnectionAssistant : Assistant
     Entry username;
     Entry password;
 
+    /* Summary box */
+    Box summaryBox;
+
 
     this(GUI gui)
     {
@@ -79,10 +82,15 @@ public final class ConnectionAssistant : Assistant
 
 
         /* Summary */
-        Box summaryBox = new Box(GtkOrientation.VERTICAL, 1);
+        summaryBox = new Box(GtkOrientation.VERTICAL, 1);
         Label summaryBoxTitle = new Label("");
         summaryBoxTitle.setMarkup("<span size=\"15000\">Summary</span>");
         summaryBox.packStart(summaryBoxTitle,0,0,30);
+
+        
+        
+
+
         connectionAssistant.insertPage(summaryBox, 4);
         connectionAssistant.setPageType(summaryBox, GtkAssistantPageType.SUMMARY);
         
@@ -97,6 +105,30 @@ public final class ConnectionAssistant : Assistant
     {
          /* TODO: Get this to work */
          /* TODO: The `.close()` doesn't seem to work */
+    }
+
+    /* TODO: I want this code to run when we are on the summary page */
+    private void kak()
+    {
+        /* Summary data */
+        Label serverAddressLabel = new Label("");
+        serverAddressLabel.setMarkup("<b>Server Address:</b> "~serverAddress.getBuffer().getText());
+
+        Label serverPortLabel = new Label("");
+        serverPortLabel.setMarkup("<b>Server Port:</b> "~serverPort.getBuffer().getText());
+
+        Label accountUsername = new Label("");
+        accountUsername.setMarkup("<b>Account username:</b> "~username.getBuffer().getText());
+
+        Label accountPassword = new Label("");
+        accountPassword.setMarkup("<b>Account password:</b> "~password.getBuffer().getText());
+
+        
+        
+        summaryBox.add(serverAddressLabel);
+        summaryBox.add(serverPortLabel);
+        summaryBox.add(accountUsername);
+        summaryBox.add(accountPassword);
     }
 
     private void assistentComplete(Assistant)
