@@ -20,6 +20,7 @@ import gtk.Widget;
 import gtk.ScrolledWindow;
 import gtk.Button;
 import gtk.Entry;
+import UserNode;
 
 import pango.PgAttributeList;
 import pango.PgAttribute;
@@ -167,23 +168,7 @@ public final class Channel
         return channelName;
     }
 
-    /**
-    * Returns a Label with the tooltip event such
-    * that it will run that handler on hover
-    */
-    private Label getUserLabel(string username)
-    {
-        /* Create a label */
-        Label userLabel = new Label(username);
-
-        /* Enable the tooltip */
-        userLabel.setHasTooltip(true);
-        
-        /* Set the handler to run on hover */
-        userLabel.addOnQueryTooltip(&userLabelHoverHandler);
-
-        return userLabel;
-    }
+    
 
 
     private Box getUserListItem(string username)
@@ -209,49 +194,8 @@ public final class Channel
     //     return true;
     // }
 
-    /**
-    * Event handler to be run when you hover over a user's
-    * username in the Users sidebar list which will show
-    * the status as text (and in an icon format), the user's
-    * username and also their status message
-    */
-    private bool userLabelHoverHandler(int, int, bool, Tooltip tooltip, Widget userLabel)
-    {
-        /* The username hovered over */
-        string userHover = (cast(Label)userLabel).getText();
+    
 
-        /* The final tooltip */
-        string toolTipText = "<b>"~userHover~"</b>";
-
-        /* Check if there is a `precensce` message */
-        if(client.isProperty(userHover, "pres"))
-        {
-            /* Fetch the precensce */
-            string prescence = client.getProperty(userHover, "pres");
-
-            /* Set the icon */
-            tooltip.setIconFromIconName(statusToGtkIcon(prescence), GtkIconSize.DIALOG);
-
-            /* Append the precesnee to the tooltip text */
-            toolTipText ~= "\n"~prescence;
-        }
-
-        /* Check if there is a `status` message */
-        if(client.isProperty(userHover, "status"))
-        {
-            /* Next is status message */
-            string status = client.getProperty(userHover, "status");
-
-            /* Append the status to the tooltip text */
-            toolTipText ~= "\n<i>"~status~"</i>";
-        }
-
-        /* Set the tooltip text */
-        tooltip.setMarkup(toolTipText);
-
-        /* TODO: Point of return value? */        
-        return 1;
-    }
 
     public void populateUsersList()
     {
@@ -259,47 +203,19 @@ public final class Channel
 
         foreach(string member; memberList)
         {
-            Label bruh  = getUserLabel(member);
-            users.add(bruh);
+            /* Create the user entry in the list */
+            UserNode userNode = new UserNode(connection, member);
+            users.add(userNode.getBox());
+
+            /* Add the user to the tracking list */
             usersString~=member;
-
-
-            /* TODO: Testing code, remove */
-            import UserNode;
-            UserNode testNode = new UserNode(connection, member);
-            users.add(testNode.getBox());
         }
     }
 
    
 
 
-    private static string statusToGtkIcon(string status)
-    {
-        /* The GTK icon */
-        string gtkIcon = "image-missing";
-
-        if(cmp(status, "available") == 0)
-        {
-            gtkIcon = "user-available";
-        }
-        else if(cmp(status, "away") == 0)
-        {
-            gtkIcon = "user-away";
-        }
-        else if(cmp(status, "busy") == 0)
-        {
-            gtkIcon = "user-busy";
-        }
-        /* TODO: This doesn't make sense */
-        else if(cmp(status, "offline") == 0)
-        {
-            gtkIcon = "user-offline";
-        }
-        
-        return gtkIcon;
-    }
-
+   
     public void channelJoin(string username)
     {
         /* The label to add */
@@ -313,9 +229,11 @@ public final class Channel
         /* Add join message to message log */
         textArea.add(joinLabel);
 
-        /* Add user to user list */
-        users.add(getUserLabel(username));
+        /* Create the user entry in the list */
+        UserNode userNode = new UserNode(connection, username);
+        users.add(userNode.getBox());
 
+        /* Add the user to the tracking list */
         usersString~=username;
     }
 
@@ -352,7 +270,9 @@ public final class Channel
 
         foreach(string currentUser; usersString)
         {
-            users.add(getUserLabel(currentUser));
+            /* Create the user entry in the list */
+            UserNode userNode = new UserNode(connection, currentUser);
+            users.add(userNode.getBox());
         }
 
         /* Remove user from user list */
