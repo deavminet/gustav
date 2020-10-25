@@ -1,29 +1,33 @@
-// import gtk.Tooltip;
-// import libdnet.dclient;
-// import gtk.Label;
+module UserNode;
 
-// public final class UserNode
-// {
-//     private Tooltip tooltip;
-//     private DClient client;
-//     private Label username;
+import Connection;
+import gtk.Box;
 
-//     this(DClient client, Label username)
-//     {
-//         this.client = client;
-//         this.username = username;
+public final class UserNode
+{
+    private Connection connection;
+    private string username;
 
-//         initialize();
-//     }
+    private Box box;
 
-//     private void initialize()
-//     {
-//         username.getToo
-//         tooltip = new Tooltip(cast(GtkStruct*)username.getStruct());
-//     }
+    this(Connection connection, string username)
+    {
+        this.connection = connection;
+        this.username = username;
 
-//     // public Tooltip getToolTip()
-//     // {
-        
-//     // }
-// }
+        initBox();
+    }
+
+    private void initBox()
+    {
+        box = new Box(GtkOrientation.HORIZONTAL, 1);
+
+        /* TODO: Implement me */
+    }
+
+    public Box getBox()
+    {
+        return box;
+        /* TODO: Implement me */
+    }
+}
