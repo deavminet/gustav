@@ -27,7 +27,7 @@ public final class UserNode
 
     private void initBox()
     {
-        box = new Box(GtkOrientation.HORIZONTAL, 1);
+        box = new Box(GtkOrientation.HORIZONTAL, 10);
 
         /* Layout [Button (Prescence Icon)] - Label <username> */
         Button userButton = new Button();
