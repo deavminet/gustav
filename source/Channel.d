@@ -274,13 +274,6 @@ public final class Channel
             UserNode userNode = new UserNode(connection, currentUser);
             users.add(userNode.getBox());
         }
-
-        /* Remove user from user list */
-        /* TODO: Do this better */
-        // foreach(Label label; users.get)
-        // users.add(new Label(username));
-        // users.showAll();
-        // box.showAll();+
     }
 
     public void sendMessage(string message)
