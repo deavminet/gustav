@@ -44,6 +44,10 @@ public final class UserNode
         userLabel.addOnQueryTooltip(&userLabelHoverHandler);
 
         /* TODO: Implement me */
+
+        /* Add both components */
+        box.add(userButton);
+        box.add(userLabel);
     }
 
     /**
