@@ -11,6 +11,7 @@ import gtk.Assistant;
 import gtk.Label;
 import gtk.Box;
 import gtk.Entry;
+import gtk.Image;
 import gui;
 import std.conv;
 import std.string : cmp, strip;
@@ -40,10 +41,22 @@ public final class ConnectionAssistant : Assistant
     {   
         Assistant connectionAssistant = new Assistant();
 
+        /* Welcome page */
+        Box welcomeBox = new Box(GtkOrientation.VERTICAL, 1);
+        Image logo = new Image("user-available", GtkIconSize.DIALOG);
+        logo.setPixelSize(250);
+        welcomeBox.add(logo);
+
+        Label title = new Label("<span size=\"100\">Gustav</span>");
+        title.setMarkup("<span font_desc=\"Open Sans Extrabold\" size=\"50000\">Gustav</span>");
+        welcomeBox.add(title);
+
         Label hello = new Label("");
         hello.setMarkup("<span size=\"15000\">Welcome to the connection setup</span>");
-        connectionAssistant.insertPage(hello, 0);
-        connectionAssistant.setPageTitle(hello, "Welcome");
+        welcomeBox.add(hello);
+
+        connectionAssistant.insertPage(welcomeBox, 0);
+        connectionAssistant.setPageTitle(welcomeBox, "Welcome");
 
         /* Configure a server */
         Box serverBox = new Box(GtkOrientation.VERTICAL, 1);
@@ -77,7 +90,7 @@ public final class ConnectionAssistant : Assistant
         connectionAssistant.setPageTitle(profileBox, "Account");
         
         /* TODO: We should actually verify inputs before doing this */
-        connectionAssistant.setPageComplete(hello, true);
+        connectionAssistant.setPageComplete(welcomeBox, true);
         connectionAssistant.setPageComplete(serverBox, true);
         connectionAssistant.setPageComplete(profileBox, true);
 
