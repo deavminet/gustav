@@ -260,7 +260,7 @@ public final class Connection : Thread
             client.join(channelName);
 
             /* Create the Channel object */
-            Channel newChannel = new Channel(client, channelName);
+            Channel newChannel = new Channel(this, channelName);
 
             /* Add the channel */
             addChannel(newChannel);

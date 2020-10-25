@@ -23,10 +23,12 @@ import gtk.Entry;
 
 import pango.PgAttributeList;
 import pango.PgAttribute;
+import Connection;
 
 public final class Channel
 {
     private DClient client;
+    private Connection connection;
 
     /**
     * Channel details
@@ -52,9 +54,10 @@ public final class Channel
     /* TODO: No mutexes should be needed (same precaution) as the GTK lock provides safety */
     private string[] usersString;
 
-    this(DClient client, string channelName)
+    this(Connection connection, string channelName)
     {
-        this.client = client;
+        this.client = connection.getClient();
+        this.connection = connection;
         this.channelName = channelName;
         
         initializeBox();
@@ -259,6 +262,10 @@ public final class Channel
             Label bruh  = getUserLabel(member);
             users.add(bruh);
             usersString~=member;
+
+
+            /* TODO: Testing code, remove */
+            // UserNode testNode = new UserNode(connectio)
         }
     }
 
