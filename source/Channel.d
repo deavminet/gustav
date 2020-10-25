@@ -265,7 +265,9 @@ public final class Channel
 
 
             /* TODO: Testing code, remove */
-            // UserNode testNode = new UserNode(connectio)
+            import UserNode;
+            UserNode testNode = new UserNode(connection, member);
+            users.add(testNode.getBox());
         }
     }
 
