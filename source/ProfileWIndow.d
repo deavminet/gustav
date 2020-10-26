@@ -9,6 +9,7 @@ import gtk.Window;
 import gtk.Label;
 import gtk.Image;
 import std.conv;
+import gtk.Box;
 
 public final class ProfileWindow
 {
@@ -25,16 +26,26 @@ public final class ProfileWindow
 
     private void showWindow()
     {
+        /* Create the window with the username as the title */
         Window profileWindow = new Window(username);
 
+        /* Create a Box for contents */
+        Box profileBox = new Box(GtkOrientation.VERTICAL, 1);
+    
+        /* Create the username label */
+        Label usernameTitle = new Label("");
+        usernameTitle.setMarkup("<span size=\"10000\">"~username~"</span>");
+        profileBox.add(usernameTitle);
         
 
         Image profileImage = new Image("/home/deavmi/Downloads/5207740.jpg");
         //profileWindow.add(profileImage);
 
+        /* TODO: Fix server to ACTUALLY take in the username as a parameter */
         string[] props = connection.getClient().getProperties(username);
-        profileWindow.add(new Label(to!(string)(props)));
+        profileBox.add(new Label(to!(string)(props)));
 
+        profileWindow.add(profileBox);
         profileWindow.showAll();
     }
 }

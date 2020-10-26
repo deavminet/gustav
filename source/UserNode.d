@@ -9,6 +9,7 @@ import gtk.Label;
 import gtk.Tooltip;
 import gtk.Widget;
 import std.string;
+import ProfileWIndow;
 
 public final class UserNode
 {
@@ -25,14 +26,41 @@ public final class UserNode
         initBox();
     }
 
+    private final class UserButton : Button
+    {
+        private string username;
+
+        this(string username)
+        {
+            this.username = username;
+        }
+
+        public string getUsername()
+        {
+            return username;
+        }
+    }
+
+    private void userButtonClick(Button e)
+    {
+        /* The Button will only ever be a UserButton */
+        UserButton button = cast(UserButton)e;
+
+        /* Create a new ProfileWindow */
+        ProfileWindow profileWindow = new ProfileWindow(connection, button.getUsername());
+    }
+
     private void initBox()
     {
         box = new Box(GtkOrientation.HORIZONTAL, 10);
 
         /* Layout [Button (Prescence Icon)] - Label <username> */
-        Button userButton = new Button();
+        UserButton userButton = new UserButton(username);
         Image userButtonImg = new Image("user-available", GtkIconSize.BUTTON);
         userButton.setImage(userButtonImg);
+        
+        /* Set the handler for on click */
+        userButton.addOnClicked(&userButtonClick);
 
         /* Create a label */
         Label userLabel = new Label(username);
