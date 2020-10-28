@@ -95,11 +95,24 @@ public final class Channel
         ScrolledWindow scrollTextChats = new ScrolledWindow(textArea);
         textBox.add(scrollTextChats);
         
+
+        /* The Box for the whole |attach button| text field| send button| */
+        Box textInputBox = new Box(GtkOrientation.HORIZONTAL, 1);
+
+        import gtk.Image;
+
+        /* The attachment button */
+        Button attachFileButton = new Button("Upload");
+        Image attachFileButtonIcon = new Image("user-available", GtkIconSize.BUTTON); /* TODO: Fix icon now showing */
+        attachFileButton.setImage(attachFileButtonIcon);
+        attachFileButton.addOnClicked(&uploadFileDialog);
+        textInputBox.add(attachFileButton);
+
         /* The text input */
         textInput = new Entry();
         textInput.addOnActivate(&sendMessageEnter);
         textInput.addOnChanged(&textChangd);
-        Box textInputBox = new Box(GtkOrientation.HORIZONTAL, 1);
+        
         textInputBox.packStart(textInput,1,1,0);
         
 
@@ -115,6 +128,13 @@ public final class Channel
         textBox.setChildPacking(scrollTextChats, true, true, 0, GtkPackType.START);
         box.setChildPacking(textBox, true, true, 0, GtkPackType.START);
 
+    }
+
+    private void uploadFileDialog(Button e)
+    {
+        import gtk.FileChooserDialog; /* TODO: Set parent */
+        FileChooserDialog fileChooser = new FileChooserDialog("Send file to "~channelName, null, FileChooserAction.OPEN);
+        fileChooser.run();
     }
 
     import gtk.EditableIF;
