@@ -41,7 +41,7 @@ public final class ProfileWindow
         Image profileImage = new Image("/home/deavmi/Downloads/5207740.jpg");
         //profileWindow.add(profileImage);
 
-        /* TODO: Fix server to ACTUALLY take in the username as a parameter */
+        
         string[] props = connection.getClient().getProperties(username);
         profileBox.add(new Label(to!(string)(props)));
 
