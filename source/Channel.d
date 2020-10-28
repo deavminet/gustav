@@ -98,6 +98,7 @@ public final class Channel
         /* The text input */
         textInput = new Entry();
         textInput.addOnActivate(&sendMessageEnter);
+        textInput.addOnChanged(&textChangd);
         Box textInputBox = new Box(GtkOrientation.HORIZONTAL, 1);
         textInputBox.packStart(textInput,1,1,0);
         
@@ -108,20 +109,21 @@ public final class Channel
         textInputBox.add(sendButton);
         textBox.add(textInputBox);
         
-
-        // import gtk.TextView;
-        // TextView f = new TextView();
-        // textBox.add(f);
-
-
-
-    
         box.add(textBox);
         box.packEnd(userBox,0,0,0);
 
         textBox.setChildPacking(scrollTextChats, true, true, 0, GtkPackType.START);
         box.setChildPacking(textBox, true, true, 0, GtkPackType.START);
 
+    }
+
+    import gtk.EditableIF;
+    private void textChangd(EditableIF)
+    {
+        /* If the text box just became empty stop ssending typing notifications */
+        /* Send typing stats */
+        // client.sendIsTyping(channelName, true);
+        /* TODO: Client implement wiht different tag? */
     }
 
     private void sendMessageEnter(Entry)
