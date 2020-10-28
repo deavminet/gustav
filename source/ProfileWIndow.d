@@ -34,7 +34,7 @@ public final class ProfileWindow
     
         /* Create the username label */
         Label usernameTitle = new Label("");
-        usernameTitle.setMarkup("<span size=\"10000\">"~username~"</span>");
+        usernameTitle.setMarkup("<span size=\"20000\">"~username~"</span>");
         profileBox.add(usernameTitle);
         
 
