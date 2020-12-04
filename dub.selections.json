@@ -3,7 +3,7 @@
 	"versions": {
 		"bformat": "1.0.8",
 		"gtk-d": "3.9.0",
-		"libdnet": "0.1.13",
+		"libdnet": "0.1.15",
 		"tristanable": "0.1.1"
 	}
 }
