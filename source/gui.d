@@ -408,6 +408,34 @@ public class GUI : Thread
     }
 
 
+    private class JoinButtonCustom : Button
+    {
+        private Entry channelInputBox;
+
+        this(Entry channelInputBox)
+        {
+            /* Set the button's text to "Join" */
+            super("Join");
+
+            /* Set the handler for the button */
+            addOnClicked(&handler);
+
+            this.channelInputBox = channelInputBox;
+        }
+
+        private void handler(Button)
+        {
+            /* Get the current connection */
+            Connection currentConnection = connections[notebook.getCurrentPage()];
+
+            /* Get the name of the channel selected */
+            string channelSelected = channelInputBox.getText();
+
+            /* Join the channel on this connection */
+            currentConnection.joinChannel(channelSelected);
+        }
+    }
+
     /**
     * List channels
     *
@@ -429,8 +457,9 @@ public class GUI : Thread
 
         /* TODO: Temporary, REMOVE AFTWR TESTING (ADDED ON 27th of JAN 2021) */
         Box box = new Box(GtkOrientation.HORIZONTAL, 1);
-        box.packStart(new Entry(), 1, 1, 1);
-        box.add(new Button("Join"));
+        Entry customChannelEntry = new Entry();
+        box.packStart(customChannelEntry, 1, 1, 1);
+        box.add(new JoinButtonCustom(customChannelEntry));
         channelsList.add(box);
 
         /* Get the current connection */
@@ -474,6 +503,10 @@ public class GUI : Thread
         win.showAll();
     }
 
+    /**
+    * Run when you select the 'Join' button next tio an already existing
+    * channel in the channels list
+    */
     private void selectChannel(Button s)
     {
         /* Get the current connection */
