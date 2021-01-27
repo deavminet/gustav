@@ -288,6 +288,18 @@ public class GUI : Thread
     import std.string;
     private void setStatusMessage(Entry f)
     {
+        /* If there are no connections */
+        if(!connections.length)
+        {
+            import gtk.MessageDialog;
+            MessageDialog errorDialog = new MessageDialog(mainWindow, GtkDialogFlags.MODAL, GtkMessageType.ERROR, GtkButtonsType.CLOSE, false, "Cannot set status\n\nYou are not connected to a server");
+            errorDialog.setIconName("user-available");
+            // errorDialog.set
+            errorDialog.run();
+            return;
+        }
+
+
         /* Get the current connection */
         Connection currentConnection = connections[notebook.getCurrentPage()];
 
@@ -554,7 +566,7 @@ public class GUI : Thread
         else
         {
             import gtk.MessageDialog;
-            MessageDialog errorDialog = new MessageDialog(mainWindow, GtkDialogFlags.MODAL, GtkMessageType.ERROR, GtkButtonsType.CLOSE, false, "Cannot set status\n\nYou are not connected to a server");
+            MessageDialog errorDialog = new MessageDialog(mainWindow, GtkDialogFlags.MODAL, GtkMessageType.ERROR, GtkButtonsType.CLOSE, false, "Cannot set prescence\n\nYou are not connected to a server");
             errorDialog.setIconName("user-available");
             // errorDialog.set
             errorDialog.run();
