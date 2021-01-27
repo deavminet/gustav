@@ -554,7 +554,7 @@ public class GUI : Thread
         else
         {
             import gtk.MessageDialog;
-            MessageDialog errorDialog = new MessageDialog(mainWindow, GtkDialogFlags.MODAL, GtkMessageType.ERROR, GtkButtonsType.CLOSE, false, "Cannot list channels\n\nYou are not connected to a server");
+            MessageDialog errorDialog = new MessageDialog(mainWindow, GtkDialogFlags.MODAL, GtkMessageType.ERROR, GtkButtonsType.CLOSE, false, "Cannot set status\n\nYou are not connected to a server");
             errorDialog.setIconName("user-available");
             // errorDialog.set
             errorDialog.run();
