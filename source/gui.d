@@ -253,6 +253,16 @@ public class GUI : Thread
         channelListButton.addOnClicked(&listChannels);
         toolbar.add(channelListButton);
 
+        /* TODO: Join channel button */
+        ToolButton joinChannelButton  =  new ToolButton("");
+        joinChannelButton.setIconName("document-new");
+        joinChannelButton.setTooltipText("Join channel");
+        toolbar.add(joinChannelButton);
+
+
+        /* TODO: Leave channel button */
+
+
 
         
 
@@ -413,6 +423,15 @@ public class GUI : Thread
         /* Create the list of channels */
         ListBox channelsList = new ListBox();
         win.add(new ScrolledWindow(channelsList));
+
+
+
+
+        /* TODO: Temporary, REMOVE AFTWR TESTING (ADDED ON 27th of JAN 2021) */
+        Box box = new Box(GtkOrientation.HORIZONTAL, 1);
+        box.packStart(new Entry(), 1, 1, 1);
+        box.add(new Button("Join"));
+        channelsList.add(box);
 
         /* Get the current connection */
         Connection currentConnection = connections[notebook.getCurrentPage()];
