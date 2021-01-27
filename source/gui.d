@@ -462,6 +462,19 @@ public class GUI : Thread
         box.add(new JoinButtonCustom(customChannelEntry));
         channelsList.add(box);
 
+        /* If there are no available connections */
+        if(!connections.length)
+        {
+            import gtk.MessageDialog;
+            MessageDialog errorDialog = new MessageDialog(mainWindow, GtkDialogFlags.MODAL, GtkMessageType.ERROR, GtkButtonsType.CLOSE, false, "Cannot list channels\n\nYou are not connected to a server");
+            errorDialog.setIconName("user-available");
+            // errorDialog.set
+            errorDialog.run();
+
+            return;
+        }
+
+
         /* Get the current connection */
         Connection currentConnection = connections[notebook.getCurrentPage()];
 
