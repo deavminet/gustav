@@ -6,7 +6,7 @@ import gtk.Box;
 import gtk.ListBox;
 import gtk.Label;
 import gtk.TextView;
-import libdnet.dclient;
+import libdnet.client;
 import gtk.Label;
 import std.string;
 import gtk.Button;

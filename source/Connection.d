@@ -5,7 +5,7 @@ import gui;
 import gdk.Threads : te = threadsEnter, tl = threadsLeave;
 import gtk.Box;
 import std.stdio;
-import libdnet.dclient;
+import libdnet.client;
 import std.socket;
 import gtk.ListBox;
 import gtk.Label;

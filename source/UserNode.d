@@ -1,7 +1,7 @@
 module UserNode;
 
 import Connection;
-import libdnet.dclient;
+import libdnet.client;
 import gtk.Box;
 import gtk.Button;
 import gtk.Image;
