@@ -290,8 +290,6 @@ public final class Connection : Thread
             /* Set as the `foundChannel` */
             foundUser = newUser;
 
-            gprintln(newUser.getBox());
-
             /* Get the Widgets container for this channel and add a tab for it */
             notebookSwitcher.add(newUser.getBox());
             notebookSwitcher.setTabReorderable(newUser.getBox(), true);
