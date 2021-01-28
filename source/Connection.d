@@ -238,7 +238,13 @@ public final class Connection : Thread
 	}
 
 
-
+    private void addUserDM(User newUser)
+    {
+        /* TODO: However this we need to mutex for the areas as we could recieve a new message by watcher which adds for us */
+        chansLock.lock();
+        areas ~= newUser;
+        chansLock.unlock();
+    }
 
     /**
     * Opens a new tab for a new direct message
@@ -251,17 +257,101 @@ public final class Connection : Thread
     */
     public void addDirectMessage_unsafe(string username)
     {
-        /* Create the new User area */
-        User userArea = new User(this, username);
+        
 
-        /* TODO: However this we need to mutex for the areas as we could recieve a new message by watcher which adds for us */
-        chansLock.lock();
-        areas ~= userArea;
-        chansLock.unlock();
+        
 
         /* TODO: Get box over here etc. */
 
+        gprintln("Henlo begi");
 
+        /* Check if we have joined this user already */
+        User foundUser = findUser(username);
+
+        gprintln("Henlo");
+
+        /* If we have joined this user before */
+        if(foundUser)
+        {
+            /* TODO: Switch to */
+            writeln("nope time: "~username);
+
+            
+        }
+        /* If we haven't joined this user before */
+        else
+        {
+            /* Create the new User area */
+            User newUser = new User(this, username);
+
+            /* Add the user */
+            addUserDM(newUser);
+
+            /* Set as the `foundChannel` */
+            foundUser = newUser;
+
+            /* Get the Widgets container for this channel and add a tab for it */
+            notebookSwitcher.add(newUser.getBox());
+            notebookSwitcher.setTabReorderable(newUser.getBox(), true);
+            notebookSwitcher.setTabLabelText(newUser.getBox(), newUser.getUsername());
+
+            writeln("hdsjghjsd");
+
+            writeln("first time: "~username);
+
+            // /* Get the user's list */
+            // newChannel.populateUsersList();
+        }
+
+        /* Render recursively all children of the container and then the container itself */
+        box.showAll();
+
+
+
+
+
+
+    }
+
+
+    /**
+    * Attempts to find the User object you are looking for
+    */
+    public User findUser(string username)
+    {
+        User result;
+
+        chansLock.lock();
+
+        /**
+        * Loop through each MessageArea and only inspect those
+        * whose type is `Channel`
+        */
+        foreach(MessageArea area; areas)
+        {
+
+            /* Make sure the object is of type `Channel` */
+            if(typeid(area) == typeid(Channel))
+            {
+                /* Down-cast */
+                User user = cast(User)area;
+
+                /* Find the matching channel */
+                if(cmp(user.getUsername(), username) == 0)
+                {
+                    result = user;
+                    break;
+                }
+            }
+        }
+
+        import std.stdio;
+        writeln("\""~username~"\"");
+
+
+        chansLock.unlock();
+
+        return result;
     }
 
 

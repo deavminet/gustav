@@ -58,6 +58,11 @@ public final class User : MessageArea
         initializeBox();
     }
 
+    public string getUsername()
+    {
+        return username;
+    }
+
     private void initializeBox()
     {
 
