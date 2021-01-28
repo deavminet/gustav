@@ -21,7 +21,7 @@ import gtk.SearchEntry;
 import gtk.Image;
 
 import Connection;
-import Channel;
+import areas.Channel;
 import std.socket;
 
 import std.conv;

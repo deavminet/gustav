@@ -7,6 +7,8 @@
 * along with the input box state
 */
 
+module areas.Channel;
+
 import gtk.Box;
 import gtk.ListBox;
 import gtk.Label;
@@ -27,8 +29,9 @@ import pango.PgAttribute;
 import Connection;
 
 import gogga;
+import areas.MessageArea;
 
-public final class Channel
+public final class Channel : MessageArea
 {
     private DClient client;
     private Connection connection;

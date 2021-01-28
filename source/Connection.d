@@ -10,7 +10,7 @@ import std.socket;
 import gtk.ListBox;
 import gtk.Label;
 
-import Channel;
+import areas.Channel;
 import std.string;
 
 import core.sync.mutex;
@@ -184,7 +184,7 @@ public final class Connection : Thread
             string channel = cast(string)data[2+usernameLength+1..2+usernameLength+1+channelLength];
             gprintln("NormalMessage: (Channel): "~channel);
         
-            
+
             findChannel(channel).receiveMessage(username, cast(string)data[2+usernameLength+1+channelLength..data.length]);
 		}
 		/* Channel notification (ntype=1) */

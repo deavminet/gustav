@@ -7,6 +7,8 @@
 * The sub-classes are "Direct Message" and "Channel"
 */
 
+module areas.MessageArea;
+
 public class MessageArea
 {
     /* TODO: Implement me */
