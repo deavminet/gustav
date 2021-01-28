@@ -12,6 +12,7 @@ import gtk.Label;
 
 import areas.Channel;
 import areas.MessageArea;
+import areas.User;
 import std.string;
 
 import core.sync.mutex;
@@ -21,6 +22,8 @@ import gtk.Notebook;
 import std.conv;
 
 import gogga;
+
+
 
 public final class Connection : Thread
 {
@@ -248,7 +251,13 @@ public final class Connection : Thread
     */
     public void addDirectMessage_unsafe(string username)
     {
-        
+        /* Create the new User area */
+        User userArea = new User(this, username);
+
+        /* TODO: However this we need to mutex for the areas as we could recieve a new message by watcher which adds for us */
+        chansLock.lock();
+        areas ~= userArea;
+        chansLock.unlock();
     }
 
 

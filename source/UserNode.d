@@ -47,7 +47,7 @@ public final class UserNode
         UserButton button = cast(UserButton)e;
 
         /* Create a new ProfileWindow */
-        ProfileWindow profileWindow = new ProfileWindow(connection, button.getUsername());
+        ProfileWindow profileWindow = new ProfileWindow(connection, username);
     }
 
     private void initBox()
@@ -85,6 +85,17 @@ public final class UserNode
         messageButton.setImage(messageButtonImg);
         box.add(messageButton);
     }
+
+    /**
+    * This is the handler for when the "direct message" button is clicked
+    *
+    * It will call `addDirectMessage_unsafe` with the username specified
+    */
+    private void newDirectMessage(Button)
+    {
+        connection.addDirectMessage_unsafe(username);
+    }
+
 
     /**
     * Event handler to be run when you hover over a user's
