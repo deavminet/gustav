@@ -26,26 +26,8 @@ public final class UserNode
         initBox();
     }
 
-    private final class UserButton : Button
+    private void userButtonClick(Button)
     {
-        private string username;
-
-        this(string username)
-        {
-            this.username = username;
-        }
-
-        public string getUsername()
-        {
-            return username;
-        }
-    }
-
-    private void userButtonClick(Button e)
-    {
-        /* The Button will only ever be a UserButton */
-        UserButton button = cast(UserButton)e;
-
         /* Create a new ProfileWindow */
         ProfileWindow profileWindow = new ProfileWindow(connection, username);
     }
@@ -56,7 +38,7 @@ public final class UserNode
         box = new Box(GtkOrientation.HORIZONTAL, 10);
 
         /* Layout [Button (Prescence Icon)] - Label <username> - [Button (Reply Icon)]*/
-        UserButton userButton = new UserButton(username);
+        Button userButton = new Button();
         Image userButtonImg = new Image("user-available", GtkIconSize.BUTTON);
         userButton.setImage(userButtonImg);
         
