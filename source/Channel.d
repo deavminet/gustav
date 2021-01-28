@@ -26,6 +26,8 @@ import pango.PgAttributeList;
 import pango.PgAttribute;
 import Connection;
 
+import gogga;
+
 public final class Channel
 {
     private DClient client;
@@ -135,6 +137,7 @@ public final class Channel
         import gtk.FileChooserDialog; /* TODO: Set parent */
         FileChooserDialog fileChooser = new FileChooserDialog("Send file to "~channelName, null, FileChooserAction.OPEN);
         fileChooser.run();
+        gprintln("Selected file: "~fileChooser.getFilename());
     }
 
     import gtk.EditableIF;
