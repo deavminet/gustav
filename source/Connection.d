@@ -237,7 +237,19 @@ public final class Connection : Thread
 
 
 
-
+    /**
+    * Opens a new tab for a new direct message
+    *
+    * (To be called by a handler, which auto-mutexes)
+    *
+    * 1. Will add a new area
+    * 2. Will add a new tab to the notebook switcher
+    * 3. Will switch the current tab to said tab
+    */
+    public void addDirectMessage_unsafe(string username)
+    {
+        
+    }
 
 
 
@@ -317,7 +329,9 @@ public final class Connection : Thread
         }
     }
     
-    /* TODO: Update this to do an `instanceof` check for the correct MessageArea sub-type */
+    /**
+    * Attempts to find the Channel object you are looking for
+    */
     public Channel findChannel(string channelName)
     {
         Channel result;

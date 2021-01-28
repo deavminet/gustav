@@ -52,9 +52,10 @@ public final class UserNode
 
     private void initBox()
     {
+        /* Create a new Box */
         box = new Box(GtkOrientation.HORIZONTAL, 10);
 
-        /* Layout [Button (Prescence Icon)] - Label <username> */
+        /* Layout [Button (Prescence Icon)] - Label <username> - [Button (Reply Icon)]*/
         UserButton userButton = new UserButton(username);
         Image userButtonImg = new Image("user-available", GtkIconSize.BUTTON);
         userButton.setImage(userButtonImg);
@@ -76,6 +77,13 @@ public final class UserNode
         /* Add both components */
         box.add(userButton);
         box.add(userLabel);
+
+
+        /* Add the direct message button */
+        Button messageButton = new Button();
+        Image messageButtonImg = new Image("mail-forward", GtkIconSize.BUTTON);
+        messageButton.setImage(messageButtonImg);
+        box.add(messageButton);
     }
 
     /**
