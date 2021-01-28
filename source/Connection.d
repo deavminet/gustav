@@ -44,9 +44,9 @@ public final class Connection : Thread
     * All joined Channel-s in this Connection 
     */
     private Notebook notebookSwitcher;
-    private Channel[] chans; /*TODO: Technically locking by GTK would make this not needed */
+    private MessageArea[] areas; /*TODO: Technically locking by GTK would make this not needed */
     private Mutex chansLock;
-    private MessageArea focusedChan;
+    private MessageArea focusedArea;
 
 
     // public void setPrescence(string pres)
@@ -330,7 +330,7 @@ public final class Connection : Thread
         * Loop through each MessageArea and only inspect those
         * whose type is `Channel`
         */
-        foreach(MessageArea area; chans)
+        foreach(MessageArea area; areas)
         {
 
             /* Make sure the object is of type `Channel` */
@@ -371,7 +371,7 @@ public final class Connection : Thread
     {
         /* Add the channel to the `chans` tracking list */
         chansLock.lock();
-        chans ~= newChannel;
+        areas ~= newChannel;
         chansLock.unlock();
 
         /* Add the channel to the channels list (sidebar) */
