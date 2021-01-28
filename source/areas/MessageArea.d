@@ -9,7 +9,17 @@
 
 module areas.MessageArea;
 
+import gtk.Box;
+
 public class MessageArea
 {
     /* TODO: Implement me */
+
+    /* The area's Box (where everything is contained) */
+    protected Box box;
+
+    public Box getBox()
+    {
+        return box;
+    }
 }

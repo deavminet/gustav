@@ -42,11 +42,6 @@ public final class Channel : MessageArea
     private string channelName;
 
     /**
-    * The container for this Channel
-    */
-    private Box box;
-
-    /**
     * UI components
     *
     * Users's box
@@ -184,11 +179,6 @@ public final class Channel : MessageArea
         textInput.getBuffer().setText("",0);
 
         box.showAll();
-    }
-
-    public Box getBox()
-    {
-        return box;
     }
 
     public string getName()

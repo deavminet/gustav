@@ -258,6 +258,10 @@ public final class Connection : Thread
         chansLock.lock();
         areas ~= userArea;
         chansLock.unlock();
+
+        /* TODO: Get box over here etc. */
+
+
     }
 
 
