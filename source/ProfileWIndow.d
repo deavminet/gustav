@@ -48,7 +48,7 @@ public final class ProfileWindow
         string[] props = connection.getClient().getProperties(username);
         profileBox.add(new Label(to!(string)(props)));
 
-        /* Display all prop values */
+        /* Display all props (values) */
         string[] propValues;
         foreach(string property; props)
         {
