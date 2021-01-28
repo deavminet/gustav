@@ -210,6 +210,8 @@ public final class Connection : Thread
                 /* The message is the remainder */
                 string message = cast(string)data[2+usernameLength..data.length];
                 gprintln("DirectMessage: (Message): "~message);
+
+                findUser(username).receiveMessage(username, message);
             }
             else
             {
