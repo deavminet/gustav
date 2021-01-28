@@ -213,14 +213,13 @@ public final class Connection : Thread
                 string sender = cast(string)data[2+recipientLength+1..2+recipientLength+1+sendersLength];
                 gprintln("DirectMessage: (Sender): "~sender);
 
-                
-
                 /* The message is the remainder */
                 string message = cast(string)data[2+recipientLength+1+sendersLength..data.length];
                 gprintln("DirectMessage: (Message): "~message);
 
+
                 /**
-                * TODO: DIfferes from channels, channels we never get delivered those we have no tab for as we haven't joined them
+                * Differs from channels, channels we never get delivered those we have no tab for as we haven't joined them
                 * and because server side knows we haven't joined iot we don't receive the notifivcaiton, eher however, there is no
                 * user tab possibly yet, so we will need to add it our selves */
                 User userArea = findUser(sender);
@@ -239,10 +238,7 @@ public final class Connection : Thread
 
                     /* Now let's add the direct message */
                     userArea.receiveMessage(sender, message);
-
                 }
-                
-                
             }
             else
             {
