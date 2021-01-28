@@ -208,15 +208,15 @@ public final class Connection : Thread
                 gprintln("DirectMessage: (Recipient): "~recipient);
 
                 /* Decode the [usernameLength, username] (username here is sender's) */
-                ubyte sendersLength = data[1];
+                ubyte sendersLength = data[2+recipientLength];
                 gprintln("DirectMessage: (Sender length): "~to!(string)(sendersLength));
-                string sender = cast(string)data[2+recipientLength..2+recipientLength+sendersLength];
+                string sender = cast(string)data[2+recipientLength+1..2+recipientLength+1+sendersLength];
                 gprintln("DirectMessage: (Sender): "~sender);
 
                 
 
                 /* The message is the remainder */
-                string message = cast(string)data[2+recipientLength+sendersLength..data.length];
+                string message = cast(string)data[2+recipientLength+1+sendersLength..data.length];
                 gprintln("DirectMessage: (Message): "~message);
 
                 /**
