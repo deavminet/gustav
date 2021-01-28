@@ -201,36 +201,44 @@ public final class Connection : Thread
             {
                 gprintln("New direct message received", DebugType.WARNING);
 
-                /* Decode the [usernameLength, username] */
-                ubyte usernameLength = data[1];
-                gprintln("DirectMessage: (Username length): "~to!(string)(usernameLength));
-                string username = cast(string)data[2..2+usernameLength];
-                gprintln("DirectMessage: (Username): "~username);
+                /* Decode the [usernameLength, username] (username here is recipient's) */
+                ubyte recipientLength = data[1];
+                gprintln("DirectMessage: (Recipient length): "~to!(string)(recipientLength));
+                string recipient = cast(string)data[2..2+recipientLength];
+                gprintln("DirectMessage: (Recipient): "~recipient);
+
+                /* Decode the [usernameLength, username] (username here is sender's) */
+                ubyte sendersLength = data[1];
+                gprintln("DirectMessage: (Sender length): "~to!(string)(sendersLength));
+                string sender = cast(string)data[2+recipientLength..2+recipientLength+sendersLength];
+                gprintln("DirectMessage: (Sender): "~sender);
+
+                
 
                 /* The message is the remainder */
-                string message = cast(string)data[2+usernameLength..data.length];
+                string message = cast(string)data[2+recipientLength+sendersLength..data.length];
                 gprintln("DirectMessage: (Message): "~message);
 
                 /**
                 * TODO: DIfferes from channels, channels we never get delivered those we have no tab for as we haven't joined them
                 * and because server side knows we haven't joined iot we don't receive the notifivcaiton, eher however, there is no
                 * user tab possibly yet, so we will need to add it our selves */
-                User userArea = findUser(username);
+                User userArea = findUser(sender);
 
                 if(userArea)
                 {
-                    userArea.receiveMessage(username, message);
+                    userArea.receiveMessage(sender, message);
                 }
                 else
                 {
                     /* Add a new UserArea which will generate a new tab for us */
-                    addDirectMessage_unsafe(username);
+                    addDirectMessage_unsafe(sender);
 
                     /* The above statement adds an entry for us, now let's find the added UserArea */
-                    userArea = findUser(username);
+                    userArea = findUser(sender);
 
                     /* Now let's add the direct message */
-                    userArea.receiveMessage(username, message);
+                    userArea.receiveMessage(sender, message);
 
                 }
                 
