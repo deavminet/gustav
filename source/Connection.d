@@ -331,7 +331,7 @@ public final class Connection : Thread
         {
 
             /* Make sure the object is of type `Channel` */
-            if(typeid(area) == typeid(Channel))
+            if(typeid(area) == typeid(User))
             {
                 /* Down-cast */
                 User user = cast(User)area;
