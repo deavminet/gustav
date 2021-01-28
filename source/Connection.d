@@ -211,7 +211,30 @@ public final class Connection : Thread
                 string message = cast(string)data[2+usernameLength..data.length];
                 gprintln("DirectMessage: (Message): "~message);
 
-                findUser(username).receiveMessage(username, message);
+                /**
+                * TODO: DIfferes from channels, channels we never get delivered those we have no tab for as we haven't joined them
+                * and because server side knows we haven't joined iot we don't receive the notifivcaiton, eher however, there is no
+                * user tab possibly yet, so we will need to add it our selves */
+                User userArea = findUser(username);
+
+                if(userArea)
+                {
+                    userArea.receiveMessage(username, message);
+                }
+                else
+                {
+                    /* Add a new UserArea which will generate a new tab for us */
+                    addDirectMessage_unsafe(username);
+
+                    /* The above statement adds an entry for us, now let's find the added UserArea */
+                    userArea = findUser(username);
+
+                    /* Now let's add the direct message */
+                    userArea.receiveMessage(username, message);
+
+                }
+                
+                
             }
             else
             {
