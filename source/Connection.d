@@ -173,7 +173,7 @@ public final class Connection : Thread
 
             /* Decode is a test for assuming channel message received */
             data = data[1..data.length];
-            gprintln("Channe/User Notification: "~to!(string)(data));
+            gprintln("Channel/User Notification: "~to!(string)(data));
     
             
         
@@ -184,26 +184,37 @@ public final class Connection : Thread
 
                 /* Decode the [usernameLength, username] */
                 ubyte usernameLength = data[1];
-                gprintln("NormalMessage: (Username length): "~to!(string)(usernameLength));
+                gprintln("ChannelMessage: (Username length): "~to!(string)(usernameLength));
                 string username = cast(string)data[2..2+usernameLength];
-                gprintln("NormalMessage: (Username): "~username);
+                gprintln("ChannelMessage: (Username): "~username);
 
                 /* Decode the [channelLength, channel] */
                 ubyte channelLength = data[2+usernameLength];
-                gprintln("NormalMessage: (Channel length): "~to!(string)(channelLength));
+                gprintln("ChannelMessage: (Channel length): "~to!(string)(channelLength));
                 string channel = cast(string)data[2+usernameLength+1..2+usernameLength+1+channelLength];
-                gprintln("NormalMessage: (Channel): "~channel);
+                gprintln("ChannelMessage: (Channel): "~channel);
 
                 findChannel(channel).receiveMessage(username, cast(string)data[2+usernameLength+1+channelLength..data.length]);
             }
             /* If this is a new direct message notification */
-            else if(data[1] == 1)
+            else if(data[0] == 1)
             {
                 gprintln("New direct message received", DebugType.WARNING);
+
+                /* Decode the [usernameLength, username] */
+                ubyte usernameLength = data[1];
+                gprintln("DirectMessage: (Username length): "~to!(string)(usernameLength));
+                string username = cast(string)data[2..2+usernameLength];
+                gprintln("DirectMessage: (Username): "~username);
+
+                /* The message is the remainder */
+                string message = cast(string)data[2+usernameLength..data.length];
+                gprintln("DirectMessage: (Message): "~message);
             }
             else
             {
                 /* TODO: Handle this */
+                gprintln("FOk");
             }
             
 		}
