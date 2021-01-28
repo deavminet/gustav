@@ -4,7 +4,7 @@
 		"bformat": "1.0.8",
 		"gogga": "0.0.2",
 		"gtk-d": "3.9.0",
-		"libdnet": "0.1.17",
+		"libdnet": "0.2.3",
 		"tristanable": "0.1.1"
 	}
 }
