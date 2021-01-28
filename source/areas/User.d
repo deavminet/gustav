@@ -29,7 +29,7 @@ public final class User : MessageArea
     private Connection connection;
 
     /**
-    * USername
+    * Username
     */
     private string username;
 

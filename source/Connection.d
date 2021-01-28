@@ -11,6 +11,7 @@ import gtk.ListBox;
 import gtk.Label;
 
 import areas.Channel;
+import areas.MessageArea;
 import std.string;
 
 import core.sync.mutex;
@@ -45,7 +46,7 @@ public final class Connection : Thread
     private Notebook notebookSwitcher;
     private Channel[] chans; /*TODO: Technically locking by GTK would make this not needed */
     private Mutex chansLock;
-    private Channel focusedChan;
+    private MessageArea focusedChan;
 
 
     // public void setPrescence(string pres)
@@ -318,18 +319,32 @@ public final class Connection : Thread
         }
     }
     
+    /* TODO: Update this to do an `instanceof` check for the correct MessageArea sub-type */
     public Channel findChannel(string channelName)
     {
         Channel result;
 
         chansLock.lock();
 
-        foreach(Channel channel; chans)
+        /**
+        * Loop through each MessageArea and only inspect those
+        * whose type is `Channel`
+        */
+        foreach(MessageArea area; chans)
         {
-            if(cmp(channel.getName(), channelName) == 0)
+
+            /* Make sure the object is of type `Channel` */
+            if(typeid(area) == typeid(Channel))
             {
-                result = channel;
-                break;
+                /* Down-cast */
+                Channel channel = cast(Channel)area;
+
+                /* Find the matching channel */
+                if(cmp(channel.getName(), channelName) == 0)
+                {
+                    result = channel;
+                    break;
+                }
             }
         }
 
