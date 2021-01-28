@@ -27,8 +27,6 @@ public final class Connection : Thread
     private GUI gui;
     private Box box;
     private ListBox channels;
-    private ListBox users;
-    private ListBox textArea;
 
     private DClient client;
     private Address address;
