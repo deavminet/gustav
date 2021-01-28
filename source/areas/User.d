@@ -34,11 +34,6 @@ public final class User : MessageArea
     private string username;
 
     /**
-    * The container for this User
-    */
-    private Box box;
-
-    /**
     * UI components
     *
     */
@@ -65,6 +60,8 @@ public final class User : MessageArea
 
     private void initializeBox()
     {
+        box = new Box(GtkOrientation.HORIZONTAL, 1);
 
+        box.add(new Label("poes"));
     }
 }
