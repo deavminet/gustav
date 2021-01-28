@@ -65,6 +65,10 @@ public final class UserNode
         Button messageButton = new Button();
         Image messageButtonImg = new Image("mail-forward", GtkIconSize.BUTTON);
         messageButton.setImage(messageButtonImg);
+
+        /* Set the handler for on click */
+        messageButton.addOnClicked(&newDirectMessage);
+
         box.add(messageButton);
     }
 
