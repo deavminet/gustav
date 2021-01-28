@@ -173,21 +173,39 @@ public final class Connection : Thread
 
             /* Decode is a test for assuming channel message received */
             data = data[1..data.length];
+            gprintln("Channe/User Notification: "~to!(string)(data));
     
-            /* Decode the [usernameLength, username] */
-		    ubyte usernameLength = data[1];
-            gprintln("NormalMessage: (Username length): "~to!(string)(usernameLength));
-            string username = cast(string)data[2..2+usernameLength];
-            gprintln("NormalMessage: (Username): "~username);
-
-            /* Decode the [channelLength, channel] */
-		    ubyte channelLength = data[2+usernameLength];
-            gprintln("NormalMessage: (Channel length): "~to!(string)(channelLength));
-            string channel = cast(string)data[2+usernameLength+1..2+usernameLength+1+channelLength];
-            gprintln("NormalMessage: (Channel): "~channel);
+            
         
+            /* If this is a new message channel notification */
+            if(data[0] == 0)
+            {
+                gprintln("New channel message received", DebugType.WARNING);
 
-            findChannel(channel).receiveMessage(username, cast(string)data[2+usernameLength+1+channelLength..data.length]);
+                /* Decode the [usernameLength, username] */
+                ubyte usernameLength = data[1];
+                gprintln("NormalMessage: (Username length): "~to!(string)(usernameLength));
+                string username = cast(string)data[2..2+usernameLength];
+                gprintln("NormalMessage: (Username): "~username);
+
+                /* Decode the [channelLength, channel] */
+                ubyte channelLength = data[2+usernameLength];
+                gprintln("NormalMessage: (Channel length): "~to!(string)(channelLength));
+                string channel = cast(string)data[2+usernameLength+1..2+usernameLength+1+channelLength];
+                gprintln("NormalMessage: (Channel): "~channel);
+
+                findChannel(channel).receiveMessage(username, cast(string)data[2+usernameLength+1+channelLength..data.length]);
+            }
+            /* If this is a new direct message notification */
+            else if(data[1] == 1)
+            {
+                gprintln("New direct message received", DebugType.WARNING);
+            }
+            else
+            {
+                /* TODO: Handle this */
+            }
+            
 		}
 		/* Channel notification (ntype=1) */
 		else if(notificationType == 1)
