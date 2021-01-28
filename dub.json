@@ -4,8 +4,9 @@
 	],
 	"copyright": "Copyright © 2020, Tristan B. Kildaire",
 	"dependencies": {
+		"gogga": "0.0.2",
 		"gtk-d": "3.9.0",
-		"libdnet": "0.1.17"
+		"libdnet": "0.2.3"
 	},
 	"description": "GTK graphical DNET client",
 	"license": "GPL v3",

@@ -19,6 +19,8 @@ import gtk.Notebook;
 
 import std.conv;
 
+import gogga;
+
 public final class Connection : Thread
 {
     private GUI gui;
@@ -122,7 +124,8 @@ public final class Connection : Thread
         {
             /* Receive a notification */
             byte[] notificationData = client.awaitNotification();
-            writeln(notificationData);
+            gprintln("A new notification has arrived");
+            gprintln("Notification data: "~to!(string)(notificationData));
 
             te();
             // import std.conv;
@@ -151,45 +154,38 @@ public final class Connection : Thread
         }
     }
 
-    
-
 	/**
 	* Processes an incoming notification
 	* accordingly
 	*/
 	private void process(byte[] data)
 	{
-		/* TODO: Implement me */
-
-		/* TODO: Check notification type */
+		/* Get the notification type */
 		ubyte notificationType = data[0];
+        gprintln("NotificationType: "~to!(string)(notificationType));
 
 		/* For normal message (to channel or user) */
 		if(notificationType == 0)
 		{
-			/* TODO: Decode using tristanable */
-			writeln("new message");
-            writeln(data);
+            /* TODO: Handle private messages */
 
             /* Decode is a test for assuming channel message received */
             data = data[1..data.length];
     
             /* Decode the [usernameLength, username] */
 		    ubyte usernameLength = data[1];
-            writeln(usernameLength);
+            gprintln("NormalMessage: (Username length): "~to!(string)(usernameLength));
             string username = cast(string)data[2..2+usernameLength];
-            writeln(username);
+            gprintln("NormalMessage: (Username): "~username);
 
             /* Decode the [channelLength, channel] */
 		    ubyte channelLength = data[2+usernameLength];
-            writeln(channelLength);
+            gprintln("NormalMessage: (Channel length): "~to!(string)(channelLength));
             string channel = cast(string)data[2+usernameLength+1..2+usernameLength+1+channelLength];
-            writeln(channel);
+            gprintln("NormalMessage: (Channel): "~channel);
         
-
+            
             findChannel(channel).receiveMessage(username, cast(string)data[2+usernameLength+1+channelLength..data.length]);
-
-            writeln("hdsfhdk");
 		}
 		/* Channel notification (ntype=1) */
 		else if(notificationType == 1)
@@ -238,6 +234,12 @@ public final class Connection : Thread
 			}
 		}
 	}
+
+
+
+
+
+
 
 
     public void joinChannel(string channelName)
