@@ -1,6 +1,13 @@
-module areas.User;
+/**
+* Channel
+*
+* Represents a channel which is a collection
+* of the channel name the users list widget,
+* the title widget and the chat list box widget
+* along with the input box state
+*/
 
-import areas.MessageArea;
+module areas.Channel;
 
 import gtk.Box;
 import gtk.ListBox;
@@ -19,57 +26,68 @@ import UserNode;
 
 import pango.PgAttributeList;
 import pango.PgAttribute;
-import Connection;
+import trash.Connection;
 
 import gogga;
+import areas.MessageArea;
 
-public final class User : MessageArea
+public final class Channel : MessageArea
 {
     private DClient client;
     private Connection connection;
 
     /**
-    * Username
+    * Channel details
     */
-    private string username;
+    private string channelName;
 
     /**
     * UI components
     *
+    * Users's box
+    *    - Label users
+    *    - ListBox users
     */
-    // private ListBox users;
+    private ListBox users;
     private ListBox textArea;
     private Entry textInput;
-    
 
     /* TODO: No mutexes should be needed (same precaution) as the GTK lock provides safety */
-    // private string[] usersString;
+    private string[] usersString;
 
-    this(Connection connection, string username)
+    this(Connection connection, string channelName)
     {
         this.client = connection.getClient();
         this.connection = connection;
-        this.username = username;
+        this.channelName = channelName;
         
         initializeBox();
-    }
-
-    public string getUsername()
-    {
-        return username;
     }
 
     private void initializeBox()
     {
         box = new Box(GtkOrientation.HORIZONTAL, 1);
 
-        // box.add(new Label("poes"));
+        /* The user's box */
+        Box userBox = new Box(GtkOrientation.VERTICAL, 1);
+
+        /* The user's list */
+        users = new ListBox();
+
+        userBox.add(new Label("Users"));
+
+        // import gtk.Expander;
+        // Expander g = new Expander("Bruh");
+        // g.setExpanded(true)
+        // g.add(users);
+        userBox.add(users);
+        
         /* The text box */
         Box textBox = new Box(GtkOrientation.VERTICAL, 1);
 
         /* Channel title */
-        Label channelTitleLabel = new Label(username);
-        channelTitleLabel.setMarkup("<span size=\"large\"><b>"~username~"</b></span>");
+        Label channelTitleLabel = new Label(channelName);
+        channelTitleLabel.setMarkup("<span size=\"large\"><b>"~channelName~"</b></span>");
         textBox.add(channelTitleLabel);
 
         /* The messages box */
@@ -105,13 +123,20 @@ public final class User : MessageArea
         textBox.add(textInputBox);
         
         box.add(textBox);
-        // box.packEnd(userBox,0,0,0);
+        box.packEnd(userBox,0,0,0);
 
         textBox.setChildPacking(scrollTextChats, true, true, 0, GtkPackType.START);
         box.setChildPacking(textBox, true, true, 0, GtkPackType.START);
 
     }
 
+    private void uploadFileDialog(Button e)
+    {
+        import gtk.FileChooserDialog; /* TODO: Set parent */
+        FileChooserDialog fileChooser = new FileChooserDialog("Send file to "~channelName, null, FileChooserAction.OPEN);
+        fileChooser.run();
+        gprintln("Selected file: "~fileChooser.getFilename());
+    }
 
     import gtk.EditableIF;
     private void textChangd(EditableIF)
@@ -131,7 +156,7 @@ public final class User : MessageArea
         sendMessage(message);
 
         /* Send the message */
-        client.sendMessage(1, username, message);
+        client.sendMessage(0, channelName, message);
 
         /* Clear the text box */
         textInput.getBuffer().setText("",0);
@@ -148,7 +173,7 @@ public final class User : MessageArea
         sendMessage(message);
 
         /* Send the message */
-        client.sendMessage(1, username, message);
+        client.sendMessage(0, channelName, message);
 
         /* Clear the text box */
         textInput.getBuffer().setText("",0);
@@ -156,7 +181,120 @@ public final class User : MessageArea
         box.showAll();
     }
 
-     public void sendMessage(string message)
+    public string getName()
+    {
+        return channelName;
+    }
+
+    
+
+
+    private Box getUserListItem(string username)
+    {
+        /* This is an item for a username in this Channel's user list */
+        Box box = new Box(GtkOrientation.HORIZONTAL, 1);
+
+
+        import gtk.IconView;
+        IconView icon = new IconView();
+        import gtk.StatusIcon;
+        StatusIcon d = new StatusIcon("user-available");
+
+        return box;
+    }
+
+
+    // private bool userLabelPopup(Widget)
+    // {
+    //     import std.stdio;
+    //     writeln("NOWNOWNOWNOWNOW");
+
+    //     return true;
+    // }
+
+    
+
+
+    public void populateUsersList()
+    {
+        string[] memberList = client.getMembers(channelName);
+
+        foreach(string member; memberList)
+        {
+            /* Create the user entry in the list */
+            UserNode userNode = new UserNode(connection, member);
+            users.add(userNode.getBox());
+
+            /* Add the user to the tracking list */
+            usersString~=member;
+        }
+    }
+
+   
+
+
+   
+    public void channelJoin(string username)
+    {
+        /* The label to add */
+        Label joinLabel = new Label("--> "~username~" joined the channel");
+        joinLabel.setHalign(GtkAlign.START);
+        PgAttributeList joinLabelAttrs = new PgAttributeList();
+        PgAttribute joinLabelAttr = PgAttribute.styleNew(PangoStyle.ITALIC);
+        joinLabelAttrs.insert(joinLabelAttr);
+        joinLabel.setAttributes(joinLabelAttrs);
+
+        /* Add join message to message log */
+        textArea.add(joinLabel);
+
+        /* Create the user entry in the list */
+        UserNode userNode = new UserNode(connection, username);
+        users.add(userNode.getBox());
+
+        /* Add the user to the tracking list */
+        usersString~=username;
+    }
+
+    public void channelLeave(string username)
+    {
+        /* The label to add */
+        Label leaveLabel = new Label("<-- "~username~" left the channel");
+        leaveLabel.setHalign(GtkAlign.START);
+        PgAttributeList leaveLabelAttrs = new PgAttributeList();
+        PgAttribute leaveLabelAttr = PgAttribute.styleNew(PangoStyle.ITALIC);
+        leaveLabelAttrs.insert(leaveLabelAttr);
+        leaveLabel.setAttributes(leaveLabelAttrs);
+
+        /* Add leave message to message log */
+        textArea.add(leaveLabel);
+
+        /* TODO: Better way with just removing one dude */
+        
+        /* Remove the user form users list */
+        string[] newUsers;
+
+        foreach(string currentUser; usersString)
+        {
+            if(cmp(currentUser, username))
+            {
+                newUsers ~= currentUser;
+            }
+        }
+
+        usersString = newUsers;
+
+        /* Clear list */
+        users.removeAll();
+
+        foreach(string currentUser; usersString)
+        {
+            /* Create the user entry in the list */
+            UserNode userNode = new UserNode(connection, currentUser);
+            users.add(userNode.getBox());
+        }
+    }
+
+    public void sendMessage(string message)
     {
         /* TOOD: Pass in connection perhaps */
         string username = "Yourself";
@@ -203,13 +341,5 @@ public final class User : MessageArea
 
         /* Add the message to the log */
         textArea.add(messageBox);
-    }
-
-    private void uploadFileDialog(Button e)
-    {
-        import gtk.FileChooserDialog; /* TODO: Set parent */
-        FileChooserDialog fileChooser = new FileChooserDialog("Send file to "~username, null, FileChooserAction.OPEN);
-        fileChooser.run();
-        gprintln("Selected file: "~fileChooser.getFilename());
     }
 }

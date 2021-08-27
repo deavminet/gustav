@@ -1,4 +1,4 @@
-module Connection;
+module trash.Connection;
 
 import core.thread;
 import gui;

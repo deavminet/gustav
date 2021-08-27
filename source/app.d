@@ -13,7 +13,6 @@ import gtk.ListBox;
 import gtk.Box;
 import gtk.Notebook;
 
-import gui;
 import gdk.Threads : threadsEnter, threadsLeave;
 
 import gtk.SelectionData;
@@ -27,8 +26,6 @@ void main()
 	Main.initMultiThread(args);
 
 
-	GUI gui = new GUI();
-	gui.start();
 
 
 	/* Start the event loop */

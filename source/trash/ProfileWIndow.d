@@ -4,7 +4,7 @@
 * User profile window
 */
 
-import Connection;
+import trash.Connection;
 import gtk.Window;
 import gtk.Label;
 import gtk.Image;

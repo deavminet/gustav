@@ -20,7 +20,7 @@ import gtk.ToolItem;
 import gtk.SearchEntry;
 import gtk.Image;
 
-import Connection;
+import trash.Connection;
 import areas.Channel;
 import std.socket;
 

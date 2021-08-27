@@ -1,6 +1,6 @@
 module UserDirectory;
 
-import Connection;
+import trash.Connection;
 import gtk.SearchBar;
 import gtk.Entry;
 import gtk.Window;

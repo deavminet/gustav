@@ -1,6 +1,6 @@
 module UserNode;
 
-import Connection;
+import trash.Connection;
 import libdnet.client;
 import gtk.Box;
 import gtk.Button;
